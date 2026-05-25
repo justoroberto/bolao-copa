@@ -10,6 +10,13 @@ service cloud.firestore {
       allow create, update: if request.auth != null && request.auth.uid == userId;
     }
 
+    // Regra para Rankings:
+    // Qualquer um logado pode ler a tabela de classificação
+    match /rankings/{rankingId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Atualizado via Cloud Functions ou script
+    }
+
     // Regra para Matches:
     // Qualquer um logado pode ler.
     // Ninguém pode escrever pelo client (apenas admin).
