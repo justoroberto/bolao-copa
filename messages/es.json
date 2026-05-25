@@ -1,0 +1,18 @@
+{
+  "Home": {
+    "title": "Quiniela del Mundial 2026",
+    "description": "¡Únete a la mayor quiniela de la Copa del Mundo!",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "simulator": "Simulador de la Copa",
+    "ranking": "Ranking Global"
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "predictions": "Mis Predicciones",
+    "results": "Mis Resultados",
+    "ranking": "Ranking",
+    "simulator": "Simulador",
+    "logout": "Cerrar Sesión"
+  }
+}

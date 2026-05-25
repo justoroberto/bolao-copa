@@ -1,0 +1,18 @@
+{
+  "Home": {
+    "title": "Bolão da Copa 2026",
+    "description": "Participe do maior bolão da Copa do Mundo!",
+    "login": "Entrar",
+    "register": "Cadastrar",
+    "simulator": "Simulador da Copa",
+    "ranking": "Ranking Global"
+  },
+  "Navigation": {
+    "home": "Início",
+    "predictions": "Meus Palpites",
+    "results": "Meus Resultados",
+    "ranking": "Ranking",
+    "simulator": "Simulador",
+    "logout": "Sair"
+  }
+}

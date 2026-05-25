@@ -1,0 +1,18 @@
+{
+  "Home": {
+    "title": "World Cup 2026 Predictions",
+    "description": "Join the biggest World Cup prediction game!",
+    "login": "Login",
+    "register": "Register",
+    "simulator": "World Cup Simulator",
+    "ranking": "Global Ranking"
+  },
+  "Navigation": {
+    "home": "Home",
+    "predictions": "My Predictions",
+    "results": "My Results",
+    "ranking": "Ranking",
+    "simulator": "Simulator",
+    "logout": "Logout"
+  }
+}

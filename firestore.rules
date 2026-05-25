@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Regra para Users:
+    // Qualquer um logado pode ler rankings/users.
+    // O próprio usuário pode criar/atualizar seus dados.
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Regra para Matches:
+    // Qualquer um logado pode ler.
+    // Ninguém pode escrever pelo client (apenas admin).
+    match /matches/{matchId} {
+      allow read: if true;
+      allow write: if true; // Temporário para popular o banco
+    }
+
+    // Regra para Predictions (Palpites):
+    // Qualquer um logado pode ler para montar o ranking.
+    // Apenas o dono pode escrever, E apenas se faltar mais de 1 hora para o jogo.
+    match /predictions/{predictionId} {
+      allow read: if request.auth != null;
+      
+      // Checa se o userId que está sendo salvo é o mesmo do auth
+      // E checa se o tempo do request é menor que o startTime do match referenciado menos 24 horas (1 dia)
+      allow create, update: if request.auth != null 
+        && request.resource.data.userId == request.auth.uid
+        && (
+            // A validação de tempo requer um get no documento do jogo
+            request.time < get(/databases/$(database)/documents/matches/$(request.resource.data.matchId)).data.startTime - duration.value(24, 'h')
+        );
+      
+      // Permitir delete antes do tempo, se necessário
+      allow delete: if request.auth != null 
+        && resource.data.userId == request.auth.uid
+        && request.time < get(/databases/$(database)/documents/matches/$(resource.data.matchId)).data.startTime - duration.value(24, 'h');
+    }
+  }
+}
