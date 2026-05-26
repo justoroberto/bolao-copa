@@ -22,7 +22,7 @@ service cloud.firestore {
     // Ninguém pode escrever pelo client (apenas admin).
     match /matches/{matchId} {
       allow read: if true;
-      allow write: if true; // Temporário para popular o banco
+      allow write: if false;
     }
 
     // Regra para Predictions (Palpites):

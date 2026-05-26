@@ -10,25 +10,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslations } from 'next-intl';
 import { WORLD_CUP_MATCHES } from '@/lib/data/worldCup2026';
 
-import { doc, setDoc } from 'firebase/firestore';
-
 export default function PredictionsPage() {
   const { user } = useAuth();
   const t = useTranslations('Navigation');
-  const [matches, setMatches] = useState<Match[]>(WORLD_CUP_MATCHES);
+  const [matches] = useState<Match[]>(WORLD_CUP_MATCHES); // já vem ordenado por data
   const [predictions, setPredictions] = useState<Record<string, Prediction>>({});
   const [loadingPreds, setLoadingPreds] = useState(true);
-
-  const handleSeedDB = async () => {
-    try {
-      for (const match of WORLD_CUP_MATCHES) {
-        await setDoc(doc(db, 'matches', match.id), match);
-      }
-      alert("Banco populado com sucesso! Recarregue a página.");
-    } catch (e) {
-      alert("Erro ao popular: " + e);
-    }
-  };
 
   // Busca os palpites que o usuário já fez no Firestore
   useEffect(() => {
@@ -62,9 +49,6 @@ export default function PredictionsPage() {
         <header className="page-header">
           <h1>{t('predictions')}</h1>
           <p>Dê seus palpites nos jogos abaixo. Você tem até 1 dia (24 horas) antes de cada partida para editar.</p>
-          <button onClick={handleSeedDB} style={{ marginTop: '10px', background: 'blue', color: 'white', padding: '10px' }}>
-            [DEV] Preencher Banco com Jogos
-          </button>
         </header>
 
         {loadingPreds ? (
@@ -72,10 +56,10 @@ export default function PredictionsPage() {
         ) : (
           <div className="matches-grid">
             {matches.map((match) => (
-              <PredictionCard 
-                key={match.id} 
-                match={match} 
-                prediction={predictions[match.id]} 
+              <PredictionCard
+                key={match.id}
+                match={match}
+                prediction={predictions[match.id]}
               />
             ))}
           </div>

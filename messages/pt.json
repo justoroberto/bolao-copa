@@ -13,6 +13,8 @@
     "results": "Meus Resultados",
     "ranking": "Ranking",
     "simulator": "Simulador",
-    "logout": "Sair"
+    "logout": "Sair",
+    "login": "Entrar",
+    "register": "Cadastrar"
   }
 }

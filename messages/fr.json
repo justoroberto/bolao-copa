@@ -1,0 +1,20 @@
+{
+  "Home": {
+    "title": "Pronostics Coupe du Monde 2026",
+    "description": "Rejoignez le plus grand jeu de pronostics!",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "simulator": "Simulateur",
+    "ranking": "Classement Mondial"
+  },
+  "Navigation": {
+    "home": "Accueil",
+    "predictions": "Mes Pronostics",
+    "results": "Mes Résultats",
+    "ranking": "Classement",
+    "simulator": "Simulateur",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "register": "S'inscrire"
+  }
+}

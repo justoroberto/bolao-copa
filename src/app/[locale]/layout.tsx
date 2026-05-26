@@ -4,8 +4,14 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import '../globals.css';
 import Header from '@/components/Header';
+import { Metadata } from 'next';
 
 import {AuthProvider} from '@/contexts/AuthContext';
+
+export const metadata: Metadata = {
+  title: 'Bolão da Copa',
+  description: 'Bolão Oficial da Copa do Mundo 2026',
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));

@@ -13,6 +13,8 @@
     "results": "Mis Resultados",
     "ranking": "Ranking",
     "simulator": "Simulador",
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse"
   }
 }

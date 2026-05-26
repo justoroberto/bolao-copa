@@ -1,0 +1,20 @@
+{
+  "Home": {
+    "title": "Pronostici Mondiali 2026",
+    "description": "Partecipa al più grande gioco di pronostici!",
+    "login": "Accedi",
+    "register": "Registrati",
+    "simulator": "Simulatore Mondiali",
+    "ranking": "Classifica Globale"
+  },
+  "Navigation": {
+    "home": "Home",
+    "predictions": "I Miei Pronostici",
+    "results": "I Miei Risultati",
+    "ranking": "Classifica",
+    "simulator": "Simulatore",
+    "logout": "Esci",
+    "login": "Accedi",
+    "register": "Registrati"
+  }
+}

@@ -25,7 +25,7 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   
   // Converte data para exibição
   const formattedDate = match.startTime.toLocaleString('pt-BR', { 
-    weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
   });
 
   // Salva apenas se o valor for um número válido
@@ -67,7 +67,7 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   return (
     <div className={`prediction-card ${isLocked ? 'locked' : ''}`}>
       <div className="match-header">
-        <span className="match-stage">{match.stage.toUpperCase()}</span>
+        <span className="match-stage">{match.group || match.stage.toUpperCase()}</span>
         <span className="match-date">{formattedDate}</span>
       </div>
       
@@ -89,6 +89,7 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
         <span className="versus">x</span>
         
         <div className="team away-team">
+          <span className="team-name">{match.awayTeam}</span>
           <input 
             type="number" 
             min="0"
@@ -99,7 +100,6 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
             onChange={(e) => handleScoreChange('away', e.target.value)}
             placeholder="-"
           />
-          <span className="team-name">{match.awayTeam}</span>
         </div>
       </div>
 
