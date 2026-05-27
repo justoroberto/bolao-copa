@@ -5,8 +5,8 @@ import {routing} from '@/i18n/routing';
 import '../globals.css';
 import Header from '@/components/Header';
 import { Metadata } from 'next';
-
 import {AuthProvider} from '@/contexts/AuthContext';
+import {ThemeProvider} from '@/contexts/ThemeContext';
 
 export const metadata: Metadata = {
   title: 'Bolão da Copa',
@@ -36,12 +36,14 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <Header />
+              <main>
+                {children}
+              </main>
+            </AuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
