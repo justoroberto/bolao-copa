@@ -5,6 +5,7 @@ import { Match, Prediction } from '@/lib/firebase/models';
 import { canEditPrediction } from '@/lib/services/score';
 import { savePrediction } from '@/lib/services/predictions';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface PredictionCardProps {
   match: Match;
@@ -13,6 +14,10 @@ interface PredictionCardProps {
 
 export default function PredictionCard({ match, prediction }: PredictionCardProps) {
   const { user } = useAuth();
+  const t = useTranslations('Predictions');
+  const tTeams = useTranslations('Teams');
+  const tCommon = useTranslations('Common');
+  const locale = useLocale();
   
   // States para os scores
   const [homeScore, setHomeScore] = useState<string>(prediction?.homeScore?.toString() || '');
@@ -23,10 +28,21 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   // Verifica bloqueio de tempo
   const isLocked = !canEditPrediction(match.startTime) || match.status !== 'scheduled';
   
-  // Converte data para exibição
-  const formattedDate = match.startTime.toLocaleString('pt-BR', { 
+  // Converte data para exibição respeitando o locale
+  const formattedDate = match.startTime.toLocaleString(locale, { 
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
   });
+
+  const renderTeamName = (teamStr: string) => {
+    if (!teamStr) return '';
+    const parts = teamStr.split(' ');
+    const flag = parts[0];
+    const name = parts.slice(1).join(' ');
+    const translatedName = name && tTeams.has(name) ? tTeams(name) : name;
+    return `${flag} ${translatedName}`;
+  };
+
+  const groupText = match.group ? match.group.replace('Grupo', tCommon('group')) : match.stage.toUpperCase();
 
   // Salva apenas se o valor for um número válido
   const handleScoreChange = async (type: 'home' | 'away', value: string) => {
@@ -67,13 +83,13 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   return (
     <div className={`prediction-card ${isLocked ? 'locked' : ''}`}>
       <div className="match-header">
-        <span className="match-stage">{match.group || match.stage.toUpperCase()}</span>
+        <span className="match-stage">{groupText}</span>
         <span className="match-date">{formattedDate}</span>
       </div>
       
       <div className="match-teams">
         <div className="team home-team">
-          <span className="team-name">{match.homeTeam}</span>
+          <span className="team-name">{renderTeamName(match.homeTeam)}</span>
           <input 
             type="number" 
             min="0"
@@ -89,7 +105,7 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
         <span className="versus">x</span>
         
         <div className="team away-team">
-          <span className="team-name">{match.awayTeam}</span>
+          <span className="team-name">{renderTeamName(match.awayTeam)}</span>
           <input 
             type="number" 
             min="0"
@@ -105,13 +121,13 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
 
       <div className="match-footer">
         {isLocked ? (
-          <span className="lock-message">🔒 Palpite Fechado</span>
+          <span className="lock-message">{t('locked')}</span>
         ) : (
           <div className="status-indicator">
-            {isSaving && <span className="saving text-blue">Salvando...</span>}
-            {saveStatus === 'success' && !isSaving && <span className="saved text-green">✓ Salvo automaticamente</span>}
-            {saveStatus === 'error' && !isSaving && <span className="error text-red">Erro ao salvar</span>}
-            {saveStatus === 'idle' && !isSaving && <span className="hint">Edição aberta</span>}
+            {isSaving && <span className="saving text-blue">{t('saving')}</span>}
+            {saveStatus === 'success' && !isSaving && <span className="saved text-green">{t('saved')}</span>}
+            {saveStatus === 'error' && !isSaving && <span className="error text-red">{t('error')}</span>}
+            {saveStatus === 'idle' && !isSaving && <span className="hint">{t('hint')}</span>}
           </div>
         )}
       </div>

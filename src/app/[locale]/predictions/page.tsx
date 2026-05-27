@@ -12,7 +12,7 @@ import { WORLD_CUP_MATCHES } from '@/lib/data/worldCup2026';
 
 export default function PredictionsPage() {
   const { user } = useAuth();
-  const t = useTranslations('Navigation');
+  const t = useTranslations('Predictions');
   const [matches] = useState<Match[]>(WORLD_CUP_MATCHES); // já vem ordenado por data
   const [predictions, setPredictions] = useState<Record<string, Prediction>>({});
   const [loadingPreds, setLoadingPreds] = useState(true);
@@ -47,12 +47,12 @@ export default function PredictionsPage() {
     <ProtectedRoute>
       <div className="predictions-container">
         <header className="page-header">
-          <h1>{t('predictions')}</h1>
-          <p>Dê seus palpites nos jogos abaixo. Você tem até 1 dia (24 horas) antes de cada partida para editar.</p>
+          <h1>{t('title')}</h1>
+          <p>{t('subtitle')}</p>
         </header>
 
         {loadingPreds ? (
-          <div className="loading-state">Carregando seus palpites...</div>
+          <div className="loading-state">{t('loading')}</div>
         ) : (
           <div className="matches-grid">
             {matches.map((match) => (

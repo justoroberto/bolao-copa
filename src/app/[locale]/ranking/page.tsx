@@ -9,8 +9,7 @@ import { useTranslations } from 'next-intl';
 export default function RankingPage() {
   const [rankings, setRankings] = useState<Ranking[]>([]);
   const [loading, setLoading] = useState(true);
-  const t = useTranslations('Navigation');
-  const homeT = useTranslations('Home');
+  const t = useTranslations('Ranking');
 
   useEffect(() => {
     // Escuta em tempo real a coleção 'rankings', ordenando pelos pontos
@@ -43,16 +42,16 @@ export default function RankingPage() {
   return (
     <div className="ranking-container">
       <header className="page-header">
-        <h1>🏆 {homeT('ranking')}</h1>
-        <p>Acompanhe os líderes do bolão em tempo real!</p>
+        <h1>🏆 {t('title')}</h1>
+        <p>{t('subtitle')}</p>
       </header>
 
       {loading ? (
-        <div className="loading-state">Atualizando ranking...</div>
+        <div className="loading-state">{t('loading')}</div>
       ) : (
         <div className="ranking-board">
           {rankings.length === 0 ? (
-            <p className="empty-ranking">Ainda não há pontuações registradas.</p>
+            <p className="empty-ranking">{t('empty')}</p>
           ) : (
             <ul className="ranking-list">
               {rankings.map((rank, index) => {
@@ -71,8 +70,8 @@ export default function RankingPage() {
                       {rank.nickname}
                     </div>
                     <div className="rank-stats" style={{ display: 'flex', gap: '15px', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
-                      <span title="Placares Exatos">🎯 {rank.exactScores || 0}</span>
-                      <span title="Vencedores Corretos">✔️ {rank.correctWinners || 0}</span>
+                      <span title={t('exactScores')}>🎯 {rank.exactScores || 0}</span>
+                      <span title={t('correctWinners')}>✔️ {rank.correctWinners || 0}</span>
                     </div>
                     <div className="rank-points" style={{ fontWeight: 'bold', marginLeft: '15px' }}>
                       {rank.totalPoints} <span>pts</span>
