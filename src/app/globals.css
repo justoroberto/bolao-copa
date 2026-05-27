@@ -677,7 +677,7 @@ nav a:hover {
 }
 
 .match-date {
-  color: var(--highlight-blue);
+  color: #888;
 }
 
 .match-teams {
