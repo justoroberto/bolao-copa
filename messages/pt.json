@@ -16,5 +16,13 @@
     "logout": "Sair",
     "login": "Entrar",
     "register": "Cadastrar"
+  },
+  "Auth": {
+    "loginTitle": "Entrar",
+    "registerTitle": "Cadastrar",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Senha",
+    "noAccount": "Ainda não tem uma conta?",
+    "registerLink": "Cadastre-se"
   }
 }

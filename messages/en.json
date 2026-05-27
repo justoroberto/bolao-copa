@@ -16,5 +16,13 @@
     "logout": "Logout",
     "login": "Login",
     "register": "Register"
+  },
+  "Auth": {
+    "loginTitle": "Login",
+    "registerTitle": "Register",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register"
   }
 }

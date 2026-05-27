@@ -5,6 +5,22 @@ import { useTranslations } from 'next-intl';
 import { WORLD_CUP_MATCHES, TEAMS } from '@/lib/data/worldCup2026';
 import { calculateGroupStandings, generateKnockoutBracket } from '@/lib/services/simulator';
 
+const renderTeam = (teamStr: string, align: 'left' | 'right') => {
+  if (!teamStr) return null;
+  if (teamStr.startsWith('Venc')) return <span className={`sim-team ${align}`}>{teamStr}</span>;
+  
+  const parts = teamStr.split(' ');
+  const flag = parts[0];
+  const name = parts.slice(1).join(' ');
+  
+  return (
+    <span className={`sim-team ${align}`}>
+      <span className="sim-flag">{flag}</span>
+      <span className="sim-name"> {name}</span>
+    </span>
+  );
+};
+
 export default function SimulatorPage() {
   const t = useTranslations('Navigation');
   const [scores, setScores] = useState<Record<string, { home: number | null, away: number | null }>>({});
@@ -31,26 +47,18 @@ export default function SimulatorPage() {
   return (
     <div className="simulator-container">
       <header className="page-header" style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>🎮 Simulador Copa 2026</h1>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Simulador Copa 2026</h1>
         <p style={{ color: 'var(--text-secondary)' }}>Simule os resultados e veja como a tabela reage. Isso NÃO afeta seus palpites reais.</p>
-        <button onClick={resetSimulator} style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: '#dc2626', color: 'white', borderRadius: '4px', cursor: 'pointer', border: 'none' }}>Resetar Simulação</button>
+        <button onClick={resetSimulator} style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: 'var(--highlight-green)', color: 'white', borderRadius: '4px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>Resetar Simulação</button>
       </header>
 
       {/* Fase de Grupos */}
       <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '1rem', borderBottom: '2px solid var(--border-color)', paddingBottom: '0.5rem' }}>Fase de Grupos</h2>
-      <div className="group-selector" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+      <div className="group-selector">
         {GROUPS.map((g) => (
           <button 
             key={g} 
-            style={{ 
-              padding: '0.5rem 1rem', 
-              borderRadius: '4px', 
-              cursor: 'pointer',
-              background: activeGroup === g ? '#2563eb' : '#e5e7eb',
-              color: activeGroup === g ? 'white' : '#374151',
-              border: 'none',
-              fontWeight: activeGroup === g ? 'bold' : 'normal'
-            }}
+            className={`group-btn ${activeGroup === g ? 'active' : ''}`}
             onClick={() => setActiveGroup(g)}
           >
             Grupo {g}
@@ -63,9 +71,9 @@ export default function SimulatorPage() {
         <div className="matches-column" style={{ flex: '1', minWidth: '300px' }}>
           <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>Partidas</h3>
           <div className="simulator-matches" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {WORLD_CUP_MATCHES.filter(m => m.group === activeGroup).map(m => (
-              <div key={m.id} className="sim-match-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', background: 'var(--bg-secondary)', padding: '1rem', borderRadius: '8px' }}>
-                <span className="sim-team right" style={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>{m.homeTeam}</span>
+            {WORLD_CUP_MATCHES.filter(m => m.group === `Grupo ${activeGroup}`).map(m => (
+              <div key={m.id} className="sim-match-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '1rem', borderRadius: '8px' }}>
+                {renderTeam(m.homeTeam, 'right')}
                 <input 
                   type="number" 
                   min="0" max="99" 
@@ -81,7 +89,7 @@ export default function SimulatorPage() {
                   value={scores[m.id]?.away ?? ''} 
                   onChange={(e) => handleScoreChange(m.id, 'away', e.target.value)}
                 />
-                <span className="sim-team left" style={{ flex: 1, textAlign: 'left', fontWeight: 'bold' }}>{m.awayTeam}</span>
+                {renderTeam(m.awayTeam, 'left')}
               </div>
             ))}
           </div>
@@ -132,7 +140,7 @@ export default function SimulatorPage() {
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%', justifyContent: 'space-around' }}>
                   {matchesForStage.map((km) => (
-                    <div key={km.id} style={{ border: '1px solid var(--border-color)', borderRadius: '6px', overflow: 'hidden', background: 'var(--bg-secondary)', fontSize: '0.9rem' }}>
+                    <div key={km.id} style={{ border: '1px solid var(--border-color)', borderRadius: '6px', overflow: 'hidden', background: 'var(--card-bg)', color: 'var(--text-light)', fontSize: '0.9rem' }}>
                       <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontWeight: !km.homeTeam.startsWith('Venc') ? 'bold' : 'normal' }}>{km.homeTeam}</span>
                         <input 

@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 :root {
-  --bg-color: #0b141a;
+  --bg-color: #f3f4f6;
   --card-bg: #111b21;
-  --text-color: #e9edef;
+  --text-color: #1f2937;
+  --text-light: #e9edef;
   --text-secondary: #8696a0;
   --primary-color: #00a884;
   --primary-hover: #008f6f;
@@ -22,35 +23,48 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 /* Header */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
   background-color: var(--card-bg);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  width: 100%;
+  color: var(--text-light);
 }
 
-.logo a {
-  color: var(--text-color);
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo a, .logo-link {
+  color: var(--text-light);
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
-.logo a::before {
-  content: '⚽';
-  font-size: 1.3rem;
+.logo-img {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1); /* Deixa a imagem branca no fundo escuro */
+  transition: opacity 0.2s ease;
+}
+
+.logo-link:hover .logo-img {
+  opacity: 0.85;
 }
 
 nav {
@@ -59,7 +73,7 @@ nav {
 }
 
 nav a {
-  color: var(--text-color);
+  color: var(--text-light);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
@@ -75,6 +89,190 @@ nav a:hover {
   gap: 1rem;
 }
 
+/* Responsive Header & Mobile Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 100;
+}
+
+.hamburger-line {
+  width: 30px;
+  height: 3px;
+  background: var(--text-light);
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+.hamburger.open .hamburger-line:first-child {
+  transform: rotate(45deg);
+}
+
+.hamburger.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.hamburger.open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-panel {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+  
+  .nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 90;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  
+  .nav-wrapper.open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  
+  .mobile-overlay {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-wrapper.open .mobile-overlay {
+    opacity: 1;
+  }
+  
+  .nav-panel {
+    position: absolute;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    max-width: 80%;
+    height: 100%;
+    background-color: var(--card-bg);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 6rem 2rem 2rem 2rem;
+    gap: 2rem;
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+  }
+  
+  .nav-wrapper.open .nav-panel {
+    right: 0;
+  }
+  
+  .header nav {
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5rem;
+  }
+  
+  .header nav a {
+    display: block;
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .user-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1.5rem;
+  }
+  
+  .user-profile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .btn, .login-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .lang-switcher-container {
+    width: 100%;
+  }
+  
+  .lang-switcher-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .lang-dropdown {
+    right: auto;
+    left: 0;
+    width: 100%;
+  }
+}
+
+/* Responsiveness for other parts */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .simulator-layout {
+    flex-direction: column;
+  }
+  
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .header-inner {
+    padding: 0.5rem 1rem;
+  }
+}
+
 /* Language Switcher Custom Dropdown */
 .lang-switcher-container {
   position: relative;
@@ -83,7 +281,7 @@ nav a:hover {
 
 .lang-switcher-btn {
   background: var(--card-bg);
-  color: var(--text-color);
+  color: var(--text-light);
   border: 1px solid var(--border-color);
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -122,7 +320,7 @@ nav a:hover {
   cursor: pointer;
   background: transparent;
   border: none;
-  color: var(--text-color);
+  color: var(--text-light);
   width: 100%;
   text-align: left;
   transition: background 0.2s ease;
@@ -144,7 +342,7 @@ nav a:hover {
 
 .login-btn {
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--text-light);
   border: 1px solid var(--border-color);
 }
 
@@ -172,9 +370,17 @@ nav a:hover {
   background-color: rgba(0, 168, 132, 0.1);
 }
 
+/* Page Wrapper */
+.page-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
 /* Home */
 .home-container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
@@ -212,6 +418,7 @@ nav a:hover {
 
 .card {
   background-color: var(--card-bg);
+  color: var(--text-light);
   padding: 2rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
@@ -235,12 +442,13 @@ nav a:hover {
 
 .auth-card {
   background-color: var(--card-bg);
+  color: var(--text-light);
   padding: 2.5rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .auth-card h2 {
@@ -270,8 +478,8 @@ nav a:hover {
   padding: 0.8rem;
   border-radius: 6px;
   border: 1px solid var(--border-color);
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: #1a2329;
+  color: var(--text-light);
   font-size: 1rem;
 }
 
@@ -296,7 +504,7 @@ nav a:hover {
 }
 
 .auth-footer span {
-  color: var(--highlight-blue);
+  color: var(--highlight-green);
   cursor: pointer;
   text-decoration: underline;
 }
@@ -324,9 +532,9 @@ nav a:hover {
 
 /* Predictions Page */
 .predictions-container {
-  max-width: 1000px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 3rem 2rem;
 }
 
 .page-header {
@@ -353,11 +561,12 @@ nav a:hover {
 /* Prediction Card */
 .prediction-card {
   background-color: var(--card-bg);
+  color: var(--text-light);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   position: relative;
   overflow: hidden;
 }
@@ -419,7 +628,7 @@ nav a:hover {
   font-size: 2.2rem;
   font-weight: bold;
   text-align: center;
-  background-color: var(--bg-color);
+  background-color: #1a2329;
   color: white;
   border: 2px solid var(--border-color);
   border-radius: 8px;
@@ -454,7 +663,7 @@ nav a:hover {
 .versus {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #444;
+  color: var(--text-secondary);
   padding: 0 1rem;
 }
 
@@ -512,7 +721,7 @@ nav a:hover {
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem;
-  background-color: var(--bg-color);
+  background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   transition: transform 0.2s;
@@ -526,7 +735,7 @@ nav a:hover {
 .rank-position {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #555;
+  color: #999;
   width: 50px;
   text-align: center;
 }
@@ -535,7 +744,7 @@ nav a:hover {
   flex: 1;
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--text-color);
+  color: var(--text-light);
   padding: 0 1rem;
 }
 
@@ -575,16 +784,52 @@ nav a:hover {
 
 /* Simulator Page */
 .simulator-container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 2rem;
 }
 
 .group-selector {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.group-btn {
+  padding: 0.5rem 0;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #374151;
+  border: 1px solid var(--border-color);
+  font-weight: normal;
+  width: 85px;
+  text-align: center;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.group-btn.active {
+  background: var(--highlight-green);
+  color: white;
+  font-weight: bold;
+  border-color: var(--highlight-green);
+}
+
+@media (max-width: 768px) {
+  .group-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    gap: 25px;
+  }
+  .group-btn {
+    width: 100%;
+    max-width: 85px;
+  }
 }
 
 .simulator-layout {
@@ -603,6 +848,7 @@ nav a:hover {
 .matches-column, .standings-column {
   flex: 1;
   background-color: var(--card-bg);
+  color: var(--text-light);
   padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--border-color);
@@ -622,9 +868,9 @@ nav a:hover {
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.8rem;
-  background-color: var(--bg-color);
+  background-color: var(--card-bg);
   border-radius: 8px;
-  border: 1px solid #222;
+  border: 1px solid var(--border-color);
   position: relative;
 }
 
@@ -632,9 +878,37 @@ nav a:hover {
   flex: 1;
   font-weight: 600;
   white-space: nowrap;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
-.sim-team.right { text-align: right; }
-.sim-team.left { text-align: left; }
+
+.sim-team.right { justify-content: flex-end; text-align: right; }
+.sim-team.left { justify-content: flex-start; text-align: left; }
+
+.sim-flag {
+  display: inline-block;
+}
+
+.sim-name {
+  display: inline-block;
+}
+
+/* Mobile specific for simulator match rows */
+@media (max-width: 768px) {
+  .sim-match-row .sim-name {
+    display: none;
+  }
+  .sim-match-row .sim-flag {
+    font-size: 1.5rem;
+  }
+  .sim-match-row .sim-team {
+    flex: 0 0 auto;
+  }
+}
 
 .sim-vs {
   color: #666;
@@ -647,7 +921,7 @@ nav a:hover {
   text-align: center;
   font-size: 1.4rem;
   font-weight: bold;
-  background-color: #1a1a1a;
+  background-color: #1a2329;
   color: white;
   border: 1px solid var(--border-color);
   border-radius: 6px;

@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const t = useTranslations('Home');
+  const t = useTranslations('Auth');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,11 +27,11 @@ export default function LoginPage() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>{t('login')}</h2>
+        <h2>{t('loginTitle')}</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleLogin} className="auth-form">
           <div className="form-group">
-            <label>Email</label>
+            <label>{t('emailLabel')}</label>
             <input 
               type="email" 
               value={email} 
@@ -40,7 +40,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label>{t('passwordLabel')}</label>
             <input 
               type="password" 
               value={password} 
@@ -48,10 +48,10 @@ export default function LoginPage() {
               required 
             />
           </div>
-          <button type="submit" className="btn primary submit-btn">{t('login')}</button>
+          <button type="submit" className="btn primary submit-btn">{t('loginTitle')}</button>
         </form>
         <p className="auth-footer">
-          Don't have an account? <span onClick={() => router.push('/register')}>Register</span>
+          {t('noAccount')} <span onClick={() => router.push('/register')}>{t('registerLink')}</span>
         </p>
       </div>
     </div>
