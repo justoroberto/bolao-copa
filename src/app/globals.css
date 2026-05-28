@@ -847,6 +847,17 @@ nav a:hover {
   font-weight: 600;
   color: var(--text-light);
   padding: 0 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.rank-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9em;
+  color: var(--text-secondary);
 }
 
 .rank-points {
@@ -855,12 +866,38 @@ nav a:hover {
   color: var(--highlight-green);
   text-align: right;
   min-width: 80px;
+  margin-left: 15px;
 }
 
 .rank-points span {
   font-size: 0.9rem;
   font-weight: 400;
   color: #888;
+}
+
+/* Ranking Mobile Adjustment */
+@media (max-width: 600px) {
+  .ranking-item {
+    padding: 0.8rem 0.5rem;
+    gap: 5px;
+  }
+  .rank-position {
+    width: 30px;
+    font-size: 1.2rem;
+  }
+  .rank-nickname {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  .rank-stats {
+    gap: 8px;
+    font-size: 0.75em;
+  }
+  .rank-points {
+    font-size: 1.2rem;
+    min-width: 55px;
+    margin-left: 5px;
+  }
 }
 
 /* Podium Effects */

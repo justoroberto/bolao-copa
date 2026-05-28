@@ -66,14 +66,14 @@ export default function RankingPage() {
                     <div className="rank-position">
                       {position}°
                     </div>
-                    <div className="rank-nickname" style={{ flex: 1, minWidth: '150px' }}>
+                    <div className="rank-nickname">
                       {rank.nickname}
                     </div>
-                    <div className="rank-stats" style={{ display: 'flex', gap: '15px', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
+                    <div className="rank-stats">
                       <span title={t('exactScores')}>🎯 {rank.exactScores || 0}</span>
                       <span title={t('correctWinners')}>✔️ {rank.correctWinners || 0}</span>
                     </div>
-                    <div className="rank-points" style={{ fontWeight: 'bold', marginLeft: '15px' }}>
+                    <div className="rank-points">
                       {rank.totalPoints} <span>pts</span>
                     </div>
                   </li>
