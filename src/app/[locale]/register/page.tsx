@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -15,6 +16,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const t = useTranslations('Home');
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +29,32 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      if (siteKey) {
+        if (!executeRecaptcha) {
+          setError('ReCaptcha não está pronto. Recarregue a página.');
+          setLoading(false);
+          return;
+        }
+
+        // 0. Executar reCAPTCHA
+        const token = await executeRecaptcha('register');
+        
+        const captchaRes = await fetch('/api/verify-captcha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        
+        const captchaData = await captchaRes.json();
+        
+        if (!captchaData.success) {
+          setError('Falha de segurança (Bot detectado). Tente novamente.');
+          setLoading(false);
+          return;
+        }
+      }
+
       // 1. Verificar se o nickname já existe
       const nicknameDocRef = doc(db, 'nicknames', nickname.toLowerCase());
       const nicknameDoc = await getDoc(nicknameDocRef);

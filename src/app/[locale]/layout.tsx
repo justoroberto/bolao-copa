@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import { Metadata } from 'next';
 import {AuthProvider} from '@/contexts/AuthContext';
 import {ThemeProvider} from '@/contexts/ThemeContext';
+import RecaptchaWrapper from '@/components/RecaptchaWrapper';
 
 export const metadata: Metadata = {
   title: 'Bolão da Copa',
@@ -36,14 +37,16 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
-            <AuthProvider>
-              <Header />
-              <main>
-                {children}
-              </main>
-            </AuthProvider>
-          </ThemeProvider>
+          <RecaptchaWrapper>
+            <ThemeProvider>
+              <AuthProvider>
+                <Header />
+                <main>
+                  {children}
+                </main>
+              </AuthProvider>
+            </ThemeProvider>
+          </RecaptchaWrapper>
         </NextIntlClientProvider>
       </body>
     </html>
