@@ -4,14 +4,24 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import '../globals.css';
 import Header from '@/components/Header';
-import { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import {AuthProvider} from '@/contexts/AuthContext';
 import {ThemeProvider} from '@/contexts/ThemeContext';
 import RecaptchaWrapper from '@/components/RecaptchaWrapper';
+import PwaInstallPrompt from '@/components/PwaInstallPrompt';
+
+export const viewport: Viewport = {
+  themeColor: '#0b141a',
+};
 
 export const metadata: Metadata = {
   title: 'Bolão da Copa',
   description: 'Bolão Oficial da Copa do Mundo 2026',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/fav-icon.png',
+    apple: '/fav-icon.png',
+  },
 };
 
 export function generateStaticParams() {
@@ -41,6 +51,7 @@ export default async function LocaleLayout({
             <ThemeProvider>
               <AuthProvider>
                 <Header />
+                <PwaInstallPrompt />
                 <main>
                   {children}
                 </main>

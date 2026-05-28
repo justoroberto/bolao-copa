@@ -1162,3 +1162,66 @@ nav a:hover {
 
 .legend-item.bg-qualified::before { background-color: var(--highlight-green); }
 .legend-item.bg-possible::before { background-color: var(--highlight-blue); }
+
+/* PWA Install Prompt */
+.pwa-prompt-overlay {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.pwa-prompt-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.pwa-prompt-icon img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.pwa-prompt-content {
+  flex: 1;
+}
+
+.pwa-prompt-content h3 {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 0.2rem;
+}
+
+.pwa-prompt-content p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.pwa-prompt-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.pwa-prompt-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
