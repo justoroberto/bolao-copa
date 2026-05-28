@@ -15,6 +15,15 @@ service cloud.firestore {
       allow create, update: if request.auth != null && request.auth.uid == userId;
     }
 
+    // Regra para Nicknames:
+    // Qualquer um pode ler para verificar disponibilidade antes do cadastro.
+    // Apenas usuário logado pode criar o seu próprio nickname apontando para seu UID.
+    match /nicknames/{nicknameId} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false; // Imutável
+    }
+
     // Regra para Rankings:
     // Qualquer um logado pode ler a tabela de classificação
     match /rankings/{rankingId} {
