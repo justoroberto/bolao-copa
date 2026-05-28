@@ -10,7 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export default function HomePage() {
   const tHome = useTranslations('Home');
   const tAuth = useTranslations('Auth');
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -27,6 +27,14 @@ export default function HomePage() {
       setError(err.message || 'Erro ao fazer login');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-overlay">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="home-container">
