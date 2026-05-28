@@ -34,7 +34,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} data-theme="dark">
       <body>
         <NextIntlClientProvider messages={messages}>
           <RecaptchaWrapper>
