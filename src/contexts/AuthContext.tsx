@@ -32,8 +32,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           // Marca carregamento ao iniciar o fetch assíncrono para evitar redirects prematuros
           setLoading(true);
-          // Busca os metadados do usuário no Firestore
-          const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+          
+          // Busca os metadados do usuário no Firestore (com retry para race conditions durante o cadastro)
+          let userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+          let attempts = 0;
+          
+          while (!userDoc.exists() && attempts < 5) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+            attempts++;
+          }
+
           if (userDoc.exists()) {
             const userData = userDoc.data();
             setUser({
@@ -43,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               createdAt: userData.createdAt?.toDate() || new Date(),
             });
           } else {
+            console.error("Documento de usuário não encontrado após o cadastro.");
             setUser(null);
           }
         } catch (error) {
