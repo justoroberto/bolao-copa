@@ -41,7 +41,7 @@
     "saved": "✓ Enregistré automatiquement",
     "error": "Erreur d'enregistrement",
     "hint": "Édition ouverte",
-    "subtitle": "Faites vos pronostics pour les matchs ci-dessous. Vous avez jusqu'à 1 jour (24 heures) avant chaque match pour modifier.",
+    "subtitle": "Faites vos pronostics pour les matchs ci-dessous. Vous avez jusqu'à 1 heure avant chaque match pour modifier.",
     "loading": "Chargement de vos pronostics..."
   },
   "Ranking": {

@@ -41,7 +41,7 @@
     "saved": "✓ Saved automatically",
     "error": "Error saving",
     "hint": "Editing open",
-    "subtitle": "Make your predictions for the matches below. You have up to 1 day (24 hours) before each match to edit.",
+    "subtitle": "Make your predictions for the matches below. You have up to 1 hour before each match to edit.",
     "loading": "Loading your predictions..."
   },
   "Ranking": {

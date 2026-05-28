@@ -4,6 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { WORLD_CUP_MATCHES, TEAMS } from '@/lib/data/worldCup2026';
 import { calculateGroupStandings, generateKnockoutBracket } from '@/lib/services/simulator';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
 
 const renderTeam = (teamStr: string, align: 'left' | 'right', tTeams: any) => {
   if (!teamStr) return null;
@@ -31,17 +33,55 @@ export default function SimulatorPage() {
   const [scores, setScores] = useState<Record<string, { home: number | null, away: number | null }>>({});
   const [activeGroup, setActiveGroup] = useState<string>('A');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [officialResults, setOfficialResults] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('bolao_simulator_scores');
-    if (saved) {
+    const fetchOfficialResults = async () => {
       try {
-        setScores(JSON.parse(saved));
-      } catch (e) {
-        console.error('Erro ao ler sessionStorage', e);
+        const snapshot = await getDocs(collection(db, 'matchResults'));
+        if (!snapshot.empty) {
+          const results: Record<string, { home: number | null, away: number | null }> = {};
+          const officials: Record<string, boolean> = {};
+          
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            // Assuming data has homeScore and awayScore, and is final
+            if (data.homeScore !== undefined && data.awayScore !== undefined) {
+              results[doc.id] = { home: data.homeScore, away: data.awayScore };
+              officials[doc.id] = true;
+            }
+          });
+
+          setOfficialResults(officials);
+          
+          // Merge with sessionStorage scores
+          const saved = sessionStorage.getItem('bolao_simulator_scores');
+          let sessionScores = {};
+          if (saved) {
+            try {
+              sessionScores = JSON.parse(saved);
+            } catch (e) {}
+          }
+          
+          // Official results overwrite session ones
+          setScores({ ...sessionScores, ...results });
+        } else {
+          // No official results yet, just load session
+          const saved = sessionStorage.getItem('bolao_simulator_scores');
+          if (saved) {
+            try {
+              setScores(JSON.parse(saved));
+            } catch (e) {}
+          }
+        }
+        setIsLoaded(true);
+      } catch (err) {
+        console.error("Erro ao buscar resultados oficiais:", err);
+        setIsLoaded(true);
       }
-    }
-    setIsLoaded(true);
+    };
+
+    fetchOfficialResults();
   }, []);
 
   useEffect(() => {
@@ -62,7 +102,14 @@ export default function SimulatorPage() {
   };
 
   const resetSimulator = () => {
-    setScores({});
+    // Only reset non-official scores
+    const newScores = { ...scores };
+    Object.keys(newScores).forEach(key => {
+      if (!officialResults[key]) {
+        delete newScores[key];
+      }
+    });
+    setScores(newScores);
     sessionStorage.removeItem('bolao_simulator_scores');
   };
 
@@ -103,7 +150,8 @@ export default function SimulatorPage() {
                 <input 
                   type="number" 
                   min="0" max="99" 
-                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)' }}
+                  disabled={officialResults[m.id]}
+                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
                   value={scores[m.id]?.home ?? ''} 
                   onChange={(e) => handleScoreChange(m.id, 'home', e.target.value)}
                 />
@@ -111,7 +159,8 @@ export default function SimulatorPage() {
                 <input 
                   type="number" 
                   min="0" max="99" 
-                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)' }}
+                  disabled={officialResults[m.id]}
+                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
                   value={scores[m.id]?.away ?? ''} 
                   onChange={(e) => handleScoreChange(m.id, 'away', e.target.value)}
                 />
@@ -187,7 +236,8 @@ export default function SimulatorPage() {
                         <span style={{ fontWeight: !km.homeTeam.startsWith('Venc') ? 'bold' : 'normal' }}>{translateKnockoutTeam(km.homeTeam)}</span>
                         <input 
                           type="number" min="0" max="99" 
-                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)' }}
+                          disabled={officialResults[km.id]}
+                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
                           value={scores[km.id]?.home ?? ''}
                           onChange={(e) => handleScoreChange(km.id, 'home', e.target.value)}
                         />
@@ -196,7 +246,8 @@ export default function SimulatorPage() {
                         <span style={{ fontWeight: !km.awayTeam.startsWith('Venc') ? 'bold' : 'normal' }}>{translateKnockoutTeam(km.awayTeam)}</span>
                         <input 
                           type="number" min="0" max="99" 
-                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)' }}
+                          disabled={officialResults[km.id]}
+                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
                           value={scores[km.id]?.away ?? ''}
                           onChange={(e) => handleScoreChange(km.id, 'away', e.target.value)}
                         />

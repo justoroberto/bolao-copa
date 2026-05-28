@@ -28,9 +28,9 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   // Verifica bloqueio de tempo
   const isLocked = !canEditPrediction(match.startTime) || match.status !== 'scheduled';
   
-  // Converte data para exibição respeitando o locale
+  // Converte data para exibição respeitando o locale, com hora e sem dia da semana
   const formattedDate = match.startTime.toLocaleString(locale, { 
-    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
   });
 
   const renderTeamName = (teamStr: string) => {

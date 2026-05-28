@@ -11,7 +11,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const t = useTranslations('Auth');
+  const tAuth = useTranslations('Auth');
+  const tHome = useTranslations('Home');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,35 +26,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2>{t('loginTitle')}</h2>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleLogin} className="auth-form">
-          <div className="form-group">
-            <label>{t('emailLabel')}</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
+    <div className="home-container">
+      <section className="hero">
+        <h1>{tHome('title')}</h1>
+        <p>{tHome('description')}</p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+          <div className="auth-card">
+            <h2>{tAuth('loginTitle')}</h2>
+            {error && <p className="error-message">{error}</p>}
+            <form onSubmit={handleLogin} className="auth-form" style={{ textAlign: 'left' }}>
+              <div className="form-group">
+                <label>{tAuth('emailLabel')}</label>
+                <input 
+                  type="email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label>{tAuth('passwordLabel')}</label>
+                <input 
+                  type="password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  required 
+                />
+              </div>
+              <button type="submit" className="btn primary submit-btn">{tAuth('loginTitle')}</button>
+            </form>
+            <p className="auth-footer">
+              {tAuth('noAccount')} <span onClick={() => router.push('/register')} style={{ cursor: 'pointer', color: 'var(--highlight-green)', textDecoration: 'underline' }}>{tAuth('registerLink')}</span>
+            </p>
           </div>
-          <div className="form-group">
-            <label>{t('passwordLabel')}</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" className="btn primary submit-btn">{t('loginTitle')}</button>
-        </form>
-        <p className="auth-footer">
-          {t('noAccount')} <span onClick={() => router.push('/register')}>{t('registerLink')}</span>
-        </p>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

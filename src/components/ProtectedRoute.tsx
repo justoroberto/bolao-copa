@@ -15,7 +15,11 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [user, loading, router]);
 
   if (loading || !user) {
-    return <div className="loading-state">Loading...</div>;
+    return (
+      <div className="loading-overlay">
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   return <>{children}</>;
