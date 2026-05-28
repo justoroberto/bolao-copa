@@ -34,8 +34,7 @@
 
 [data-theme="dark"] body {
   background-image:
-    linear-gradient(rgba(11, 20, 26, 0.85), rgba(11, 20, 26, 0.85)),
-    url('/field_bg.png');
+    linear-gradient(rgba(11, 20, 26, 0.85), rgba(11, 20, 26, 0.85));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
