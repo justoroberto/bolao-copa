@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {Link} from '@/i18n/routing';
+import {Link, useRouter} from '@/i18n/routing';
 import {useAuth} from '@/contexts/AuthContext';
 import {useTranslations} from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -13,6 +13,7 @@ export default function Header() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -106,7 +107,7 @@ export default function Header() {
                 {user ? (
                   <div className="user-profile">
                     <span className="nickname">{user.nickname || user.email}</span>
-                    <button onClick={() => { logout(); closeMenu(); }} className="btn secondary">{t('logout')}</button>
+                    <button onClick={async () => { await logout(); closeMenu(); router.push('/'); }} className="btn secondary">{t('logout')}</button>
                   </div>
                 ) : (
                   <>
