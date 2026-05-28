@@ -3,6 +3,7 @@ export interface User {
   email: string;
   nickname: string;
   createdAt: Date;
+  isAdmin?: boolean;
 }
 
 export interface Match {
@@ -32,4 +33,11 @@ export interface Ranking {
   totalPoints: number;
   exactScores: number;
   correctWinners: number;
+}
+
+export interface MatchResult {
+  matchId: string;
+  homeScore: number;
+  awayScore: number;
+  status: 'live' | 'finished';
 }
