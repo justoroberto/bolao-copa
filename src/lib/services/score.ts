@@ -38,14 +38,12 @@ export function calculatePoints(match: Match, prediction: Prediction | null): nu
 
 /**
  * Verifica se um palpite pode ser editado.
- * Regra: Palpites podem ser editados até 1 dia (24 horas) antes da partida.
- * Como lidamos com a diferença em ms, isso equivale a 24 * 60 * 60 * 1000.
- * Isso já leva em consideração a conversão de Timezone porque as Datas são resolvidas em UTC internamente e a diferença de tempo absoluta se mantém.
+ * Regra: Palpites podem ser editados até 1 hora antes da partida.
  */
 export function canEditPrediction(matchStartTime: Date): boolean {
   const now = new Date();
-  const oneDayInMs = 24 * 60 * 60 * 1000;
+  const oneHourInMs = 1 * 60 * 60 * 1000;
   const timeDifferenceOptions = matchStartTime.getTime() - now.getTime();
   
-  return timeDifferenceOptions > oneDayInMs;
+  return timeDifferenceOptions > oneHourInMs;
 }

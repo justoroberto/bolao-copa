@@ -1,5 +1,6 @@
 import { Match } from '../firebase/models';
 import { TEAMS } from '../data/worldCup2026';
+import { THIRD_PLACE_MATCHUPS } from '../data/knockoutRules';
 
 export interface TeamStats {
   team: string;
@@ -84,7 +85,7 @@ export interface KnockoutMatch {
   id: string;
   homeTeam: string;
   awayTeam: string;
-  stage: 'round32' | 'round16' | 'quarter' | 'semi' | 'final';
+  stage: 'round32' | 'round16' | 'quarter' | 'semi' | 'thirdPlace' | 'final';
   nextMatchId?: string;
 }
 
@@ -123,131 +124,79 @@ export function generateKnockoutBracket(
     return []; // Aguardando dados suficientes (ou todos os jogos simulados)
   }
 
-  const round32: KnockoutMatch[] = [];
-  const usedTeams = new Set<string>();
+  // Identificar de quais grupos vieram os melhores terceiros (ex: ABCFGHJK)
+  const thirdGroups = bestThirds.map(t => t.group.replace('Grupo ', '')).sort().join('');
+  const thirdAssignments = THIRD_PLACE_MATCHUPS[thirdGroups];
 
-  // Auxiliares para sortear adversários de grupos diferentes
-  const getAvailableOpponent = (teamGroup: string, pool: typeof firsts) => {
-    const idx = pool.findIndex(t => t.group !== teamGroup && !usedTeams.has(t.team));
-    if (idx !== -1) {
-      const selected = pool[idx];
-      usedTeams.add(selected.team);
-      return selected;
-    }
-    // Fallback caso impossível (algoritmo guloso pode ter cantos cegos)
-    const fallbackIdx = pool.findIndex(t => !usedTeams.has(t.team));
-    if (fallbackIdx !== -1) {
-      const selected = pool[fallbackIdx];
-      usedTeams.add(selected.team);
-      return selected;
-    }
-    return null;
+  // Helpers para buscar equipes
+  const getFirst = (groupLetter: string) => firsts.find(t => t.group.replace('Grupo ', '') === groupLetter)?.team || `1${groupLetter}`;
+  const getSecond = (groupLetter: string) => seconds.find(t => t.group.replace('Grupo ', '') === groupLetter)?.team || `2${groupLetter}`;
+  const getThird = (groupLetter: string) => bestThirds.find(t => t.group.replace('Grupo ', '') === groupLetter)?.team || `3${groupLetter}`;
+
+  // Helper arrays for calculating winners incrementally
+  const round32: KnockoutMatch[] = [
+    { id: 'match_73', homeTeam: getFirst('E'), awayTeam: getThird(thirdAssignments?.['1E']?.replace('3', '') || 'A'), stage: 'round32', nextMatchId: 'match_89' },
+    { id: 'match_74', homeTeam: getFirst('I'), awayTeam: getThird(thirdAssignments?.['1I']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_90' },
+    { id: 'match_75', homeTeam: getSecond('A'), awayTeam: getSecond('B'), stage: 'round32', nextMatchId: 'match_89' },
+    { id: 'match_76', homeTeam: getFirst('F'), awayTeam: getSecond('C'), stage: 'round32', nextMatchId: 'match_90' },
+    { id: 'match_77', homeTeam: getSecond('K'), awayTeam: getSecond('L'), stage: 'round32', nextMatchId: 'match_93' },
+    { id: 'match_78', homeTeam: getFirst('H'), awayTeam: getSecond('J'), stage: 'round32', nextMatchId: 'match_94' },
+    { id: 'match_79', homeTeam: getFirst('D'), awayTeam: getThird(thirdAssignments?.['1D']?.replace('3', '') || 'B'), stage: 'round32', nextMatchId: 'match_93' },
+    { id: 'match_80', homeTeam: getFirst('G'), awayTeam: getThird(thirdAssignments?.['1G']?.replace('3', '') || 'A'), stage: 'round32', nextMatchId: 'match_94' },
+    { id: 'match_81', homeTeam: getFirst('C'), awayTeam: getSecond('F'), stage: 'round32', nextMatchId: 'match_91' },
+    { id: 'match_82', homeTeam: getSecond('E'), awayTeam: getSecond('I'), stage: 'round32', nextMatchId: 'match_92' },
+    { id: 'match_83', homeTeam: getFirst('A'), awayTeam: getThird(thirdAssignments?.['1A']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_91' },
+    { id: 'match_84', homeTeam: getFirst('L'), awayTeam: getThird(thirdAssignments?.['1L']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_92' },
+    { id: 'match_85', homeTeam: getFirst('J'), awayTeam: getSecond('H'), stage: 'round32', nextMatchId: 'match_95' },
+    { id: 'match_86', homeTeam: getSecond('D'), awayTeam: getSecond('G'), stage: 'round32', nextMatchId: 'match_96' },
+    { id: 'match_87', homeTeam: getFirst('B'), awayTeam: getThird(thirdAssignments?.['1B']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_95' },
+    { id: 'match_88', homeTeam: getFirst('K'), awayTeam: getThird(thirdAssignments?.['1K']?.replace('3', '') || 'D'), stage: 'round32', nextMatchId: 'match_96' }
+  ];
+
+  const getWinner = (matchId: string, matchesArr: KnockoutMatch[]) => {
+    const score = knockoutScores[matchId];
+    const match = matchesArr.find(m => m.id === matchId);
+    if (!score || score.home === null || score.away === null || score.home === score.away) return `Venc. ${matchId.replace('match_', '')}`;
+    return score.home > score.away ? match!.homeTeam : match!.awayTeam;
   };
 
-  let matchCounter = 1;
-
-  // 1. Os 8 melhores 3ºs enfrentam 8 Líderes
-  bestThirds.forEach(third => {
-    const leader = getAvailableOpponent(third.group, firsts);
-    if (leader) {
-      round32.push({
-        id: `r32_${matchCounter++}`,
-        homeTeam: leader.team,
-        awayTeam: third.team,
-        stage: 'round32'
-      });
-      usedTeams.add(third.team);
-    }
-  });
-
-  // 2. Os 4 Líderes restantes enfrentam 4 Segundos
-  firsts.filter(f => !usedTeams.has(f.team)).forEach(leader => {
-    const second = getAvailableOpponent(leader.group, seconds);
-    if (second) {
-      round32.push({
-        id: `r32_${matchCounter++}`,
-        homeTeam: leader.team,
-        awayTeam: second.team,
-        stage: 'round32'
-      });
-      usedTeams.add(leader.team);
-    }
-  });
-
-  // 3. Os 8 Segundos restantes enfrentam-se entre si (4 jogos)
-  const remainingSeconds = seconds.filter(s => !usedTeams.has(s.team));
-  for (let i = 0; i < remainingSeconds.length; i += 2) {
-    if (i + 1 < remainingSeconds.length) {
-      round32.push({
-        id: `r32_${matchCounter++}`,
-        homeTeam: remainingSeconds[i].team,
-        awayTeam: remainingSeconds[i+1].team,
-        stage: 'round32'
-      });
-      usedTeams.add(remainingSeconds[i].team);
-      usedTeams.add(remainingSeconds[i+1].team);
-    }
-  }
-
-  // Helper para determinar vencedor (sem suporte a empate por enquanto)
-  const getWinner = (match: KnockoutMatch) => {
-    const score = knockoutScores[match.id];
-    if (!score || score.home === null || score.away === null || score.home === score.away) {
-      return `Venc. ${match.id}`;
-    }
-    return score.home > score.away ? match.homeTeam : match.awayTeam;
+  const getLoser = (matchId: string, matchesArr: KnockoutMatch[]) => {
+    const score = knockoutScores[matchId];
+    const match = matchesArr.find(m => m.id === matchId);
+    if (!score || score.home === null || score.away === null || score.home === score.away) return `Perd. ${matchId.replace('match_', '')}`;
+    return score.home < score.away ? match!.homeTeam : match!.awayTeam;
   };
 
-  // Bracket build com propagação
-  const round16: KnockoutMatch[] = [];
-  const quarters: KnockoutMatch[] = [];
-  const semis: KnockoutMatch[] = [];
+  const round16: KnockoutMatch[] = [
+    { id: 'match_89', homeTeam: getWinner('match_73', round32), awayTeam: getWinner('match_75', round32), stage: 'round16', nextMatchId: 'match_97' },
+    { id: 'match_90', homeTeam: getWinner('match_74', round32), awayTeam: getWinner('match_76', round32), stage: 'round16', nextMatchId: 'match_97' },
+    { id: 'match_91', homeTeam: getWinner('match_81', round32), awayTeam: getWinner('match_83', round32), stage: 'round16', nextMatchId: 'match_98' },
+    { id: 'match_92', homeTeam: getWinner('match_82', round32), awayTeam: getWinner('match_84', round32), stage: 'round16', nextMatchId: 'match_98' },
+    { id: 'match_93', homeTeam: getWinner('match_77', round32), awayTeam: getWinner('match_79', round32), stage: 'round16', nextMatchId: 'match_99' },
+    { id: 'match_94', homeTeam: getWinner('match_78', round32), awayTeam: getWinner('match_80', round32), stage: 'round16', nextMatchId: 'match_99' },
+    { id: 'match_95', homeTeam: getWinner('match_85', round32), awayTeam: getWinner('match_87', round32), stage: 'round16', nextMatchId: 'match_100' },
+    { id: 'match_96', homeTeam: getWinner('match_86', round32), awayTeam: getWinner('match_88', round32), stage: 'round16', nextMatchId: 'match_100' }
+  ];
+
+  const quarters: KnockoutMatch[] = [
+    { id: 'match_97', homeTeam: getWinner('match_89', round16), awayTeam: getWinner('match_90', round16), stage: 'quarter', nextMatchId: 'match_101' },
+    { id: 'match_98', homeTeam: getWinner('match_91', round16), awayTeam: getWinner('match_92', round16), stage: 'quarter', nextMatchId: 'match_101' },
+    { id: 'match_99', homeTeam: getWinner('match_93', round16), awayTeam: getWinner('match_94', round16), stage: 'quarter', nextMatchId: 'match_102' },
+    { id: 'match_100', homeTeam: getWinner('match_95', round16), awayTeam: getWinner('match_96', round16), stage: 'quarter', nextMatchId: 'match_102' }
+  ];
+
+  const semis: KnockoutMatch[] = [
+    { id: 'match_101', homeTeam: getWinner('match_97', quarters), awayTeam: getWinner('match_98', quarters), stage: 'semi', nextMatchId: 'match_104' },
+    { id: 'match_102', homeTeam: getWinner('match_99', quarters), awayTeam: getWinner('match_100', quarters), stage: 'semi', nextMatchId: 'match_104' }
+  ];
+
+  const thirdPlace: KnockoutMatch = {
+    id: 'match_103', homeTeam: getLoser('match_101', semis), awayTeam: getLoser('match_102', semis), stage: 'thirdPlace'
+  };
+
   const finalMatch: KnockoutMatch = {
-    id: `final_1`, homeTeam: 'Venc. semi_1', awayTeam: 'Venc. semi_2', stage: 'final'
+    id: 'match_104', homeTeam: getWinner('match_101', semis), awayTeam: getWinner('match_102', semis), stage: 'final'
   };
 
-  // Build R16 (8 matches)
-  for (let i = 0; i < 16; i += 2) {
-    const r16Id = `r16_${(i/2)+1}`;
-    round32[i].nextMatchId = r16Id;
-    round32[i+1].nextMatchId = r16Id;
-    round16.push({
-      id: r16Id,
-      homeTeam: getWinner(round32[i]),
-      awayTeam: getWinner(round32[i+1]),
-      stage: 'round16'
-    });
-  }
-
-  // Build Quarters (4 matches)
-  for (let i = 0; i < 8; i += 2) {
-    const qId = `q_${(i/2)+1}`;
-    round16[i].nextMatchId = qId;
-    round16[i+1].nextMatchId = qId;
-    quarters.push({
-      id: qId,
-      homeTeam: getWinner(round16[i]),
-      awayTeam: getWinner(round16[i+1]),
-      stage: 'quarter'
-    });
-  }
-
-  // Build Semis (2 matches)
-  for (let i = 0; i < 4; i += 2) {
-    const sId = `semi_${(i/2)+1}`;
-    quarters[i].nextMatchId = sId;
-    quarters[i+1].nextMatchId = sId;
-    semis.push({
-      id: sId,
-      homeTeam: getWinner(quarters[i]),
-      awayTeam: getWinner(quarters[i+1]),
-      stage: 'semi',
-      nextMatchId: 'final_1'
-    });
-  }
-
-  finalMatch.homeTeam = getWinner(semis[0]);
-  finalMatch.awayTeam = getWinner(semis[1]);
-
-  return [...round32, ...round16, ...quarters, ...semis, finalMatch];
+  return [...round32, ...round16, ...quarters, ...semis, thirdPlace, finalMatch];
 }
