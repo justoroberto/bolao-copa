@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { WORLD_CUP_MATCHES, TEAMS } from '@/lib/data/worldCup2026';
 import { calculateGroupStandings, generateKnockoutBracket } from '@/lib/services/simulator';
@@ -30,6 +30,25 @@ export default function SimulatorPage() {
   const tTeams = useTranslations('Teams');
   const [scores, setScores] = useState<Record<string, { home: number | null, away: number | null }>>({});
   const [activeGroup, setActiveGroup] = useState<string>('A');
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem('bolao_simulator_scores');
+    if (saved) {
+      try {
+        setScores(JSON.parse(saved));
+      } catch (e) {
+        console.error('Erro ao ler sessionStorage', e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      sessionStorage.setItem('bolao_simulator_scores', JSON.stringify(scores));
+    }
+  }, [scores, isLoaded]);
 
   const handleScoreChange = (matchId: string, type: 'home' | 'away', value: string) => {
     const numValue = value === '' ? null : parseInt(value, 10);
@@ -42,7 +61,10 @@ export default function SimulatorPage() {
     }));
   };
 
-  const resetSimulator = () => setScores({});
+  const resetSimulator = () => {
+    setScores({});
+    sessionStorage.removeItem('bolao_simulator_scores');
+  };
 
   const standings = useMemo(() => calculateGroupStandings(WORLD_CUP_MATCHES, scores), [scores]);
   const knockoutMatches = useMemo(() => generateKnockoutBracket(standings, scores), [standings, scores]);

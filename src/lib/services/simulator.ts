@@ -36,7 +36,11 @@ export function calculateGroupStandings(matches: Match[], scores: Record<string,
   matches.filter(m => m.stage === 'group').forEach(match => {
     const score = scores[match.id];
     if (score && score.home !== null && score.away !== null && match.group) {
-      const groupStandings = standings[match.group];
+      const groupKey = match.group.replace('Grupo ', '');
+      const groupStandings = standings[groupKey];
+      
+      if (!groupStandings) return;
+      
       const homeStats = groupStandings.find(s => s.team === match.homeTeam);
       const awayStats = groupStandings.find(s => s.team === match.awayTeam);
 
