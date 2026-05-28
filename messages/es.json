@@ -20,10 +20,19 @@
   "Auth": {
     "loginTitle": "Entrar",
     "registerTitle": "Registrarse",
-    "emailLabel": "Correo",
+    "emailLabel": "Email",
     "passwordLabel": "Contraseña",
-    "noAccount": "¿Aún no tienes una cuenta?",
-    "registerLink": "Regístrate"
+    "noAccount": "¿Aún no tienes cuenta?",
+    "registerLink": "Regístrate aquí",
+    "nicknameLabel": "Nickname (único e inmutable)",
+    "registering": "Registrando...",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "loginLink": "Iniciar Sesión",
+    "nicknameRequired": "Nickname es obligatorio",
+    "recaptchaNotReady": "ReCaptcha no está listo. Recarga la página.",
+    "botDetected": "Fallo de seguridad (Bot detectado). Inténtalo de nuevo.",
+    "nicknameInUse": "Este nickname ya está en uso. Elige otro.",
+    "registerError": "Error al registrarse"
   },
   "Simulator": {
     "title": "Simulador del Mundial 2026",

@@ -151,7 +151,7 @@ export default function SimulatorPage() {
                   type="number" 
                   min="0" max="99" 
                   disabled={officialResults[m.id]}
-                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
+                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--input-bg)' : 'var(--card-bg)', color: officialResults[m.id] ? 'var(--text-secondary)' : 'var(--text-color)', fontWeight: officialResults[m.id] ? 'bold' : 'normal' }}
                   value={scores[m.id]?.home ?? ''} 
                   onChange={(e) => handleScoreChange(m.id, 'home', e.target.value)}
                 />
@@ -160,7 +160,7 @@ export default function SimulatorPage() {
                   type="number" 
                   min="0" max="99" 
                   disabled={officialResults[m.id]}
-                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
+                  style={{ width: '50px', textAlign: 'center', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[m.id] ? 'var(--input-bg)' : 'var(--card-bg)', color: officialResults[m.id] ? 'var(--text-secondary)' : 'var(--text-color)', fontWeight: officialResults[m.id] ? 'bold' : 'normal' }}
                   value={scores[m.id]?.away ?? ''} 
                   onChange={(e) => handleScoreChange(m.id, 'away', e.target.value)}
                 />
@@ -237,7 +237,7 @@ export default function SimulatorPage() {
                         <input 
                           type="number" min="0" max="99" 
                           disabled={officialResults[km.id]}
-                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
+                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--input-bg)' : 'var(--card-bg)', color: officialResults[km.id] ? 'var(--text-secondary)' : 'var(--text-color)', fontWeight: officialResults[km.id] ? 'bold' : 'normal' }}
                           value={scores[km.id]?.home ?? ''}
                           onChange={(e) => handleScoreChange(km.id, 'home', e.target.value)}
                         />
@@ -247,7 +247,7 @@ export default function SimulatorPage() {
                         <input 
                           type="number" min="0" max="99" 
                           disabled={officialResults[km.id]}
-                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--bg-secondary)' : 'var(--card-bg)' }}
+                          style={{ width: '40px', padding: '0.2rem', textAlign: 'center', borderRadius: '4px', border: '1px solid var(--border-color)', backgroundColor: officialResults[km.id] ? 'var(--input-bg)' : 'var(--card-bg)', color: officialResults[km.id] ? 'var(--text-secondary)' : 'var(--text-color)', fontWeight: officialResults[km.id] ? 'bold' : 'normal' }}
                           value={scores[km.id]?.away ?? ''}
                           onChange={(e) => handleScoreChange(km.id, 'away', e.target.value)}
                         />

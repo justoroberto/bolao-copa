@@ -23,7 +23,16 @@
     "emailLabel": "Email",
     "passwordLabel": "Mot de passe",
     "noAccount": "Vous n'avez pas de compte ?",
-    "registerLink": "Inscrivez-vous"
+    "registerLink": "Inscrivez-vous ici",
+    "nicknameLabel": "Pseudo (unique et immuable)",
+    "registering": "Inscription en cours...",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "loginLink": "Se connecter",
+    "nicknameRequired": "Le pseudo est requis",
+    "recaptchaNotReady": "ReCaptcha n'est pas prêt. Rechargez la page.",
+    "botDetected": "Échec de sécurité (Bot détecté). Réessayez.",
+    "nicknameInUse": "Ce pseudo est déjà utilisé. Choisissez-en un autre.",
+    "registerError": "Erreur lors de l'inscription"
   },
   "Simulator": {
     "title": "Simulateur Coupe du Monde 2026",

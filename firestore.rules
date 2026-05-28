@@ -25,9 +25,9 @@ service cloud.firestore {
     }
 
     // Regra para Rankings:
-    // Qualquer um logado pode ler a tabela de classificação
+    // O Ranking Global é público para qualquer visitante ler.
     match /rankings/{rankingId} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if isAdmin(); // Admin atualiza via client side
     }
 

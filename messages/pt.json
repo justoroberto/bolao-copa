@@ -20,10 +20,19 @@
   "Auth": {
     "loginTitle": "Entrar",
     "registerTitle": "Cadastrar",
-    "emailLabel": "E-mail",
+    "emailLabel": "Email",
     "passwordLabel": "Senha",
-    "noAccount": "Ainda não tem uma conta?",
-    "registerLink": "Cadastre-se"
+    "noAccount": "Não tem uma conta?",
+    "registerLink": "Cadastre-se aqui",
+    "nicknameLabel": "Nickname (único e imutável)",
+    "registering": "Cadastrando...",
+    "haveAccount": "Já tem uma conta?",
+    "loginLink": "Faça Login",
+    "nicknameRequired": "Nickname é obrigatório",
+    "recaptchaNotReady": "ReCaptcha não está pronto. Recarregue a página.",
+    "botDetected": "Falha de segurança (Bot detectado). Tente novamente.",
+    "nicknameInUse": "Este nickname já está em uso. Escolha outro.",
+    "registerError": "Erro ao fazer cadastro"
   },
   "Simulator": {
     "title": "Simulador Copa 2026",

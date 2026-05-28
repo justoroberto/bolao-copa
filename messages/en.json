@@ -23,7 +23,16 @@
     "emailLabel": "Email",
     "passwordLabel": "Password",
     "noAccount": "Don't have an account?",
-    "registerLink": "Sign up here"
+    "registerLink": "Sign up here",
+    "nicknameLabel": "Nickname (unique and immutable)",
+    "registering": "Registering...",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Login",
+    "nicknameRequired": "Nickname is required",
+    "recaptchaNotReady": "ReCaptcha is not ready. Reload the page.",
+    "botDetected": "Security failure (Bot detected). Try again.",
+    "nicknameInUse": "This nickname is already in use. Choose another.",
+    "registerError": "Error during registration"
   },
   "Simulator": {
     "title": "World Cup 2026 Simulator",

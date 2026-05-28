@@ -1253,3 +1253,9 @@ nav a:hover {
     transform: rotate(360deg);
   }
 }
+
+/* Fixes for dark mode input contrast */
+[data-theme="dark"] input:disabled, 
+[data-theme="dark"] .score-input:disabled {
+  color: var(--text-light) !important;
+}

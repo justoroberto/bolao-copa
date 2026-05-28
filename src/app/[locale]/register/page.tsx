@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const t = useTranslations('Home');
+  const t = useTranslations('Auth');
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -23,7 +23,7 @@ export default function RegisterPage() {
     setError('');
     
     if (!nickname.trim()) {
-      setError('Nickname is required');
+      setError(t('nicknameRequired'));
       return;
     }
 
@@ -32,7 +32,7 @@ export default function RegisterPage() {
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
       if (siteKey) {
         if (!executeRecaptcha) {
-          setError('ReCaptcha não está pronto. Recarregue a página.');
+          setError(t('recaptchaNotReady'));
           setLoading(false);
           return;
         }
@@ -49,7 +49,7 @@ export default function RegisterPage() {
         const captchaData = await captchaRes.json();
         
         if (!captchaData.success) {
-          setError('Falha de segurança (Bot detectado). Tente novamente.');
+          setError(t('botDetected'));
           setLoading(false);
           return;
         }
@@ -60,7 +60,7 @@ export default function RegisterPage() {
       const nicknameDoc = await getDoc(nicknameDocRef);
 
       if (nicknameDoc.exists()) {
-        setError('Este nickname já está em uso. Escolha outro.');
+        setError(t('nicknameInUse'));
         setLoading(false);
         return;
       }
@@ -81,7 +81,7 @@ export default function RegisterPage() {
 
       router.push('/predictions');
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer cadastro');
+      setError(err.message || t('registerError'));
     } finally {
       setLoading(false);
     }
@@ -90,11 +90,11 @@ export default function RegisterPage() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>{t('register')}</h2>
+        <h2>{t('registerTitle')}</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleRegister} className="auth-form">
           <div className="form-group">
-            <label>Nickname (único e imutável)</label>
+            <label>{t('nicknameLabel')}</label>
             <input 
               type="text" 
               value={nickname} 
@@ -103,7 +103,7 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label>{t('emailLabel')}</label>
             <input 
               type="email" 
               value={email} 
@@ -112,7 +112,7 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label>Password</label>
+            <label>{t('passwordLabel')}</label>
             <input 
               type="password" 
               value={password} 
@@ -122,11 +122,11 @@ export default function RegisterPage() {
             />
           </div>
           <button type="submit" className="btn primary submit-btn" disabled={loading}>
-            {loading ? 'Cadastrando...' : t('register')}
+            {loading ? t('registering') : t('registerTitle')}
           </button>
         </form>
         <p className="auth-footer">
-          Already have an account? <span onClick={() => router.push('/login')}>Login</span>
+          {t('haveAccount')} <span onClick={() => router.push('/login')}>{t('loginLink')}</span>
         </p>
       </div>
     </div>
