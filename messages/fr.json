@@ -13,9 +13,10 @@
     "results": "Mes Résultats",
     "ranking": "Classement",
     "simulator": "Simulateur",
-    "logout": "Déconnexion",
-    "login": "Connexion",
-    "register": "S'inscrire"
+    "logout": "Se déconnecter",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "leagues": "Ligues"
   },
   "Auth": {
     "loginTitle": "Connexion",
@@ -62,7 +63,30 @@
     "loading": "Chargement du classement...",
     "empty": "Aucun score enregistré pour le moment.",
     "exactScores": "Scores Exacts",
-    "correctWinners": "Vainqueurs Corrects"
+    "correctWinners": "Bons Gagnants"
+  },
+  "Leagues": {
+    "title": "Ligues",
+    "subtitle": "Jouez avec vos amis",
+    "createLeague": "Créer une Ligue",
+    "findLeague": "Trouver une Ligue",
+    "leagueName": "Nom de la Ligue",
+    "createBtn": "Créer",
+    "creating": "Création...",
+    "searchBtn": "Chercher",
+    "searching": "Recherche...",
+    "joinBtn": "Rejoindre la Ligue",
+    "leaveBtn": "Quitter la Ligue",
+    "deleteBtn": "Supprimer la Ligue",
+    "removeUser": "Retirer",
+    "searchPlaceholder": "Ex: Mes Amis 2026",
+    "noLeaguesFound": "Aucune ligue trouvée.",
+    "alreadyInLeague": "Vous êtes déjà dans une ligue.",
+    "dashboardTitle": "Ligue: {name}",
+    "participants": "Participants",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette ligue ? Cette action est irréversible.",
+    "confirmLeave": "Êtes-vous sûr de vouloir quitter cette ligue ?",
+    "confirmRemove": "Êtes-vous sûr de vouloir retirer ce participant ?"
   },
   "Common": {
     "group": "Groupe",

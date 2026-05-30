@@ -61,5 +61,27 @@ service cloud.firestore {
       allow delete: if request.auth != null 
         && resource.data.userId == request.auth.uid;
     }
+
+    // Regra para LeagueNames (usado para garantir unicidade do nome):
+    // Qualquer um pode ler.
+    // Qualquer logado pode criar. Sem update ou delete pelo client (apenas pelo cloud functions/admin se existir, 
+    // mas vamos permitir delete pelo dono da liga se ele deletar a liga?
+    // Como não há transaction fácil client-side, vamos simplificar.
+    match /leagueNames/{nameId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow delete: if request.auth != null;
+      allow update: if false;
+    }
+
+    // Regra para Leagues:
+    match /leagues/{leagueId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      // Atualização permitida para o admin (remover pessoas) ou pelo próprio usuário (entrar/sair).
+      allow update: if request.auth != null;
+      // Exclusão permitida apenas para o admin da liga.
+      allow delete: if request.auth != null && resource.data.adminId == request.auth.uid;
+    }
   }
 }

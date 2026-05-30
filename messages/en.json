@@ -15,7 +15,8 @@
     "simulator": "Simulator",
     "logout": "Logout",
     "login": "Login",
-    "register": "Sign Up"
+    "register": "Sign Up",
+    "leagues": "Leagues"
   },
   "Auth": {
     "loginTitle": "Login",
@@ -63,6 +64,29 @@
     "empty": "No scores registered yet.",
     "exactScores": "Exact Scores",
     "correctWinners": "Correct Winners"
+  },
+  "Leagues": {
+    "title": "Leagues",
+    "subtitle": "Play with your friends",
+    "createLeague": "Create League",
+    "findLeague": "Find League",
+    "leagueName": "League Name",
+    "createBtn": "Create",
+    "creating": "Creating...",
+    "searchBtn": "Search",
+    "searching": "Searching...",
+    "joinBtn": "Join League",
+    "leaveBtn": "Leave League",
+    "deleteBtn": "Delete League",
+    "removeUser": "Remove",
+    "searchPlaceholder": "Ex: My Friends 2026",
+    "noLeaguesFound": "No leagues found.",
+    "alreadyInLeague": "You are already in a league.",
+    "dashboardTitle": "League: {name}",
+    "participants": "Participants",
+    "confirmDelete": "Are you sure you want to delete this league? This cannot be undone.",
+    "confirmLeave": "Are you sure you want to leave this league?",
+    "confirmRemove": "Are you sure you want to remove this participant?"
   },
   "Common": {
     "group": "Group",

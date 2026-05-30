@@ -15,7 +15,8 @@
     "simulator": "Simulatore",
     "logout": "Esci",
     "login": "Accedi",
-    "register": "Registrati"
+    "register": "Registrati",
+    "leagues": "Leghe"
   },
   "Auth": {
     "loginTitle": "Accedi",
@@ -63,6 +64,29 @@
     "empty": "Nessun punteggio registrato finora.",
     "exactScores": "Risultati Esatti",
     "correctWinners": "Vincitori Corretti"
+  },
+  "Leagues": {
+    "title": "Leghe",
+    "subtitle": "Gioca con i tuoi amici",
+    "createLeague": "Crea Lega",
+    "findLeague": "Trova Lega",
+    "leagueName": "Nome della Lega",
+    "createBtn": "Crea",
+    "creating": "Creazione in corso...",
+    "searchBtn": "Cerca",
+    "searching": "Ricerca in corso...",
+    "joinBtn": "Unisciti alla Lega",
+    "leaveBtn": "Lascia la Lega",
+    "deleteBtn": "Elimina Lega",
+    "removeUser": "Rimuovi",
+    "searchPlaceholder": "Es: I Miei Amici 2026",
+    "noLeaguesFound": "Nessuna lega trovata.",
+    "alreadyInLeague": "Sei già in una lega.",
+    "dashboardTitle": "Lega: {name}",
+    "participants": "Partecipanti",
+    "confirmDelete": "Sei sicuro di voler eliminare questa lega? Questa azione è irreversibile.",
+    "confirmLeave": "Sei sicuro di voler lasciare questa lega?",
+    "confirmRemove": "Sei sicuro di voler rimuovere questo partecipante?"
   },
   "Common": {
     "group": "Girone",

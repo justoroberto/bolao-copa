@@ -41,3 +41,12 @@ export interface MatchResult {
   awayScore: number;
   status: 'live' | 'finished';
 }
+
+export interface League {
+  id: string;
+  name: string;
+  nameLower: string;
+  adminId: string;
+  participantIds: string[];
+  createdAt: Date;
+}

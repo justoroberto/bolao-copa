@@ -15,7 +15,8 @@
     "simulator": "Simulador",
     "logout": "Sair",
     "login": "Entrar",
-    "register": "Cadastrar"
+    "register": "Cadastrar",
+    "leagues": "Ligas"
   },
   "Auth": {
     "loginTitle": "Entrar",
@@ -60,9 +61,32 @@
     "user": "Usuário",
     "points": "Pontos",
     "loading": "Carregando ranking...",
-    "empty": "Ainda não há pontuações registradas.",
+    "empty": "Ainda não há palpites para montar o ranking.",
     "exactScores": "Placares Exatos",
     "correctWinners": "Vencedores Corretos"
+  },
+  "Leagues": {
+    "title": "Ligas",
+    "subtitle": "Jogue com seus amigos na mesma liga",
+    "createLeague": "Criar Liga",
+    "findLeague": "Buscar Liga",
+    "leagueName": "Nome da Liga",
+    "createBtn": "Criar",
+    "creating": "Criando...",
+    "searchBtn": "Buscar",
+    "searching": "Buscando...",
+    "joinBtn": "Entrar na Liga",
+    "leaveBtn": "Sair da Liga",
+    "deleteBtn": "Excluir Liga",
+    "removeUser": "Remover",
+    "searchPlaceholder": "Ex: Firma 2026",
+    "noLeaguesFound": "Nenhuma liga encontrada.",
+    "alreadyInLeague": "Você já está em uma liga.",
+    "dashboardTitle": "Liga: {name}",
+    "participants": "Participantes",
+    "confirmDelete": "Tem certeza que deseja excluir esta liga? Esta ação não pode ser desfeita.",
+    "confirmLeave": "Tem certeza que deseja sair desta liga?",
+    "confirmRemove": "Tem certeza que deseja remover este participante?"
   },
   "Common": {
     "group": "Grupo",
