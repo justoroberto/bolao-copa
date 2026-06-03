@@ -113,15 +113,15 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: 2px;
   background-color: var(--text-light);
 }
 
 .midfield-circle {
   position: relative;
-  width: 34px;
-  height: 34px;
-  border: 3px solid var(--text-light);
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--text-light);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -131,8 +131,8 @@ body {
 }
 
 .midfield-dot {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   background-color: var(--text-light);
   border-radius: 50%;
 }
@@ -1258,4 +1258,25 @@ nav a:hover {
 [data-theme="dark"] input:disabled, 
 [data-theme="dark"] .score-input:disabled {
   color: var(--text-light) !important;
+}
+
+/* Additional Mobile Tweaks */
+@media (max-width: 768px) {
+  .predictions-container,
+  .ranking-container,
+  .home-container,
+  .auth-container,
+  .simulator-container {
+    padding: 2rem 1rem !important;
+  }
+
+  h1,
+  .hero h1,
+  .page-header h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .logo-img {
+    height: 50px !important;
+  }
 }

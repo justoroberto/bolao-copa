@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { db } from '@/lib/firebase/config';
-import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { collection, query, orderBy, limit, onSnapshot, getDocs } from 'firebase/firestore';
 import { Ranking } from '@/lib/firebase/models';
 import { useTranslations } from 'next-intl';
 
@@ -12,29 +12,60 @@ export default function RankingPage() {
   const t = useTranslations('Ranking');
 
   useEffect(() => {
-    // Escuta em tempo real a coleção 'rankings', ordenando pelos pontos
-    const rankingsRef = collection(db, 'rankings');
-    const q = query(rankingsRef, orderBy('totalPoints', 'desc'), limit(100));
+    let unsubscribe = () => {};
+    
+    async function init() {
+      try {
+        const usersSnap = await getDocs(collection(db, 'users'));
+        const allUsers = new Map<string, any>();
+        usersSnap.forEach(doc => allUsers.set(doc.id, doc.data()));
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const topRankings: Ranking[] = [];
-      snapshot.forEach((doc) => {
-        topRankings.push(doc.data() as Ranking);
-      });
-      
-      // Client-side tie-breaker sorting
-      topRankings.sort((a, b) => {
-        if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
-        if ((b.exactScores || 0) !== (a.exactScores || 0)) return (b.exactScores || 0) - (a.exactScores || 0);
-        return (b.correctWinners || 0) - (a.correctWinners || 0);
-      });
+        const rankingsRef = collection(db, 'rankings');
+        const q = query(rankingsRef, orderBy('totalPoints', 'desc'), limit(100));
 
-      setRankings(topRankings);
-      setLoading(false);
-    }, (error) => {
-      console.error("Erro ao buscar ranking:", error);
-      setLoading(false);
-    });
+        unsubscribe = onSnapshot(q, (snapshot) => {
+          const topRankings: Ranking[] = [];
+          const fetchedRankingsMap = new Set<string>();
+          
+          snapshot.forEach((doc) => {
+            topRankings.push(doc.data() as Ranking);
+            fetchedRankingsMap.add(doc.id);
+          });
+          
+          allUsers.forEach((userData, userId) => {
+            if (!fetchedRankingsMap.has(userId)) {
+              topRankings.push({
+                userId,
+                nickname: userData.nickname,
+                totalPoints: 0,
+                exactScores: 0,
+                correctWinners: 0
+              });
+            }
+          });
+
+          topRankings.sort((a, b) => {
+            if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+            if ((b.exactScores || 0) !== (a.exactScores || 0)) return (b.exactScores || 0) - (a.exactScores || 0);
+            if ((b.correctWinners || 0) !== (a.correctWinners || 0)) return (b.correctWinners || 0) - (a.correctWinners || 0);
+            const nickA = a.nickname || '';
+            const nickB = b.nickname || '';
+            return nickA.localeCompare(nickB);
+          });
+
+          setRankings(topRankings.slice(0, 100));
+          setLoading(false);
+        }, (error) => {
+          console.error("Erro ao buscar ranking:", error);
+          setLoading(false);
+        });
+      } catch (err) {
+        console.error("Erro inicializando ranking:", err);
+        setLoading(false);
+      }
+    }
+    
+    init();
 
     return () => unsubscribe();
   }, []);

@@ -142,13 +142,42 @@ export async function getLeagueRankings(participantIds: string[]): Promise<Ranki
   });
 
   const resultsArray = await Promise.all(rankingPromises);
-  const allRankings = resultsArray.flat();
+  const fetchedRankings = resultsArray.flat();
+  const fetchedRankingsMap = new Map(fetchedRankings.map(r => [r.userId, r]));
 
-  allRankings.sort((a, b) => {
+  // Preenche quem não tem documento em rankings (nunca pontuou)
+  const missingIds = participantIds.filter(id => !fetchedRankingsMap.has(id));
+  if (missingIds.length > 0) {
+    const missingChunks: string[][] = [];
+    for (let i = 0; i < missingIds.length; i += chunkSize) {
+      missingChunks.push(missingIds.slice(i, i + chunkSize));
+    }
+    const userPromises = missingChunks.map(async (chunk) => {
+      const q = query(collection(db, 'users'), where(documentId(), 'in', chunk));
+      const snap = await getDocs(q);
+      return snap.docs.map(d => {
+        const data = d.data();
+        return {
+          userId: d.id,
+          nickname: data.nickname,
+          totalPoints: 0,
+          exactScores: 0,
+          correctWinners: 0
+        } as Ranking;
+      });
+    });
+    const missingUsersArray = await Promise.all(userPromises);
+    missingUsersArray.flat().forEach(r => fetchedRankings.push(r));
+  }
+
+  fetchedRankings.sort((a, b) => {
     if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
     if ((b.exactScores || 0) !== (a.exactScores || 0)) return (b.exactScores || 0) - (a.exactScores || 0);
-    return (b.correctWinners || 0) - (a.correctWinners || 0);
+    if ((b.correctWinners || 0) !== (a.correctWinners || 0)) return (b.correctWinners || 0) - (a.correctWinners || 0);
+    const nickA = a.nickname || '';
+    const nickB = b.nickname || '';
+    return nickA.localeCompare(nickB);
   });
 
-  return allRankings;
+  return fetchedRankings;
 }

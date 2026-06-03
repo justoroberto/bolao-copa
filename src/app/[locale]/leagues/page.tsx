@@ -188,6 +188,9 @@ export default function LeaguesPage() {
         <header className="page-header" style={{ marginBottom: '2rem' }}>
           <h1>🏆 {t('dashboardTitle', { name: league.name })}</h1>
           <p>{league.participantIds.length} {t('participants')}</p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--highlight-green)', marginTop: '0.2rem', fontWeight: 500 }}>
+            Admin: {leagueRankings.find(r => r.userId === league.adminId)?.nickname || 'Desconhecido'}
+          </p>
           
           {isMyLeague && (
             <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
@@ -229,9 +232,6 @@ export default function LeaguesPage() {
                     <div className="rank-position">{position}°</div>
                     <div className="rank-nickname" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {rank.nickname}
-                      {league.adminId === rank.userId && (
-                        <span style={{ fontSize: '0.7rem', background: 'var(--highlight-green)', color: 'white', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>Admin</span>
-                      )}
                     </div>
                     <div className="rank-stats">
                       <span title={tRanking('exactScores')}>🎯 {rank.exactScores || 0}</span>
