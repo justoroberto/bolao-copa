@@ -43,12 +43,48 @@ export default function PredictionsPage() {
     fetchPredictions();
   }, [user]);
 
+  const handlePredictionChange = React.useCallback((matchId: string, homeScoreStr: string, awayScoreStr: string) => {
+    setPredictions(prev => {
+      const existing = prev[matchId] || { matchId, userId: user?.id || '', id: matchId } as Prediction;
+      const homeScore = homeScoreStr === '' ? NaN : parseInt(homeScoreStr, 10);
+      const awayScore = awayScoreStr === '' ? NaN : parseInt(awayScoreStr, 10);
+      
+      return {
+        ...prev,
+        [matchId]: {
+          ...existing,
+          homeScore: homeScore as number,
+          awayScore: awayScore as number
+        }
+      };
+    });
+  }, [user?.id]);
+
   return (
     <ProtectedRoute>
       <div className="predictions-container">
         <header className="page-header">
           <h1>{t('title')}</h1>
           <p>{t('subtitle')}</p>
+          {!loadingPreds && (() => {
+            const validPredictionsCount = Object.values(predictions).filter(
+              (p) => typeof p.homeScore === 'number' && !isNaN(p.homeScore) &&
+                     typeof p.awayScore === 'number' && !isNaN(p.awayScore)
+            ).length;
+            const progressPercent = Math.round((validPredictionsCount / matches.length) * 100);
+            
+            return (
+              <div className="predictions-progress" style={{ marginTop: '1.5rem', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                  <span>{t('progress', { made: validPredictionsCount, total: matches.length })}</span>
+                  <span>{progressPercent}%</span>
+                </div>
+                <div style={{ width: '100%', height: '8px', background: 'var(--card-bg)', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+                  <div style={{ width: `${progressPercent}%`, height: '100%', background: 'var(--highlight-green)', transition: 'width 0.3s ease' }}></div>
+                </div>
+              </div>
+            );
+          })()}
         </header>
 
         {loadingPreds ? (
@@ -60,6 +96,7 @@ export default function PredictionsPage() {
                 key={match.id}
                 match={match}
                 prediction={predictions[match.id]}
+                onPredictionChange={handlePredictionChange}
               />
             ))}
           </div>

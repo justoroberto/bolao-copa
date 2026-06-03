@@ -52,7 +52,8 @@
     "error": "Erreur d'enregistrement",
     "hint": "Édition ouverte",
     "subtitle": "Faites vos pronostics pour les matchs ci-dessous. Vous avez jusqu'à 1 heure avant chaque match pour modifier.",
-    "loading": "Chargement de vos pronostics..."
+    "loading": "Chargement de vos pronostics...",
+    "progress": "Pronostics effectués : {made} sur {total}"
   },
   "Ranking": {
     "title": "Classement Mondial",
@@ -86,7 +87,11 @@
     "participants": "Participants",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette ligue ? Cette action est irréversible.",
     "confirmLeave": "Êtes-vous sûr de vouloir quitter cette ligue ?",
-    "confirmRemove": "Êtes-vous sûr de vouloir retirer ce participant ?"
+    "confirmRemove": "Êtes-vous sûr de vouloir supprimer ce participant ?",
+    "myLeaguesTab": "Mes Ligues",
+    "viewRanking": "Voir le Classement",
+    "limitReached": "Limite de ligues atteinte (3).",
+    "createLimitReached": "Limite de création atteinte (1)."
   },
   "Common": {
     "group": "Groupe",

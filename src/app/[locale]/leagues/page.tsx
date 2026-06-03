@@ -25,11 +25,10 @@ export default function LeaguesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  const [myLeague, setMyLeague] = useState<League | null>(null);
-  const [rankings, setRankings] = useState<Ranking[]>([]);
+  const [myLeagues, setMyLeagues] = useState<League[]>([]);
   
   // States for Tabs and Viewing
-  const [activeTab, setActiveTab] = useState<'myLeague' | 'create' | 'search' | 'viewLeague'>('create');
+  const [activeTab, setActiveTab] = useState<'myLeagues' | 'create' | 'search' | 'viewLeague'>('create');
   const [viewingLeague, setViewingLeague] = useState<League | null>(null);
   const [viewingRankings, setViewingRankings] = useState<Ranking[]>([]);
   const [newLeagueName, setNewLeagueName] = useState('');
@@ -49,15 +48,13 @@ export default function LeaguesPage() {
     setError('');
     try {
       const leagues = await getUserLeagues(user.id);
+      setMyLeagues(leagues);
+      const userCanCreate = !leagues.some(l => l.adminId === user.id);
+
       if (leagues.length > 0) {
-        const league = leagues[0];
-        setMyLeague(league);
-        const leagueRanks = await getLeagueRankings(league.participantIds);
-        setRankings(leagueRanks);
-        setActiveTab('myLeague');
+        setActiveTab('myLeagues');
       } else {
-        setMyLeague(null);
-        setActiveTab('create');
+        setActiveTab(userCanCreate ? 'create' : 'search');
       }
       const all = await getAllLeagues();
       setAllLeagues(all);
@@ -90,7 +87,7 @@ export default function LeaguesPage() {
     setError('');
     try {
       await joinLeague(leagueId, user.id);
-      setActiveTab('myLeague');
+      setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
       setError(err.message);
@@ -99,15 +96,15 @@ export default function LeaguesPage() {
     }
   };
 
-  const handleLeaveLeague = async () => {
-    if (!user || !myLeague) return;
+  const handleLeaveLeague = async (leagueId: string) => {
+    if (!user) return;
     if (!window.confirm(t('confirmLeave'))) return;
     
     setActionLoading(true);
     setError('');
     try {
-      await leaveLeague(myLeague.id, user.id);
-      setActiveTab('search');
+      await leaveLeague(leagueId, user.id);
+      setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
       setError(err.message);
@@ -116,15 +113,15 @@ export default function LeaguesPage() {
     }
   };
 
-  const handleDeleteLeague = async () => {
-    if (!user || !myLeague) return;
+  const handleDeleteLeague = async (leagueId: string) => {
+    if (!user) return;
     if (!window.confirm(t('confirmDelete'))) return;
     
     setActionLoading(true);
     setError('');
     try {
-      await deleteLeague(myLeague.id, user.id);
-      setActiveTab('create');
+      await deleteLeague(leagueId, user.id);
+      setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
       setError(err.message);
@@ -133,14 +130,21 @@ export default function LeaguesPage() {
     }
   };
 
-  const handleRemoveParticipant = async (participantId: string) => {
-    if (!user || !myLeague) return;
+  const handleRemoveParticipant = async (leagueId: string, participantId: string) => {
+    if (!user) return;
     if (!window.confirm(t('confirmRemove'))) return;
 
     setActionLoading(true);
     setError('');
     try {
-      await removeParticipant(myLeague.id, user.id, participantId);
+      await removeParticipant(leagueId, user.id, participantId);
+      
+      // Atualizar ranking se estivermos vendo a mesma liga
+      if (viewingLeague?.id === leagueId) {
+        const newRanks = await getLeagueRankings(viewingLeague.participantIds.filter(id => id !== participantId));
+        setViewingRankings(newRanks);
+      }
+      
       await loadInitialData();
     } catch (err: any) {
       setError(err.message);
@@ -188,21 +192,22 @@ export default function LeaguesPage() {
           {isMyLeague && (
             <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
               {isAdmin ? (
-                <button onClick={handleDeleteLeague} disabled={actionLoading} className="btn secondary" style={{ borderColor: 'var(--highlight-red)', color: 'var(--highlight-red)' }}>
+                <button onClick={() => handleDeleteLeague(league.id)} disabled={actionLoading} className="btn secondary" style={{ borderColor: 'var(--highlight-red)', color: 'var(--highlight-red)' }}>
                   {t('deleteBtn')}
                 </button>
               ) : (
-                <button onClick={handleLeaveLeague} disabled={actionLoading} className="btn secondary" style={{ borderColor: 'var(--highlight-red)', color: 'var(--highlight-red)' }}>
+                <button onClick={() => handleLeaveLeague(league.id)} disabled={actionLoading} className="btn secondary" style={{ borderColor: 'var(--highlight-red)', color: 'var(--highlight-red)' }}>
                   {t('leaveBtn')}
                 </button>
               )}
             </div>
           )}
-          {!isMyLeague && !myLeague && (
-             <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-               <button onClick={() => handleJoinLeague(league.id)} disabled={actionLoading} className="btn primary">
+          {!isMyLeague && (
+             <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+               <button onClick={() => handleJoinLeague(league.id)} disabled={actionLoading || !canJoinLeague} className="btn primary">
                  {t('joinBtn')}
                </button>
+               {!canJoinLeague && <span style={{ fontSize: '0.8rem', color: 'var(--highlight-red)' }}>{t('limitReached')}</span>}
              </div>
           )}
         </header>
@@ -236,7 +241,7 @@ export default function LeaguesPage() {
                       <div>{rank.totalPoints} <span>pts</span></div>
                       {isAdmin && rank.userId !== user?.id && (
                         <button 
-                          onClick={() => handleRemoveParticipant(rank.userId)} 
+                          onClick={() => handleRemoveParticipant(league.id, rank.userId)} 
                           title={t('removeUser')}
                           style={{ background: 'transparent', border: 'none', color: 'var(--highlight-red)', cursor: 'pointer', fontSize: '1.2rem' }}
                         >
@@ -254,6 +259,8 @@ export default function LeaguesPage() {
     );
   };
   const filteredLeagues = allLeagues.filter(l => l.nameLower.includes(searchQuery.toLowerCase()));
+  const canCreateLeague = !myLeagues.some(l => l.adminId === user?.id);
+  const canJoinLeague = myLeagues.length < 3;
 
   return (
     <ProtectedRoute>
@@ -265,16 +272,16 @@ export default function LeaguesPage() {
 
         {error && <p className="error-message" style={{ textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
 
-        <div className="league-tabs" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '2rem' }}>
-          {myLeague && (
+        <div className="league-tabs" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '2rem', flexWrap: 'wrap' }}>
+          {myLeagues.length > 0 && (
             <button 
-              className={`btn ${activeTab === 'myLeague' ? 'primary' : 'secondary'}`} 
-              onClick={() => setActiveTab('myLeague')}
+              className={`btn ${activeTab === 'myLeagues' ? 'primary' : 'secondary'}`} 
+              onClick={() => setActiveTab('myLeagues')}
             >
-              Minha Liga
+              {t('myLeaguesTab')}
             </button>
           )}
-          {!myLeague && (
+          {canCreateLeague && (
             <button 
               className={`btn ${activeTab === 'create' ? 'primary' : 'secondary'}`} 
               onClick={() => setActiveTab('create')}
@@ -295,11 +302,30 @@ export default function LeaguesPage() {
           )}
         </div>
 
-        {activeTab === 'myLeague' && myLeague && renderDashboard(myLeague, rankings, true)}
+        {activeTab === 'myLeagues' && (
+          <div className="leagues-list" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {myLeagues.map(league => (
+              <div key={league.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: 'var(--card-bg)' }}>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{league.name}</h3>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{league.participantIds.length} {t('participants')}</p>
+                </div>
+                <button 
+                  className="btn secondary" 
+                  onClick={() => handleViewLeague(league)}
+                  disabled={actionLoading}
+                  style={{ padding: '0.5rem 1rem' }}
+                >
+                  {t('viewRanking')}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         
-        {activeTab === 'viewLeague' && viewingLeague && renderDashboard(viewingLeague, viewingRankings, myLeague?.id === viewingLeague.id)}
+        {activeTab === 'viewLeague' && viewingLeague && renderDashboard(viewingLeague, viewingRankings, myLeagues.some(l => l.id === viewingLeague.id))}
 
-        {activeTab === 'create' && !myLeague && (
+        {activeTab === 'create' && canCreateLeague && (
           <div className="auth-card" style={{ margin: '0 auto', maxWidth: '400px' }}>
             <h2>{t('createLeague')}</h2>
             <form onSubmit={handleCreateLeague} className="auth-form" style={{ textAlign: 'left' }}>
@@ -348,14 +374,15 @@ export default function LeaguesPage() {
                         disabled={actionLoading}
                         style={{ padding: '0.5rem 1rem' }}
                       >
-                        Ver Ranking
+                        {t('viewRanking')}
                       </button>
-                      {!myLeague && (
+                      {!myLeagues.some(l => l.id === league.id) && (
                         <button 
                           className="btn primary" 
                           onClick={() => handleJoinLeague(league.id)}
-                          disabled={actionLoading}
-                          style={{ padding: '0.5rem 1rem' }}
+                          disabled={actionLoading || !canJoinLeague}
+                          style={{ padding: '0.5rem 1rem', opacity: canJoinLeague ? 1 : 0.5 }}
+                          title={!canJoinLeague ? t('limitReached') : ''}
                         >
                           {t('joinBtn')}
                         </button>

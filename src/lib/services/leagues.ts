@@ -2,7 +2,8 @@ import { db } from '@/lib/firebase/config';
 import { collection, doc, getDoc, setDoc, updateDoc, query, where, getDocs, deleteDoc, documentId } from 'firebase/firestore';
 import { League, Ranking } from '@/lib/firebase/models';
 
-export const MAX_LEAGUES_PER_USER = 1;
+export const MAX_LEAGUES_PER_USER = 3;
+export const MAX_CREATED_LEAGUES_PER_USER = 1;
 
 export async function getUserLeagues(userId: string): Promise<League[]> {
   const q = query(collection(db, 'leagues'), where('participantIds', 'array-contains', userId));
@@ -36,6 +37,11 @@ export async function createLeague(name: string, userId: string): Promise<League
   const userLeagues = await getUserLeagues(userId);
   if (userLeagues.length >= MAX_LEAGUES_PER_USER) {
     throw new Error(`Você já atingiu o limite máximo de ligas (${MAX_LEAGUES_PER_USER})`);
+  }
+
+  const createdLeagues = userLeagues.filter(l => l.adminId === userId);
+  if (createdLeagues.length >= MAX_CREATED_LEAGUES_PER_USER) {
+    throw new Error(`Você já atingiu o limite de criação de ligas (${MAX_CREATED_LEAGUES_PER_USER})`);
   }
 
   const nameDocRef = doc(db, 'leagueNames', nameLower);

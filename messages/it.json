@@ -52,7 +52,8 @@
     "error": "Errore durante il salvataggio",
     "hint": "Modifica aperta",
     "subtitle": "Fai i tuoi pronostici per le partite sottostanti. Hai fino a 1 ora prima di ogni partita per modificare.",
-    "loading": "Caricamento dei tuoi pronostici..."
+    "loading": "Caricamento dei tuoi pronostici...",
+    "progress": "Pronostici effettuati: {made} su {total}"
   },
   "Ranking": {
     "title": "Classifica Globale",
@@ -84,9 +85,13 @@
     "alreadyInLeague": "Sei già in una lega.",
     "dashboardTitle": "Lega: {name}",
     "participants": "Partecipanti",
-    "confirmDelete": "Sei sicuro di voler eliminare questa lega? Questa azione è irreversibile.",
+    "confirmDelete": "Sei sicuro di voler eliminare questa lega? Questa azione non può essere annullata.",
     "confirmLeave": "Sei sicuro di voler lasciare questa lega?",
-    "confirmRemove": "Sei sicuro di voler rimuovere questo partecipante?"
+    "confirmRemove": "Sei sicuro di voler rimuovere questo partecipante?",
+    "myLeaguesTab": "Le Mie Leghe",
+    "viewRanking": "Vedi Classifica",
+    "limitReached": "Limite di leghe raggiunto (3).",
+    "createLimitReached": "Limite di creazione raggiunto (1)."
   },
   "Common": {
     "group": "Girone",

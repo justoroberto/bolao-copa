@@ -1,5 +1,5 @@
 import { db } from '../firebase/config';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { Prediction } from '../firebase/models';
 
 export async function savePrediction(
@@ -21,4 +21,10 @@ export async function savePrediction(
     awayScore,
     updatedAt: new Date(),
   }, { merge: true }); // Salva ou sobrescreve mantendo resto caso tenha
+}
+
+export async function deletePrediction(userId: string, matchId: string): Promise<void> {
+  const predictionId = `${userId}_${matchId}`;
+  const predictionRef = doc(db, 'predictions', predictionId);
+  await deleteDoc(predictionRef);
 }

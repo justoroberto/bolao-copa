@@ -3,16 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { Match, Prediction } from '@/lib/firebase/models';
 import { canEditPrediction } from '@/lib/services/score';
-import { savePrediction } from '@/lib/services/predictions';
+import { savePrediction, deletePrediction } from '@/lib/services/predictions';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface PredictionCardProps {
   match: Match;
   prediction?: Prediction;
+  onPredictionChange?: (matchId: string, homeScore: string, awayScore: string) => void;
 }
 
-export default function PredictionCard({ match, prediction }: PredictionCardProps) {
+export default function PredictionCard({ match, prediction, onPredictionChange }: PredictionCardProps) {
   const { user } = useAuth();
   const t = useTranslations('Predictions');
   const tTeams = useTranslations('Teams');
@@ -24,6 +25,7 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
   const [awayScore, setAwayScore] = useState<string>(prediction?.awayScore?.toString() || '');
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle'|'success'|'error'>('idle');
+  const [hasEdited, setHasEdited] = useState(false);
 
   // Verifica bloqueio de tempo
   const isLocked = !canEditPrediction(match.startTime) || match.status !== 'scheduled';
@@ -46,6 +48,8 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
 
   // Salva apenas se o valor for um número válido
   const handleScoreChange = async (type: 'home' | 'away', value: string) => {
+    setHasEdited(true);
+    
     // Permite vazio
     if (value === '') {
       type === 'home' ? setHomeScore('') : setAwayScore('');
@@ -59,26 +63,48 @@ export default function PredictionCard({ match, prediction }: PredictionCardProp
     }
   };
 
+  // Efeito para sincronizar as mudanças de input para o componente pai em tempo real
+  useEffect(() => {
+    if (onPredictionChange) {
+      onPredictionChange(match.id, homeScore, awayScore);
+    }
+  }, [homeScore, awayScore, match.id]);
+
   // Efeito para debounce ao salvar, evitando muitos requests seguidos
   useEffect(() => {
-    if (homeScore === '' || awayScore === '' || isLocked || !user) return;
+    if (isLocked || !user || !hasEdited) return;
     
-    // Cancela o Timeout anterior
     const timer = setTimeout(async () => {
-      setIsSaving(true);
-      setSaveStatus('idle');
-      try {
-        await savePrediction(user.id, match.id, parseInt(homeScore), parseInt(awayScore));
-        setSaveStatus('success');
-      } catch (err) {
-        setSaveStatus('error');
-      } finally {
-        setIsSaving(false);
+      // Se ambos os valores estão preenchidos, salva no banco
+      if (homeScore !== '' && awayScore !== '') {
+        setIsSaving(true);
+        setSaveStatus('idle');
+        try {
+          await savePrediction(user.id, match.id, parseInt(homeScore), parseInt(awayScore));
+          setSaveStatus('success');
+        } catch (err) {
+          setSaveStatus('error');
+        } finally {
+          setIsSaving(false);
+        }
+      } 
+      // Se um dos valores está vazio, remove o palpite incompleto do banco
+      else if (prediction && (prediction.homeScore !== undefined || prediction.awayScore !== undefined)) {
+        setIsSaving(true);
+        setSaveStatus('idle');
+        try {
+          await deletePrediction(user.id, match.id);
+          setSaveStatus('idle'); // Retorna ao estado inicial visual
+        } catch (err) {
+          setSaveStatus('error');
+        } finally {
+          setIsSaving(false);
+        }
       }
     }, 1000); // Aguarda 1 segundo após parar de digitar
 
     return () => clearTimeout(timer);
-  }, [homeScore, awayScore, match.id, user, isLocked]);
+  }, [homeScore, awayScore, match.id, user, isLocked, prediction]);
 
   return (
     <div className={`prediction-card ${isLocked ? 'locked' : ''}`}>

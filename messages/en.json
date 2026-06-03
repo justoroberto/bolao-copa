@@ -52,7 +52,8 @@
     "error": "Error saving",
     "hint": "Editing open",
     "subtitle": "Make your predictions for the matches below. You have up to 1 hour before each match to edit.",
-    "loading": "Loading your predictions..."
+    "loading": "Loading your predictions...",
+    "progress": "Predictions made: {made} of {total}"
   },
   "Ranking": {
     "title": "Global Ranking",
@@ -84,9 +85,13 @@
     "alreadyInLeague": "You are already in a league.",
     "dashboardTitle": "League: {name}",
     "participants": "Participants",
-    "confirmDelete": "Are you sure you want to delete this league? This cannot be undone.",
+    "confirmDelete": "Are you sure you want to delete this league? This action cannot be undone.",
     "confirmLeave": "Are you sure you want to leave this league?",
-    "confirmRemove": "Are you sure you want to remove this participant?"
+    "confirmRemove": "Are you sure you want to remove this participant?",
+    "myLeaguesTab": "My Leagues",
+    "viewRanking": "View Ranking",
+    "limitReached": "League limit reached (3).",
+    "createLimitReached": "Creation limit reached (1)."
   },
   "Common": {
     "group": "Group",

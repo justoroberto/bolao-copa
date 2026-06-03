@@ -52,7 +52,8 @@
     "error": "Error al guardar",
     "hint": "Edición abierta",
     "subtitle": "Haz tus pronósticos en los siguientes partidos. Tienes hasta 1 hora antes de cada partido para editar.",
-    "loading": "Cargando tus pronósticos..."
+    "loading": "Cargando tus pronósticos...",
+    "progress": "Pronósticos realizados: {made} de {total}"
   },
   "Ranking": {
     "title": "Ranking Global",
@@ -84,9 +85,13 @@
     "alreadyInLeague": "Ya estás en una liga.",
     "dashboardTitle": "Liga: {name}",
     "participants": "Participantes",
-    "confirmDelete": "¿Estás seguro de que quieres eliminar esta liga? Esto no se puede deshacer.",
-    "confirmLeave": "¿Estás seguro de que quieres salir de esta liga?",
-    "confirmRemove": "¿Estás seguro de que quieres eliminar a este participante?"
+    "confirmDelete": "¿Estás seguro de que deseas eliminar esta liga? Esta acción no se puede deshacer.",
+    "confirmLeave": "¿Estás seguro de que deseas salir de esta liga?",
+    "confirmRemove": "¿Estás seguro de que deseas eliminar a este participante?",
+    "myLeaguesTab": "Mis Ligas",
+    "viewRanking": "Ver Ranking",
+    "limitReached": "Límite de ligas alcanzado (3).",
+    "createLimitReached": "Límite de creación alcanzado (1)."
   },
   "Common": {
     "group": "Grupo",

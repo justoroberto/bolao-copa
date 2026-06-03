@@ -52,7 +52,8 @@
     "error": "Erro ao salvar",
     "hint": "Edição aberta",
     "subtitle": "Dê seus palpites nos jogos abaixo. Você tem até 1 hora antes de cada partida para editar.",
-    "loading": "Carregando seus palpites..."
+    "loading": "Carregando seus palpites...",
+    "progress": "Palpites feitos: {made} de {total}"
   },
   "Ranking": {
     "title": "Ranking Global",
@@ -86,7 +87,11 @@
     "participants": "Participantes",
     "confirmDelete": "Tem certeza que deseja excluir esta liga? Esta ação não pode ser desfeita.",
     "confirmLeave": "Tem certeza que deseja sair desta liga?",
-    "confirmRemove": "Tem certeza que deseja remover este participante?"
+    "confirmRemove": "Tem certeza que deseja remover este participante?",
+    "myLeaguesTab": "Minhas Ligas",
+    "viewRanking": "Ver Ranking",
+    "limitReached": "Limite de ligas atingido (3).",
+    "createLimitReached": "Limite de criação atingido (1)."
   },
   "Common": {
     "group": "Grupo",
