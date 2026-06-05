@@ -64,7 +64,8 @@ export default function Header() {
                 <Link href="/predictions" onClick={closeMenu}>{t('predictions')}</Link>
                 <Link href="/ranking" onClick={closeMenu}>{t('ranking')}</Link>
                 {user && <Link href="/leagues" onClick={closeMenu}>{t('leagues')}</Link>}
-                <Link href="/simulator" onClick={closeMenu}>Simulador</Link>
+                <Link href="/simulator" onClick={closeMenu}>{t('simulator') || 'Simulador'}</Link>
+                <Link href="/rules" onClick={closeMenu}>{t('rules') || 'Regras'}</Link>
               </nav>
               <div className="user-actions">
                 <div className="header-controls">

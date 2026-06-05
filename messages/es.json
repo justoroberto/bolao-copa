@@ -13,10 +13,28 @@
     "results": "Mis Resultados",
     "ranking": "Ranking",
     "simulator": "Simulador",
+    "rules": "Reglas",
     "logout": "Salir",
     "login": "Entrar",
     "register": "Registrarse",
     "leagues": "Ligas"
+  },
+  "Rules": {
+    "title": "Reglas y Funcionamiento",
+    "subtitle": "Entiende cómo funciona la quiniela del Mundial",
+    "scoringTitle": "1. Sistema de Puntuación",
+    "scoringDesc": "Ganas puntos en cada partido según la precisión de tu pronóstico:",
+    "scoreExact": "Marcador Exacto: 3 Puntos",
+    "scoreWinner": "Ganador Correcto o Empate: 1 Punto",
+    "scoreWrong": "Resultado incorrecto: 0 Puntos",
+    "deadlineTitle": "2. Cierre de Pronósticos",
+    "deadlineDesc": "Para garantizar la equidad, los pronósticos se bloquean exactamente 15 minutos antes de que empiece cada partido. Después de este tiempo, no se pueden guardar cambios.",
+    "mechanicsTitle": "3. Fases del Torneo",
+    "mechanicsDesc": "La quiniela sigue la estructura real del Mundial 2026. Inicialmente, solo están disponibles los partidos de la Fase de Grupos. Una vez que esta fase termine, el sistema desbloqueará automáticamente los dieciseisavos de final, y así sucesivamente.",
+    "leaguesTitle": "4. Ligas de Amigos",
+    "leaguesDesc": "Puedes unirte a un máximo de 3 ligas privadas, pero solo puedes crear (ser Administrador de) 1 liga. En caso de empate a puntos, los criterios de desempate son: más marcadores exactos, más ganadores correctos, y finalmente el orden alfabético.",
+    "simulatorTitle": "5. El Simulador",
+    "simulatorDesc": "El Simulador es una zona libre para probar posibilidades. Los resultados aquí no afectan a tus pronósticos oficiales guardados. Puedes simular toda la fase de grupos para ver cómo quedaría el cuadro eliminatorio."
   },
   "Auth": {
     "loginTitle": "Entrar",
@@ -51,7 +69,7 @@
     "saved": "✓ Guardado automáticamente",
     "error": "Error al guardar",
     "hint": "Edición abierta",
-    "subtitle": "Haz tus pronósticos en los siguientes partidos. Tienes hasta 1 hora antes de cada partido para editar.",
+    "subtitle": "Haz tus pronósticos en los siguientes partidos. Tienes hasta 15 minutos antes de cada partido para editar.",
     "loading": "Cargando tus pronósticos...",
     "progress": "Pronósticos realizados: {made} de {total}"
   },

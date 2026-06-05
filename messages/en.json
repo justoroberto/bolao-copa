@@ -13,10 +13,28 @@
     "results": "My Results",
     "ranking": "Ranking",
     "simulator": "Simulator",
+    "rules": "Rules",
     "logout": "Logout",
     "login": "Login",
     "register": "Sign Up",
     "leagues": "Leagues"
+  },
+  "Rules": {
+    "title": "Rules and How it Works",
+    "subtitle": "Understand how the World Cup pool works",
+    "scoringTitle": "1. Scoring System",
+    "scoringDesc": "You earn points for each match based on the accuracy of your prediction:",
+    "scoreExact": "Exact Score: 3 Points",
+    "scoreWinner": "Correct Winner or Draw: 1 Point",
+    "scoreWrong": "Wrong result: 0 Points",
+    "deadlineTitle": "2. Prediction Deadlines",
+    "deadlineDesc": "To ensure fairness, predictions for each match are locked exactly 15 minutes before kick-off. After this time, no changes can be saved, and your active prediction will be used for scoring.",
+    "mechanicsTitle": "3. Tournament Stages",
+    "mechanicsDesc": "The pool follows the real structure of the 2026 World Cup. Initially, only Group Stage matches are available to predict. Once this stage concludes and the real qualified teams are determined, the system will automatically unlock the Round of 32 matches, followed by the Round of 16, and so on.",
+    "leaguesTitle": "4. Private Leagues",
+    "leaguesDesc": "You can join up to 3 private leagues to compete with friends, but you can only create (be Admin of) 1 league. In case of a points tie in the ranking, tiebreakers are: most exact scores, most correct winners, and finally, alphabetical order of the nickname.",
+    "simulatorTitle": "5. The Simulator",
+    "simulatorDesc": "The Simulator is a sandbox area for you to play with mathematical possibilities. Scores entered in the simulator do not affect your official predictions saved in the database. There you can project the entire group stage to see which teams would qualify and how the knockout bracket would look based on your scores."
   },
   "Auth": {
     "loginTitle": "Login",
@@ -51,7 +69,7 @@
     "saved": "✓ Saved automatically",
     "error": "Error saving",
     "hint": "Editing open",
-    "subtitle": "Make your predictions for the matches below. You have up to 1 hour before each match to edit.",
+    "subtitle": "Make your predictions for the matches below. You have up to 15 minutes before each match to edit.",
     "loading": "Loading your predictions...",
     "progress": "Predictions made: {made} of {total}"
   },

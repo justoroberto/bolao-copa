@@ -13,10 +13,28 @@
     "results": "I Miei Risultati",
     "ranking": "Classifica",
     "simulator": "Simulatore",
+    "rules": "Regole",
     "logout": "Esci",
     "login": "Accedi",
     "register": "Registrati",
     "leagues": "Leghe"
+  },
+  "Rules": {
+    "title": "Regole e Funzionamento",
+    "subtitle": "Scopri come funzionano i pronostici",
+    "scoringTitle": "1. Sistema di Punteggio",
+    "scoringDesc": "Guadagni punti in ogni partita in base alla precisione del tuo pronostico:",
+    "scoreExact": "Risultato Esatto: 3 Punti",
+    "scoreWinner": "Vincitore Corretto o Pareggio: 1 Punto",
+    "scoreWrong": "Risultato errato: 0 Punti",
+    "deadlineTitle": "2. Chiusura dei Pronostici",
+    "deadlineDesc": "Per garantire la correttezza, i pronostici vengono bloccati esattamente 15 minuti prima del calcio d'inizio. Nessuna modifica verrà salvata dopo questo orario.",
+    "mechanicsTitle": "3. Fasi del Torneo",
+    "mechanicsDesc": "Il gioco segue la struttura reale dei Mondiali 2026. All'inizio sono disponibili solo i gironi. Terminati i gironi, il sistema sbloccherà i sedicesimi di finale e così via.",
+    "leaguesTitle": "4. Leghe Private",
+    "leaguesDesc": "Puoi partecipare a un massimo di 3 leghe private, ma puoi creare solo 1 lega. In caso di parità di punti, i criteri sono: risultati esatti, vincitori corretti, ordine alfabetico.",
+    "simulatorTitle": "5. Il Simulatore",
+    "simulatorDesc": "Il simulatore è uno spazio per testare scenari. I risultati non influenzano i pronostici salvati nel database. Puoi proiettare la fase a gironi per visualizzare il tabellone ad eliminazione diretta."
   },
   "Auth": {
     "loginTitle": "Accedi",
@@ -51,7 +69,7 @@
     "saved": "✓ Salvato automaticamente",
     "error": "Errore durante il salvataggio",
     "hint": "Modifica aperta",
-    "subtitle": "Fai i tuoi pronostici per le partite sottostanti. Hai fino a 1 ora prima di ogni partita per modificare.",
+    "subtitle": "Fai i tuoi pronostici per le partite sottostanti. Hai fino a 15 minuti prima di ogni partita per modificare.",
     "loading": "Caricamento dei tuoi pronostici...",
     "progress": "Pronostici effettuati: {made} su {total}"
   },

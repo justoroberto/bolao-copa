@@ -38,12 +38,12 @@ export function calculatePoints(match: Match, prediction: Prediction | null): nu
 
 /**
  * Verifica se um palpite pode ser editado.
- * Regra: Palpites podem ser editados até 1 hora antes da partida.
+ * Regra: Palpites podem ser editados até 15 minutos antes da partida.
  */
 export function canEditPrediction(matchStartTime: Date): boolean {
   const now = new Date();
-  const oneHourInMs = 1 * 60 * 60 * 1000;
+  const lockTimeInMs = 15 * 60 * 1000; // 15 minutos
   const timeDifferenceOptions = matchStartTime.getTime() - now.getTime();
   
-  return timeDifferenceOptions > oneHourInMs;
+  return timeDifferenceOptions > lockTimeInMs;
 }

@@ -13,10 +13,28 @@
     "results": "Mes Résultats",
     "ranking": "Classement",
     "simulator": "Simulateur",
+    "rules": "Règles",
     "logout": "Se déconnecter",
     "login": "Se connecter",
     "register": "S'inscrire",
     "leagues": "Ligues"
+  },
+  "Rules": {
+    "title": "Règles et Fonctionnement",
+    "subtitle": "Comprendre comment fonctionne les pronostics",
+    "scoringTitle": "1. Système de Points",
+    "scoringDesc": "Vous gagnez des points à chaque match selon la précision de votre pronostic :",
+    "scoreExact": "Score Exact : 3 Points",
+    "scoreWinner": "Bon Vainqueur ou Nul : 1 Point",
+    "scoreWrong": "Mauvais résultat : 0 Point",
+    "deadlineTitle": "2. Clôture des Pronostics",
+    "deadlineDesc": "Pour garantir l'équité, les pronostics sont verrouillés exactement 15 minutes avant le coup d'envoi. Après ce délai, aucune modification ne sera enregistrée.",
+    "mechanicsTitle": "3. Phases du Tournoi",
+    "mechanicsDesc": "Le système suit la structure réelle de la Coupe du Monde 2026. Initialement, seuls les matchs de la phase de groupes sont disponibles. Une fois terminée, le système débloquera les 16e de finale, et ainsi de suite.",
+    "leaguesTitle": "4. Ligues d'Amis",
+    "leaguesDesc": "Vous pouvez rejoindre jusqu'à 3 ligues privées, mais vous ne pouvez créer qu'une seule ligue. En cas d'égalité, les départages sont : scores exacts, bons vainqueurs, puis ordre alphabétique.",
+    "simulatorTitle": "5. Le Simulateur",
+    "simulatorDesc": "Le simulateur est une zone de test pour jouer avec les probabilités. Les scores entrés ici n'affectent pas vos pronostics officiels. Vous pouvez simuler les phases de groupes pour voir le tableau final."
   },
   "Auth": {
     "loginTitle": "Connexion",
@@ -51,7 +69,7 @@
     "saved": "✓ Enregistré automatiquement",
     "error": "Erreur d'enregistrement",
     "hint": "Édition ouverte",
-    "subtitle": "Faites vos pronostics pour les matchs ci-dessous. Vous avez jusqu'à 1 heure avant chaque match pour modifier.",
+    "subtitle": "Faites vos pronostics pour les matchs ci-dessous. Vous avez jusqu'à 15 minutes avant chaque match pour modifier.",
     "loading": "Chargement de vos pronostics...",
     "progress": "Pronostics effectués : {made} sur {total}"
   },
