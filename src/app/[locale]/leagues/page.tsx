@@ -305,19 +305,23 @@ export default function LeaguesPage() {
         {activeTab === 'myLeagues' && (
           <div className="leagues-list" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {myLeagues.map(league => (
-              <div key={league.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: 'var(--card-bg)' }}>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{league.name}</h3>
-                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{league.participantIds.length} {t('participants')}</p>
+              <div key={league.id} className="league-card">
+                <div className="league-card-content">
+                  <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary-color)' }}>{league.name}</h3>
+                  <p style={{ margin: '0.2rem 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    👥 {league.participantIds.length} {t('participants')}
+                  </p>
                 </div>
-                <button 
-                  className="btn secondary" 
-                  onClick={() => handleViewLeague(league)}
-                  disabled={actionLoading}
-                  style={{ padding: '0.5rem 1rem' }}
-                >
-                  {t('viewRanking')}
-                </button>
+                <div className="league-card-actions">
+                  <button 
+                    className="btn secondary" 
+                    onClick={() => handleViewLeague(league)}
+                    disabled={actionLoading}
+                    style={{ padding: '0.6rem 1rem' }}
+                  >
+                    {t('viewRanking')}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -362,17 +366,19 @@ export default function LeaguesPage() {
                 <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>{t('noLeaguesFound')}</p>
               ) : (
                 filteredLeagues.map(league => (
-                  <div key={league.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '8px', background: 'var(--card-bg)' }}>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{league.name}</h3>
-                      <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{league.participantIds.length} {t('participants')}</p>
+                  <div key={league.id} className="league-card">
+                    <div className="league-card-content">
+                      <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary-color)' }}>{league.name}</h3>
+                      <p style={{ margin: '0.2rem 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        👥 {league.participantIds.length} {t('participants')}
+                      </p>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className="league-card-actions">
                       <button 
                         className="btn secondary" 
                         onClick={() => handleViewLeague(league)}
                         disabled={actionLoading}
-                        style={{ padding: '0.5rem 1rem' }}
+                        style={{ padding: '0.6rem 1rem' }}
                       >
                         {t('viewRanking')}
                       </button>
@@ -381,7 +387,7 @@ export default function LeaguesPage() {
                           className="btn primary" 
                           onClick={() => handleJoinLeague(league.id)}
                           disabled={actionLoading || !canJoinLeague}
-                          style={{ padding: '0.5rem 1rem', opacity: canJoinLeague ? 1 : 0.5 }}
+                          style={{ padding: '0.6rem 1rem', opacity: canJoinLeague ? 1 : 0.5 }}
                           title={!canJoinLeague ? t('limitReached') : ''}
                         >
                           {t('joinBtn')}
