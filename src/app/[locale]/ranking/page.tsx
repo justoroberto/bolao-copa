@@ -5,6 +5,7 @@ import { db } from '@/lib/firebase/config';
 import { collection, query, orderBy, limit, onSnapshot, getDocs } from 'firebase/firestore';
 import { Ranking } from '@/lib/firebase/models';
 import { useTranslations } from 'next-intl';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 export default function RankingPage() {
   const [rankings, setRankings] = useState<Ranking[]>([]);
@@ -71,49 +72,51 @@ export default function RankingPage() {
   }, []);
 
   return (
-    <div className="ranking-container">
-      <header className="page-header">
-        <h1>🏆 {t('title')}</h1>
-        <p>{t('subtitle')}</p>
-      </header>
+    <ProtectedRoute>
+      <div className="ranking-container">
+        <header className="page-header">
+          <h1>🏆 {t('title')}</h1>
+          <p>{t('subtitle')}</p>
+        </header>
 
-      {loading ? (
-        <div className="loading-state">{t('loading')}</div>
-      ) : (
-        <div className="ranking-board">
-          {rankings.length === 0 ? (
-            <p className="empty-ranking">{t('empty')}</p>
-          ) : (
-            <ul className="ranking-list">
-              {rankings.map((rank, index) => {
-                const position = index + 1;
-                let positionClass = '';
-                if (position === 1) positionClass = 'gold';
-                else if (position === 2) positionClass = 'silver';
-                else if (position === 3) positionClass = 'bronze';
+        {loading ? (
+          <div className="loading-state">{t('loading')}</div>
+        ) : (
+          <div className="ranking-board">
+            {rankings.length === 0 ? (
+              <p className="empty-ranking">{t('empty')}</p>
+            ) : (
+              <ul className="ranking-list">
+                {rankings.map((rank, index) => {
+                  const position = index + 1;
+                  let positionClass = '';
+                  if (position === 1) positionClass = 'gold';
+                  else if (position === 2) positionClass = 'silver';
+                  else if (position === 3) positionClass = 'bronze';
 
-                return (
-                  <li key={rank.userId} className={`ranking-item ${positionClass}`}>
-                    <div className="rank-position">
-                      {position}°
-                    </div>
-                    <div className="rank-nickname">
-                      {rank.nickname}
-                    </div>
-                    <div className="rank-stats">
-                      <span title={t('exactScores')}>🎯 {rank.exactScores || 0}</span>
-                      <span title={t('correctWinners')}>✔️ {rank.correctWinners || 0}</span>
-                    </div>
-                    <div className="rank-points">
-                      {rank.totalPoints} <span>pts</span>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-      )}
-    </div>
+                  return (
+                    <li key={rank.userId} className={`ranking-item ${positionClass}`}>
+                      <div className="rank-position">
+                        {position}°
+                      </div>
+                      <div className="rank-nickname">
+                        {rank.nickname}
+                      </div>
+                      <div className="rank-stats">
+                        <span title={t('exactScores')}>🎯 {rank.exactScores || 0}</span>
+                        <span title={t('correctWinners')}>✔️ {rank.correctWinners || 0}</span>
+                      </div>
+                      <div className="rank-points">
+                        {rank.totalPoints} <span>pts</span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
+    </ProtectedRoute>
   );
 }

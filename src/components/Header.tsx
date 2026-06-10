@@ -61,8 +61,8 @@ export default function Header() {
             <div className="mobile-overlay" onClick={closeMenu}></div>
             <div className="nav-panel">
               <nav>
-                <Link href="/predictions" onClick={closeMenu}>{t('predictions')}</Link>
-                <Link href="/ranking" onClick={closeMenu}>{t('ranking')}</Link>
+                {user && <Link href="/predictions" onClick={closeMenu}>{t('predictions')}</Link>}
+                {user && <Link href="/ranking" onClick={closeMenu}>{t('ranking')}</Link>}
                 {user && <Link href="/leagues" onClick={closeMenu}>{t('leagues')}</Link>}
                 <Link href="/simulator" onClick={closeMenu}>{t('simulator') || 'Simulador'}</Link>
                 <Link href="/rules" onClick={closeMenu}>{t('rules') || 'Regras'}</Link>
