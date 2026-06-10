@@ -6,11 +6,13 @@ import { auth } from '@/lib/firebase/config';
 import { sendEmailVerification } from 'firebase/auth';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations, useLocale } from 'next-intl';
+import { getErrorMessage } from '@/lib/utils/errorHandler';
 
 export default function VerifyEmailPage() {
   const { user } = useAuth();
   const router = useRouter();
   const t = useTranslations('Auth');
+  const tErrors = useTranslations('Errors');
   const locale = useLocale();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -25,11 +27,7 @@ export default function VerifyEmailPage() {
       await sendEmailVerification(auth.currentUser);
       setMessage(t('verificationSent'));
     } catch (err: any) {
-      if (err.code === 'auth/too-many-requests') {
-        setError(t('tooManyRequests'));
-      } else {
-        setError(err.message || 'Error sending email');
-      }
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setLoading(false);
     }
@@ -47,7 +45,7 @@ export default function VerifyEmailPage() {
         setError(t('emailNotVerifiedYet'));
       }
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setLoading(false);
     }

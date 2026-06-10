@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { getErrorMessage } from '@/lib/utils/errorHandler';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const router = useRouter();
   const tAuth = useTranslations('Auth');
   const tHome = useTranslations('Home');
+  const tErrors = useTranslations('Errors');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/predictions');
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer login');
+      setError(getErrorMessage(err, tErrors));
     }
   };
 

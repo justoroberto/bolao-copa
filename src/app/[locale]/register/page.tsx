@@ -7,6 +7,7 @@ import { auth, db } from '@/lib/firebase/config';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { getErrorMessage } from '@/lib/utils/errorHandler';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const t = useTranslations('Auth');
+  const tErrors = useTranslations('Errors');
   const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -84,7 +86,7 @@ export default function RegisterPage() {
 
       router.push('/verify-email');
     } catch (err: any) {
-      setError(err.message || t('registerError'));
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setLoading(false);
     }

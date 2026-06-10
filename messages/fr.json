@@ -19,6 +19,19 @@
     "register": "S'inscrire",
     "leagues": "Ligues"
   },
+  "Errors": {
+    "invalidEmail": "Email invalide.",
+    "userNotFound": "Utilisateur introuvable.",
+    "wrongPassword": "Email ou mot de passe incorrect.",
+    "emailInUse": "L'email est déjà utilisé.",
+    "weakPassword": "Le mot de passe doit comporter au moins 6 caractères.",
+    "tooManyRequests": "Trop de tentatives. Veuillez réessayer plus tard.",
+    "nicknameTaken": "Ce pseudo est déjà utilisé.",
+    "leagueNotFound": "Ligue introuvable ou code invalide.",
+    "alreadyMember": "Vous participez déjà à cette ligue.",
+    "maxLeagues": "Vous avez atteint la limite de ligues (3).",
+    "unknown": "Une erreur inconnue est survenue. Veuillez réessayer."
+  },
   "Rules": {
     "title": "Règles et Fonctionnement",
     "subtitle": "Comprendre comment fonctionne les pronostics",

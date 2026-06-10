@@ -19,6 +19,19 @@
     "register": "Registrati",
     "leagues": "Leghe"
   },
+  "Errors": {
+    "invalidEmail": "Email non valida.",
+    "userNotFound": "Utente non trovato.",
+    "wrongPassword": "Email o password errati.",
+    "emailInUse": "L'email è già in uso.",
+    "weakPassword": "La password deve contenere almeno 6 caratteri.",
+    "tooManyRequests": "Troppi tentativi. Riprova più tardi.",
+    "nicknameTaken": "Questo nickname è già in uso.",
+    "leagueNotFound": "Lega non trovata o codice non valido.",
+    "alreadyMember": "Partecipi già a questa lega.",
+    "maxLeagues": "Hai raggiunto il limite di leghe (3).",
+    "unknown": "Si è verificato un errore sconosciuto. Riprova."
+  },
   "Rules": {
     "title": "Regole e Funzionamento",
     "subtitle": "Scopri come funzionano i pronostici",

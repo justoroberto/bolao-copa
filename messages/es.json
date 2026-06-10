@@ -19,6 +19,19 @@
     "register": "Registrarse",
     "leagues": "Ligas"
   },
+  "Errors": {
+    "invalidEmail": "Correo inválido.",
+    "userNotFound": "Usuario no encontrado.",
+    "wrongPassword": "Usuario o contraseña incorrectos.",
+    "emailInUse": "El correo ya está en uso.",
+    "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
+    "tooManyRequests": "Demasiados intentos. Intenta de nuevo más tarde.",
+    "nicknameTaken": "Este apodo ya está en uso.",
+    "leagueNotFound": "Liga no encontrada o código inválido.",
+    "alreadyMember": "Ya participas en esta liga.",
+    "maxLeagues": "Has alcanzado el límite de ligas (3).",
+    "unknown": "Ocurrió un error desconocido. Intenta de nuevo."
+  },
   "Rules": {
     "title": "Reglas y Funcionamiento",
     "subtitle": "Entiende cómo funciona la quiniela del Mundial",

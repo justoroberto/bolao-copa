@@ -19,6 +19,19 @@
     "register": "Sign Up",
     "leagues": "Leagues"
   },
+  "Errors": {
+    "invalidEmail": "Invalid email.",
+    "userNotFound": "User not found.",
+    "wrongPassword": "Incorrect email or password.",
+    "emailInUse": "Email is already in use.",
+    "weakPassword": "Password must be at least 6 characters.",
+    "tooManyRequests": "Too many attempts. Please try again later.",
+    "nicknameTaken": "This nickname is already in use.",
+    "leagueNotFound": "League not found or invalid code.",
+    "alreadyMember": "You are already a member of this league.",
+    "maxLeagues": "You have reached the maximum number of leagues (3).",
+    "unknown": "An unknown error occurred. Please try again."
+  },
   "Rules": {
     "title": "Rules and How it Works",
     "subtitle": "Understand how the World Cup pool works",

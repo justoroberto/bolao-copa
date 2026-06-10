@@ -15,12 +15,14 @@ import {
   removeParticipant
 } from '@/lib/services/leagues';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { getErrorMessage } from '@/lib/utils/errorHandler';
 
 export default function LeaguesPage() {
   const { user } = useAuth();
   const t = useTranslations('Leagues');
   const tCommon = useTranslations('Common');
   const tRanking = useTranslations('Ranking');
+  const tErrors = useTranslations('Errors');
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -59,7 +61,7 @@ export default function LeaguesPage() {
       const all = await getAllLeagues();
       setAllLeagues(all);
     } catch (err: any) {
-      setError(err.message || 'Erro ao carregar dados');
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setLoading(false);
     }
@@ -75,7 +77,7 @@ export default function LeaguesPage() {
       setNewLeagueName('');
       await loadInitialData();
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }
@@ -90,7 +92,7 @@ export default function LeaguesPage() {
       setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }
@@ -107,7 +109,7 @@ export default function LeaguesPage() {
       setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }
@@ -124,7 +126,7 @@ export default function LeaguesPage() {
       setActiveTab('myLeagues');
       await loadInitialData();
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }
@@ -147,7 +149,7 @@ export default function LeaguesPage() {
       
       await loadInitialData();
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }
@@ -174,7 +176,7 @@ export default function LeaguesPage() {
       setViewingRankings(leagueRanks);
       setActiveTab('viewLeague');
     } catch (err: any) {
-      setError(err.message);
+      setError(getErrorMessage(err, tErrors));
     } finally {
       setActionLoading(false);
     }

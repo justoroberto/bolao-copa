@@ -19,6 +19,19 @@
     "register": "Cadastrar",
     "leagues": "Ligas"
   },
+  "Errors": {
+    "invalidEmail": "E-mail inválido.",
+    "userNotFound": "Usuário não encontrado.",
+    "wrongPassword": "Usuário ou senha incorretos.",
+    "emailInUse": "O e-mail já está em uso.",
+    "weakPassword": "A senha deve ter pelo menos 6 caracteres.",
+    "tooManyRequests": "Muitas tentativas. Tente novamente mais tarde.",
+    "nicknameTaken": "Este nickname já está em uso.",
+    "leagueNotFound": "Liga não encontrada ou código inválido.",
+    "alreadyMember": "Você já participa desta liga.",
+    "maxLeagues": "Você atingiu o limite de ligas (3).",
+    "unknown": "Ocorreu um erro desconhecido. Tente novamente."
+  },
   "Rules": {
     "title": "Regras e Funcionamento",
     "subtitle": "Entenda como funciona o Bolão da Copa",
