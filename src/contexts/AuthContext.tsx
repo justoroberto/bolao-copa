@@ -45,12 +45,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           if (userDoc.exists()) {
             const userData = userDoc.data();
+            const creationTimeStr = firebaseUser.metadata.creationTime;
+            const userCreatedAt = creationTimeStr 
+              ? new Date(creationTimeStr) 
+              : (userData.createdAt?.toDate() || new Date());
+
             setUser({
               id: firebaseUser.uid,
               email: firebaseUser.email || '',
               nickname: userData.nickname || '',
               emailVerified: firebaseUser.emailVerified,
-              createdAt: userData.createdAt?.toDate() || new Date(),
+              createdAt: userCreatedAt,
             });
           } else {
             console.error("Documento de usuário não encontrado após o cadastro.");

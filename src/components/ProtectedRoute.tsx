@@ -12,9 +12,14 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     if (!loading) {
       if (!user) {
         router.push('/login');
-      } else if (user && user.emailVerified === false) {
-        // Redireciona para verificação, mas apenas se estiver logado
-        router.push('/verify-email');
+      } else {
+        const REQUIRE_VERIFICATION_AFTER = new Date('2026-06-10T01:40:00Z');
+        const isNewUser = !user.createdAt || user.createdAt >= REQUIRE_VERIFICATION_AFTER;
+        
+        if (isNewUser && user.emailVerified === false) {
+          // Redireciona para verificação, mas apenas se estiver logado e for um novo cadastro
+          router.push('/verify-email');
+        }
       }
     }
   }, [user, loading, router]);
@@ -26,8 +31,12 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
       </div>
     );
   }
-  // Impede renderização dupla se não tiver verificado
-  if (user && user.emailVerified === false) {
+  // Data a partir da qual o e-mail de verificação se tornou obrigatório
+  const REQUIRE_VERIFICATION_AFTER = new Date('2026-06-10T01:40:00Z');
+  const isNewUser = !user?.createdAt || user.createdAt >= REQUIRE_VERIFICATION_AFTER;
+
+  // Impede renderização dupla se for usuário novo e não tiver verificado
+  if (user && isNewUser && user.emailVerified === false) {
     return null;
   }
 
