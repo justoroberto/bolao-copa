@@ -49,6 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               id: firebaseUser.uid,
               email: firebaseUser.email || '',
               nickname: userData.nickname || '',
+              emailVerified: firebaseUser.emailVerified,
               createdAt: userData.createdAt?.toDate() || new Date(),
             });
           } else {

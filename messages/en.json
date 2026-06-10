@@ -51,7 +51,15 @@
     "recaptchaNotReady": "ReCaptcha is not ready. Reload the page.",
     "botDetected": "Security failure (Bot detected). Try again.",
     "nicknameInUse": "This nickname is already in use. Choose another.",
-    "registerError": "Error during registration"
+    "registerError": "Error during registration",
+    "verifyEmailTitle": "Verify your Email",
+    "verifyEmailText": "We have sent a confirmation link to the address:",
+    "verificationSent": "Verification email sent! Check your inbox and spam folder.",
+    "tooManyRequests": "Too many attempts. Please wait a bit before trying again.",
+    "emailNotVerifiedYet": "Email not verified yet. Click the link we sent you.",
+    "alreadyVerifiedBtn": "I have already verified my email",
+    "resendEmailBtn": "Resend verification email",
+    "loading": "Loading..."
   },
   "Simulator": {
     "title": "World Cup 2026 Simulator",

@@ -2,6 +2,7 @@ export interface User {
   id: string;
   email: string;
   nickname: string;
+  emailVerified?: boolean;
   createdAt: Date;
   isAdmin?: boolean;
 }

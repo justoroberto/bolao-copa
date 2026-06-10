@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase/config';
 import { useRouter } from '@/i18n/routing';
@@ -79,7 +79,10 @@ export default function RegisterPage() {
         createdAt: new Date()
       });
 
-      router.push('/predictions');
+      // 5. Enviar e-mail de verificação
+      await sendEmailVerification(user);
+
+      router.push('/verify-email');
     } catch (err: any) {
       setError(err.message || t('registerError'));
     } finally {

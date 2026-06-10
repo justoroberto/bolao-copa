@@ -51,7 +51,15 @@
     "recaptchaNotReady": "ReCaptcha não está pronto. Recarregue a página.",
     "botDetected": "Falha de segurança (Bot detectado). Tente novamente.",
     "nicknameInUse": "Este nickname já está em uso. Escolha outro.",
-    "registerError": "Erro ao fazer cadastro"
+    "registerError": "Erro ao realizar cadastro",
+    "verifyEmailTitle": "Verifique seu E-mail",
+    "verifyEmailText": "Enviamos um link de confirmação para o endereço:",
+    "verificationSent": "E-mail de verificação enviado! Cheque sua caixa de entrada e spam.",
+    "tooManyRequests": "Muitas tentativas. Aguarde um pouco antes de tentar novamente.",
+    "emailNotVerifiedYet": "E-mail ainda não verificado. Clique no link que enviamos.",
+    "alreadyVerifiedBtn": "Já verifiquei meu e-mail",
+    "resendEmailBtn": "Reenviar e-mail de verificação",
+    "loading": "Carregando..."
   },
   "Simulator": {
     "title": "Simulador Copa 2026",

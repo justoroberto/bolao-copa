@@ -9,8 +9,13 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
+    if (!loading) {
+      if (!user) {
+        router.push('/login');
+      } else if (user && user.emailVerified === false) {
+        // Redireciona para verificação, mas apenas se estiver logado
+        router.push('/verify-email');
+      }
     }
   }, [user, loading, router]);
 
@@ -20,6 +25,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         <div className="spinner"></div>
       </div>
     );
+  }
+  // Impede renderização dupla se não tiver verificado
+  if (user && user.emailVerified === false) {
+    return null;
   }
 
   return <>{children}</>;

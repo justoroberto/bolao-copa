@@ -51,7 +51,15 @@
     "recaptchaNotReady": "ReCaptcha non è pronto. Ricarica la pagina.",
     "botDetected": "Errore di sicurezza (Bot rilevato). Riprova.",
     "nicknameInUse": "Questo nickname è già in uso. Scegline un altro.",
-    "registerError": "Errore durante la registrazione"
+    "registerError": "Errore durante la registrazione",
+    "verifyEmailTitle": "Verifica la tua Email",
+    "verifyEmailText": "Abbiamo inviato un link di conferma all'indirizzo:",
+    "verificationSent": "Email di verifica inviata! Controlla la posta in arrivo e lo spam.",
+    "tooManyRequests": "Troppi tentativi. Attendi un momento prima di riprovare.",
+    "emailNotVerifiedYet": "Email non ancora verificata. Clicca sul link che ti abbiamo inviato.",
+    "alreadyVerifiedBtn": "Ho già verificato la mia email",
+    "resendEmailBtn": "Invia nuovamente l'email di verifica",
+    "loading": "Caricamento..."
   },
   "Simulator": {
     "title": "Simulatore Mondiali 2026",

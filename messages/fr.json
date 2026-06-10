@@ -51,7 +51,15 @@
     "recaptchaNotReady": "ReCaptcha n'est pas prêt. Rechargez la page.",
     "botDetected": "Échec de sécurité (Bot détecté). Réessayez.",
     "nicknameInUse": "Ce pseudo est déjà utilisé. Choisissez-en un autre.",
-    "registerError": "Erreur lors de l'inscription"
+    "registerError": "Erreur lors de l'inscription",
+    "verifyEmailTitle": "Vérifiez votre Email",
+    "verifyEmailText": "Nous avons envoyé un lien de confirmation à l'adresse :",
+    "verificationSent": "Email de vérification envoyé ! Vérifiez votre boîte de réception et vos spams.",
+    "tooManyRequests": "Trop de tentatives. Veuillez patienter avant de réessayer.",
+    "emailNotVerifiedYet": "L'email n'est pas encore vérifié. Cliquez sur le lien que nous avons envoyé.",
+    "alreadyVerifiedBtn": "J'ai déjà vérifié mon email",
+    "resendEmailBtn": "Renvoyer l'email de vérification",
+    "loading": "Chargement..."
   },
   "Simulator": {
     "title": "Simulateur Coupe du Monde 2026",

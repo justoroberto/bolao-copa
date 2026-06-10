@@ -50,8 +50,16 @@
     "nicknameRequired": "Nickname es obligatorio",
     "recaptchaNotReady": "ReCaptcha no está listo. Recarga la página.",
     "botDetected": "Fallo de seguridad (Bot detectado). Inténtalo de nuevo.",
-    "nicknameInUse": "Este nickname ya está en uso. Elige otro.",
-    "registerError": "Error al registrarse"
+    "nicknameInUse": "Este apodo ya está en uso. Elige otro.",
+    "registerError": "Error al registrarse",
+    "verifyEmailTitle": "Verifica tu Correo",
+    "verifyEmailText": "Hemos enviado un enlace de confirmación a la dirección:",
+    "verificationSent": "¡Correo de verificación enviado! Revisa tu bandeja de entrada y spam.",
+    "tooManyRequests": "Demasiados intentos. Espera un poco antes de volver a intentarlo.",
+    "emailNotVerifiedYet": "El correo aún no ha sido verificado. Haz clic en el enlace que enviamos.",
+    "alreadyVerifiedBtn": "Ya he verificado mi correo",
+    "resendEmailBtn": "Reenviar correo de verificación",
+    "loading": "Cargando..."
   },
   "Simulator": {
     "title": "Simulador del Mundial 2026",
