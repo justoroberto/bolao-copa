@@ -136,18 +136,30 @@ export default function LiveMatchBanner({ participants, type }: LiveMatchBannerP
                 </div>
                 <div className="live-users-list">
                   {users.length === 0 && <p style={{textAlign:'center', padding:'1rem'}}>Nenhum palpite encontrado.</p>}
-                  {users.map((u, idx) => (
-                    <div key={u.userId} className={`live-user-row points-${u.points}`}>
-                      <span className="live-user-rank">{idx + 1}º</span>
-                      <span className="live-user-name">{u.nickname}</span>
-                      <span className="live-user-pred">
-                        {u.predHome !== null ? `[${u.predHome} x ${u.predAway}]` : 'Sem palpite'}
-                      </span>
-                      <span className="live-user-points">
-                        +{u.points} pts
-                      </span>
-                    </div>
-                  ))}
+                  {(() => {
+                    let currentRank = 1;
+                    let prevPoints = -1;
+                    return users.map((u, idx) => {
+                      if (idx === 0) prevPoints = u.points;
+                      else if (u.points !== prevPoints) {
+                        currentRank = idx + 1;
+                        prevPoints = u.points;
+                      }
+                      
+                      return (
+                        <div key={u.userId} className={`live-user-row points-${u.points}`}>
+                          <span className="live-user-rank">{currentRank}º</span>
+                          <span className="live-user-name">{u.nickname}</span>
+                          <span className="live-user-pred">
+                            {u.predHome !== null ? `[${u.predHome} x ${u.predAway}]` : 'Sem palpite'}
+                          </span>
+                          <span className="live-user-points">
+                            +{u.points} pts
+                          </span>
+                        </div>
+                      );
+                    });
+                  })()}
                 </div>
               </div>
             )}

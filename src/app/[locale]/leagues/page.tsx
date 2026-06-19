@@ -228,15 +228,25 @@ export default function LeaguesPage() {
             <p className="empty-ranking">{tRanking('empty')}</p>
           ) : (
             <ul className="ranking-list">
-              {leagueRankings.map((rank, index) => {
-                const position = index + 1;
-                let positionClass = '';
-                if (position === 1) positionClass = 'gold';
-                else if (position === 2) positionClass = 'silver';
-                else if (position === 3) positionClass = 'bronze';
+              {(() => {
+                let currentRank = 1;
+                let prevStats = '';
+                return leagueRankings.map((rank, index) => {
+                  const stats = `${rank.totalPoints}-${rank.exactScores || 0}-${rank.correctWinners || 0}`;
+                  if (index === 0) prevStats = stats;
+                  else if (stats !== prevStats) {
+                    currentRank = index + 1;
+                    prevStats = stats;
+                  }
+                  const position = currentRank;
+                  
+                  let positionClass = '';
+                  if (position === 1) positionClass = 'gold';
+                  else if (position === 2) positionClass = 'silver';
+                  else if (position === 3) positionClass = 'bronze';
 
-                return (
-                  <li key={rank.userId} className={`ranking-item ${positionClass}`}>
+                  return (
+                    <li key={rank.userId} className={`ranking-item ${positionClass}`}>
                     <div className="rank-position">{position}°</div>
                     <div className="rank-nickname" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {rank.nickname}
@@ -259,7 +269,7 @@ export default function LeaguesPage() {
                     </div>
                   </li>
                 );
-              })}
+              });})()}
             </ul>
           )}
         </div>

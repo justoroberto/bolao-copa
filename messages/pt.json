@@ -45,7 +45,7 @@
     "mechanicsTitle": "3. Fases da Competição",
     "mechanicsDesc": "O Bolão acompanha a estrutura real da Copa do Mundo 2026. Inicialmente, apenas os jogos da Fase de Grupos estão disponíveis. Assim que essa fase for concluída e os classificados reais definidos, o sistema irá liberar automaticamente os palpites para os jogos da fase Dezesseis-avos de Final. Em seguida, Oitavas, Quartas e assim por diante.",
     "leaguesTitle": "4. Ligas de Amigos",
-    "leaguesDesc": "Você pode participar de até 3 ligas privadas para competir com seus amigos, mas só pode ser o Criador (Admin) de 1 liga. Em caso de empate de pontos no ranking da liga, os critérios de desempate são, em ordem: maior número de placares exatos, maior número de resultados corretos, e por fim, a ordem alfabética do nickname.",
+    "leaguesDesc": "Você pode participar de até 3 ligas privadas para competir com seus amigos, mas só pode ser o Criador (Admin) de 1 liga. Em caso de empate de pontos no ranking da liga, os critérios de desempate são, em ordem: maior número de placares exatos e maior número de resultados (vencedor) corretos. Se o empate persistir integralmente, os usuários dividirão a mesma posição no ranking.",
     "simulatorTitle": "5. O Simulador",
     "simulatorDesc": "O Simulador é uma área livre para você brincar com possibilidades matemáticas. Os resultados inseridos no simulador não afetam seus palpites oficiais salvos no banco de dados. Lá você pode projetar toda a fase de grupos para ver quais seleções se classificariam e como o chaveamento do mata-mata ficaria com base nos seus placares."
   },
