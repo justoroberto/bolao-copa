@@ -40,7 +40,7 @@ export const WORLD_CUP_MATCHES: Match[] = [
   // Grupo C
   { id: 'match_C1', group: 'Grupo C', homeTeam: '🇧🇷 Brasil', awayTeam: '🇲🇦 Marrocos', startTime: new Date('2026-06-13T22:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_C2', group: 'Grupo C', homeTeam: '🇭🇹 Haiti', awayTeam: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escócia', startTime: new Date('2026-06-14T00:30:00Z'), stage: 'group', status: 'scheduled' },
-  { id: 'match_C3', group: 'Grupo C', homeTeam: '🇧🇷 Brasil', awayTeam: '🇭🇹 Haiti', startTime: new Date('2026-06-20T01:00:00Z'), stage: 'group', status: 'scheduled' },
+  { id: 'match_C3', group: 'Grupo C', homeTeam: '🇧🇷 Brasil', awayTeam: '🇭🇹 Haiti', startTime: new Date('2026-06-20T00:30:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_C4', group: 'Grupo C', homeTeam: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escócia', awayTeam: '🇲🇦 Marrocos', startTime: new Date('2026-06-19T22:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_C5', group: 'Grupo C', homeTeam: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escócia', awayTeam: '🇧🇷 Brasil', startTime: new Date('2026-06-24T22:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_C6', group: 'Grupo C', homeTeam: '🇲🇦 Marrocos', awayTeam: '🇭🇹 Haiti', startTime: new Date('2026-06-24T22:00:00Z'), stage: 'group', status: 'scheduled' },

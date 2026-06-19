@@ -6,6 +6,7 @@ import { collection, query, orderBy, limit, onSnapshot, getDocs } from 'firebase
 import { Ranking } from '@/lib/firebase/models';
 import { useTranslations } from 'next-intl';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import LiveMatchBanner from '@/components/LiveMatchBanner';
 
 export default function RankingPage() {
   const [rankings, setRankings] = useState<Ranking[]>([]);
@@ -78,6 +79,13 @@ export default function RankingPage() {
           <h1>🏆 {t('title')}</h1>
           <p>{t('subtitle')}</p>
         </header>
+
+        {!loading && rankings.length > 0 && (
+          <LiveMatchBanner 
+            participants={rankings.map(r => ({ userId: r.userId, nickname: r.nickname }))} 
+            type="global" 
+          />
+        )}
 
         {loading ? (
           <div className="loading-state">{t('loading')}</div>

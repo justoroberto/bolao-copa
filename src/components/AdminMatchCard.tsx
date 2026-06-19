@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Match, MatchResult } from '@/lib/firebase/models';
-import { saveMatchResult, deleteMatchResult } from '@/lib/services/ranking';
+import { saveMatchResult, deleteMatchResult, setLiveMatchScore } from '@/lib/services/ranking';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface AdminMatchCardProps {
@@ -19,7 +19,7 @@ export default function AdminMatchCard({ match, matchResult }: AdminMatchCardPro
   const [awayScore, setAwayScore] = useState<string>(matchResult?.awayScore?.toString() || '');
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<'idle'|'success'|'error'>('idle');
+  const [saveStatus, setSaveStatus] = useState<'idle'|'success'|'error'|'live-success'>('idle');
 
   const formattedDate = match.startTime.toLocaleString(locale, { 
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
@@ -54,6 +54,22 @@ export default function AdminMatchCard({ match, matchResult }: AdminMatchCardPro
     try {
       await saveMatchResult(match.id, parseInt(homeScore), parseInt(awayScore));
       setSaveStatus('success');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    } catch (err) {
+      console.error(err);
+      setSaveStatus('error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSaveLive = async () => {
+    if (homeScore === '' || awayScore === '') return;
+    setIsSaving(true);
+    setSaveStatus('idle');
+    try {
+      await setLiveMatchScore(match.id, parseInt(homeScore), parseInt(awayScore));
+      setSaveStatus('live-success');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } catch (err) {
       console.error(err);
@@ -134,7 +150,26 @@ export default function AdminMatchCard({ match, matchResult }: AdminMatchCardPro
             transition: 'opacity 0.2s'
           }}
         >
-          {isSaving ? 'Salvando e Calculando...' : 'Salvar Resultado Oficial'}
+          {isSaving ? 'Salvando e Calculando...' : 'Salvar Resultado Oficial (Fim de Jogo)'}
+        </button>
+
+        <button 
+          onClick={handleSaveLive} 
+          disabled={isSaving || isDeleting || homeScore === '' || awayScore === ''}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+            color: 'var(--color-primary)',
+            border: '2px solid var(--color-primary)',
+            borderRadius: '4px',
+            cursor: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 'not-allowed' : 'pointer',
+            opacity: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 0.5 : 1,
+            fontWeight: 'bold',
+            width: '100%',
+            transition: 'opacity 0.2s'
+          }}
+        >
+          {isSaving ? 'Atualizando...' : 'Atualizar Placar Ao Vivo (Em Andamento)'}
         </button>
 
         {matchResult?.status === 'finished' && (
@@ -158,8 +193,10 @@ export default function AdminMatchCard({ match, matchResult }: AdminMatchCardPro
 
         <div className="status-indicator">
           {saveStatus === 'success' && <span className="saved text-green">✓ Oficializado & Ranking Atualizado!</span>}
+          {saveStatus === 'live-success' && <span className="saved text-blue" style={{ color: 'var(--highlight-blue)' }}>✓ Placar Ao Vivo Atualizado!</span>}
           {saveStatus === 'error' && <span className="error text-red">Erro (Você é Admin?)</span>}
           {matchResult?.status === 'finished' && saveStatus !== 'success' && <span className="hint">Partida finalizada</span>}
+          {matchResult?.status === 'live' && saveStatus !== 'live-success' && <span className="hint" style={{ color: 'var(--highlight-blue)' }}>Ao Vivo</span>}
         </div>
       </div>
     </div>

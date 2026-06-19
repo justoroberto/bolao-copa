@@ -118,6 +118,23 @@ export async function saveMatchResult(matchId: string, homeScore: number, awaySc
 }
 
 /**
+ * Salva o resultado temporário (ao vivo) de uma partida.
+ * Não recalcula o ranking geral definitivo, apenas atualiza o estado para que os componentes ao vivo reajam.
+ */
+export async function setLiveMatchScore(matchId: string, homeScore: number, awayScore: number): Promise<void> {
+  const result: MatchResult = {
+    matchId,
+    homeScore,
+    awayScore,
+    status: 'live'
+  };
+  const ref = doc(db, 'matchResults', matchId);
+  const batch = writeBatch(db);
+  batch.set(ref, result);
+  await batch.commit();
+}
+
+/**
  * Remove o resultado oficial de uma partida e recalcula o ranking.
  */
 export async function deleteMatchResult(matchId: string): Promise<void> {

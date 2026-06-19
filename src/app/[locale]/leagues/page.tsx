@@ -15,6 +15,7 @@ import {
   removeParticipant
 } from '@/lib/services/leagues';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import LiveMatchBanner from '@/components/LiveMatchBanner';
 import { getErrorMessage } from '@/lib/utils/errorHandler';
 
 export default function LeaguesPage() {
@@ -216,6 +217,11 @@ export default function LeaguesPage() {
              </div>
           )}
         </header>
+
+        <LiveMatchBanner 
+          participants={leagueRankings.map(r => ({ userId: r.userId, nickname: r.nickname }))} 
+          type="league" 
+        />
 
         <div className="ranking-board">
           {leagueRankings.length === 0 ? (
