@@ -65,7 +65,7 @@ export const WORLD_CUP_MATCHES: Match[] = [
   { id: 'match_F1', group: 'Grupo F', homeTeam: '🇳🇱 Holanda', awayTeam: '🇯🇵 Japão', startTime: new Date('2026-06-14T20:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_F2', group: 'Grupo F', homeTeam: '🇸🇪 Suécia', awayTeam: '🇹🇳 Tunísia', startTime: new Date('2026-06-15T02:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_F3', group: 'Grupo F', homeTeam: '🇳🇱 Holanda', awayTeam: '🇸🇪 Suécia', startTime: new Date('2026-06-20T17:00:00Z'), stage: 'group', status: 'scheduled' },
-  { id: 'match_F4', group: 'Grupo F', homeTeam: '🇹🇳 Tunísia', awayTeam: '🇯🇵 Japão', startTime: new Date('2026-06-20T04:00:00Z'), stage: 'group', status: 'scheduled' },
+  { id: 'match_F4', group: 'Grupo F', homeTeam: '🇹🇳 Tunísia', awayTeam: '🇯🇵 Japão', startTime: new Date('2026-06-21T04:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_F5', group: 'Grupo F', homeTeam: '🇹🇳 Tunísia', awayTeam: '🇳🇱 Holanda', startTime: new Date('2026-06-25T23:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_F6', group: 'Grupo F', homeTeam: '🇯🇵 Japão', awayTeam: '🇸🇪 Suécia', startTime: new Date('2026-06-25T23:00:00Z'), stage: 'group', status: 'scheduled' },
 
