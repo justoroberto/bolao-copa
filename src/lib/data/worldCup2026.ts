@@ -97,7 +97,7 @@ export const WORLD_CUP_MATCHES: Match[] = [
   { id: 'match_J1', group: 'Grupo J', homeTeam: '🇦🇷 Argentina', awayTeam: '🇩🇿 Argélia', startTime: new Date('2026-06-17T01:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_J2', group: 'Grupo J', homeTeam: '🇦🇹 Áustria', awayTeam: '🇯🇴 Jordânia', startTime: new Date('2026-06-17T04:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_J3', group: 'Grupo J', homeTeam: '🇦🇷 Argentina', awayTeam: '🇦🇹 Áustria', startTime: new Date('2026-06-22T17:00:00Z'), stage: 'group', status: 'scheduled' },
-  { id: 'match_J4', group: 'Grupo J', homeTeam: '🇯🇴 Jordânia', awayTeam: '🇩🇿 Argélia', startTime: new Date('2026-06-22T03:00:00Z'), stage: 'group', status: 'scheduled' },
+  { id: 'match_J4', group: 'Grupo J', homeTeam: '🇯🇴 Jordânia', awayTeam: '🇩🇿 Argélia', startTime: new Date('2026-06-23T03:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_J5', group: 'Grupo J', homeTeam: '🇯🇴 Jordânia', awayTeam: '🇦🇷 Argentina', startTime: new Date('2026-06-28T02:00:00Z'), stage: 'group', status: 'scheduled' },
   { id: 'match_J6', group: 'Grupo J', homeTeam: '🇩🇿 Argélia', awayTeam: '🇦🇹 Áustria', startTime: new Date('2026-06-28T02:00:00Z'), stage: 'group', status: 'scheduled' },
 
