@@ -179,14 +179,14 @@ export function generateKnockoutBracket(
   };
 
   const round16: KnockoutMatch[] = [
-    { id: 'match_89', homeTeam: getWinner('match_73', round32), awayTeam: getWinner('match_75', round32), stage: 'round16', nextMatchId: 'match_97' },
-    { id: 'match_90', homeTeam: getWinner('match_74', round32), awayTeam: getWinner('match_76', round32), stage: 'round16', nextMatchId: 'match_97' },
-    { id: 'match_91', homeTeam: getWinner('match_81', round32), awayTeam: getWinner('match_83', round32), stage: 'round16', nextMatchId: 'match_98' },
-    { id: 'match_92', homeTeam: getWinner('match_82', round32), awayTeam: getWinner('match_84', round32), stage: 'round16', nextMatchId: 'match_98' },
-    { id: 'match_93', homeTeam: getWinner('match_77', round32), awayTeam: getWinner('match_79', round32), stage: 'round16', nextMatchId: 'match_99' },
-    { id: 'match_94', homeTeam: getWinner('match_78', round32), awayTeam: getWinner('match_80', round32), stage: 'round16', nextMatchId: 'match_99' },
-    { id: 'match_95', homeTeam: getWinner('match_85', round32), awayTeam: getWinner('match_87', round32), stage: 'round16', nextMatchId: 'match_100' },
-    { id: 'match_96', homeTeam: getWinner('match_86', round32), awayTeam: getWinner('match_88', round32), stage: 'round16', nextMatchId: 'match_100' }
+    { id: 'match_89', homeTeam: getWinner('match_73', round32), awayTeam: getWinner('match_74', round32), stage: 'round16', nextMatchId: 'match_97' },
+    { id: 'match_90', homeTeam: getWinner('match_75', round32), awayTeam: getWinner('match_76', round32), stage: 'round16', nextMatchId: 'match_97' },
+    { id: 'match_91', homeTeam: getWinner('match_77', round32), awayTeam: getWinner('match_78', round32), stage: 'round16', nextMatchId: 'match_98' },
+    { id: 'match_92', homeTeam: getWinner('match_79', round32), awayTeam: getWinner('match_80', round32), stage: 'round16', nextMatchId: 'match_98' },
+    { id: 'match_93', homeTeam: getWinner('match_81', round32), awayTeam: getWinner('match_82', round32), stage: 'round16', nextMatchId: 'match_99' },
+    { id: 'match_94', homeTeam: getWinner('match_83', round32), awayTeam: getWinner('match_84', round32), stage: 'round16', nextMatchId: 'match_99' },
+    { id: 'match_95', homeTeam: getWinner('match_85', round32), awayTeam: getWinner('match_86', round32), stage: 'round16', nextMatchId: 'match_100' },
+    { id: 'match_96', homeTeam: getWinner('match_87', round32), awayTeam: getWinner('match_88', round32), stage: 'round16', nextMatchId: 'match_100' }
   ];
 
   const quarters: KnockoutMatch[] = [
