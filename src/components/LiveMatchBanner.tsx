@@ -20,21 +20,56 @@ interface LiveUserPoints {
 }
 
 export default function LiveMatchBanner({ participants, type }: LiveMatchBannerProps) {
-  const [liveMatches, setLiveMatches] = useState<MatchResult[]>([]);
+  const [dbMatches, setDbMatches] = useState<MatchResult[]>([]);
+  const [now, setNow] = useState(new Date());
   const [expandedMatchId, setExpandedMatchId] = useState<string | null>(null);
   const [matchPredictions, setMatchPredictions] = useState<Record<string, LiveUserPoints[]>>({});
   const t = useTranslations('Common');
 
-  // Escuta os jogos com status 'live'
+  // Atualiza o horário atual a cada minuto
   useEffect(() => {
-    const q = query(collection(db, 'matchResults'), where('status', '==', 'live'));
+    const timer = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Escuta todos os jogos salvos (live ou finished)
+  useEffect(() => {
+    const q = query(collection(db, 'matchResults'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const matches: MatchResult[] = [];
       snapshot.forEach(doc => matches.push(doc.data() as MatchResult));
-      setLiveMatches(matches);
+      setDbMatches(matches);
     });
     return () => unsubscribe();
   }, []);
+
+  const liveMatches = React.useMemo(() => {
+    const dbLiveMap = new Map<string, MatchResult>();
+    const finishedSet = new Set<string>();
+
+    dbMatches.forEach(m => {
+      if (m.status === 'live') dbLiveMap.set(m.matchId, m);
+      if (m.status === 'finished') finishedSet.add(m.matchId);
+    });
+
+    const computedLive: MatchResult[] = [];
+    dbLiveMap.forEach(m => computedLive.push(m));
+
+    WORLD_CUP_MATCHES.forEach(m => {
+      if (m.startTime <= now) {
+        if (!finishedSet.has(m.id) && !dbLiveMap.has(m.id)) {
+          computedLive.push({
+            matchId: m.id,
+            homeScore: 0,
+            awayScore: 0,
+            status: 'live'
+          });
+        }
+      }
+    });
+
+    return computedLive;
+  }, [dbMatches, now]);
 
   // Busca as predições sempre que houver jogos ao vivo e participantes mudarem
   useEffect(() => {
