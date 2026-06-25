@@ -140,27 +140,27 @@ export function generateKnockoutBracket(
   // Helper arrays for calculating winners incrementally
   const round32: KnockoutMatch[] = [
     { id: 'match_73', homeTeam: getFirst('E'), awayTeam: getThird(thirdAssignments?.['1E']?.replace('3', '') || 'A'), stage: 'round32', nextMatchId: 'match_89' },
-    { id: 'match_74', homeTeam: getFirst('I'), awayTeam: getThird(thirdAssignments?.['1I']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_90' },
+    { id: 'match_74', homeTeam: getFirst('I'), awayTeam: getThird(thirdAssignments?.['1I']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_89' },
     
-    { id: 'match_75', homeTeam: getSecond('A'), awayTeam: getSecond('B'), stage: 'round32', nextMatchId: 'match_89' },
+    { id: 'match_75', homeTeam: getSecond('A'), awayTeam: getSecond('B'), stage: 'round32', nextMatchId: 'match_90' },
     { id: 'match_76', homeTeam: getFirst('F'), awayTeam: getSecond('C'), stage: 'round32', nextMatchId: 'match_90' },
-    
-    { id: 'match_77', homeTeam: getFirst('C'), awayTeam: getSecond('F'), stage: 'round32', nextMatchId: 'match_91' },
-    { id: 'match_78', homeTeam: getSecond('E'), awayTeam: getSecond('I'), stage: 'round32', nextMatchId: 'match_92' },
-    
-    { id: 'match_79', homeTeam: getFirst('A'), awayTeam: getThird(thirdAssignments?.['1A']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_91' },
-    { id: 'match_80', homeTeam: getFirst('L'), awayTeam: getThird(thirdAssignments?.['1L']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_92' },
 
-    { id: 'match_81', homeTeam: getSecond('K'), awayTeam: getSecond('L'), stage: 'round32', nextMatchId: 'match_93' },
-    { id: 'match_82', homeTeam: getFirst('H'), awayTeam: getSecond('J'), stage: 'round32', nextMatchId: 'match_94' },
+    { id: 'match_77', homeTeam: getSecond('K'), awayTeam: getSecond('L'), stage: 'round32', nextMatchId: 'match_91' },
+    { id: 'match_78', homeTeam: getFirst('H'), awayTeam: getSecond('J'), stage: 'round32', nextMatchId: 'match_91' },
     
-    { id: 'match_83', homeTeam: getFirst('D'), awayTeam: getThird(thirdAssignments?.['1D']?.replace('3', '') || 'B'), stage: 'round32', nextMatchId: 'match_93' },
-    { id: 'match_84', homeTeam: getFirst('G'), awayTeam: getThird(thirdAssignments?.['1G']?.replace('3', '') || 'A'), stage: 'round32', nextMatchId: 'match_94' },
+    { id: 'match_79', homeTeam: getFirst('D'), awayTeam: getThird(thirdAssignments?.['1D']?.replace('3', '') || 'B'), stage: 'round32', nextMatchId: 'match_92' },
+    { id: 'match_80', homeTeam: getFirst('G'), awayTeam: getThird(thirdAssignments?.['1G']?.replace('3', '') || 'A'), stage: 'round32', nextMatchId: 'match_92' },
+
+    { id: 'match_81', homeTeam: getFirst('C'), awayTeam: getSecond('F'), stage: 'round32', nextMatchId: 'match_93' },
+    { id: 'match_82', homeTeam: getSecond('E'), awayTeam: getSecond('I'), stage: 'round32', nextMatchId: 'match_93' },
+    
+    { id: 'match_83', homeTeam: getFirst('A'), awayTeam: getThird(thirdAssignments?.['1A']?.replace('3', '') || 'C'), stage: 'round32', nextMatchId: 'match_94' },
+    { id: 'match_84', homeTeam: getFirst('L'), awayTeam: getThird(thirdAssignments?.['1L']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_94' },
     
     { id: 'match_85', homeTeam: getFirst('J'), awayTeam: getSecond('H'), stage: 'round32', nextMatchId: 'match_95' },
-    { id: 'match_86', homeTeam: getSecond('D'), awayTeam: getSecond('G'), stage: 'round32', nextMatchId: 'match_96' },
+    { id: 'match_86', homeTeam: getSecond('D'), awayTeam: getSecond('G'), stage: 'round32', nextMatchId: 'match_95' },
 
-    { id: 'match_87', homeTeam: getFirst('B'), awayTeam: getThird(thirdAssignments?.['1B']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_95' },
+    { id: 'match_87', homeTeam: getFirst('B'), awayTeam: getThird(thirdAssignments?.['1B']?.replace('3', '') || 'E'), stage: 'round32', nextMatchId: 'match_96' },
     { id: 'match_88', homeTeam: getFirst('K'), awayTeam: getThird(thirdAssignments?.['1K']?.replace('3', '') || 'D'), stage: 'round32', nextMatchId: 'match_96' }
   ];
 
