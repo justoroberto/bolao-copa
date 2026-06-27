@@ -151,7 +151,7 @@ export default function PredictionCard({ match, prediction, onPredictionChange, 
           <>
             {isLocked && !lockedPhase && (
               <div className="locked-badge" style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
-                <span style={{ fontSize: '1.2rem' }}>🔒</span>
+                <span style={{ fontSize: '1.2rem' }}></span>
                 {match.status === 'scheduled' ? t('locked') : tCommon('finished')}
               </div>
             )}

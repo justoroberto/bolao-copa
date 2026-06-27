@@ -135,4 +135,30 @@ export const WORLD_CUP_MATCHES: Match[] = [
   { id: 'match_85', group: '16-Avos', homeTeam: '🇦🇷 Argentina', awayTeam: '🇨🇻 Cabo Verde', startTime: new Date('2026-07-03T22:00:00Z'), stage: 'round32', status: 'scheduled' }, // 19h BRT = 22h UTC
   { id: 'match_88', group: '16-Avos', homeTeam: '1º Grupo K', awayTeam: '3º Grupo D/E/I/J/L', startTime: new Date('2026-07-04T01:30:00Z'), stage: 'round32', status: 'scheduled' }, // 22h30 BRT = 01h30 UTC
 
+  // Oitavas de Final (Round 16)
+  { id: 'match_90', group: 'Oitavas', homeTeam: 'Venc. 75', awayTeam: 'Venc. 76', startTime: new Date('2026-07-04T17:00:00Z'), stage: 'round16', status: 'scheduled' }, // 14h BRT
+  { id: 'match_89', group: 'Oitavas', homeTeam: 'Venc. 73', awayTeam: 'Venc. 74', startTime: new Date('2026-07-04T21:00:00Z'), stage: 'round16', status: 'scheduled' }, // 18h BRT
+  { id: 'match_93', group: 'Oitavas', homeTeam: 'Venc. 81', awayTeam: 'Venc. 82', startTime: new Date('2026-07-05T20:00:00Z'), stage: 'round16', status: 'scheduled' }, // 17h BRT
+  { id: 'match_94', group: 'Oitavas', homeTeam: 'Venc. 83', awayTeam: 'Venc. 84', startTime: new Date('2026-07-06T00:00:00Z'), stage: 'round16', status: 'scheduled' }, // 21h BRT (00h do dia seguinte)
+  { id: 'match_91', group: 'Oitavas', homeTeam: 'Venc. 77', awayTeam: 'Venc. 78', startTime: new Date('2026-07-06T19:00:00Z'), stage: 'round16', status: 'scheduled' }, // 16h BRT
+  { id: 'match_92', group: 'Oitavas', homeTeam: 'Venc. 79', awayTeam: 'Venc. 80', startTime: new Date('2026-07-07T00:00:00Z'), stage: 'round16', status: 'scheduled' }, // 21h BRT (00h do dia seguinte)
+  { id: 'match_95', group: 'Oitavas', homeTeam: 'Venc. 85', awayTeam: 'Venc. 86', startTime: new Date('2026-07-07T16:00:00Z'), stage: 'round16', status: 'scheduled' }, // 13h BRT
+  { id: 'match_96', group: 'Oitavas', homeTeam: 'Venc. 87', awayTeam: 'Venc. 88', startTime: new Date('2026-07-07T20:00:00Z'), stage: 'round16', status: 'scheduled' }, // 17h BRT
+
+  // Quartas de Final (Quarter)
+  { id: 'match_97', group: 'Quartas', homeTeam: 'Venc. 89', awayTeam: 'Venc. 90', startTime: new Date('2026-07-09T20:00:00Z'), stage: 'quarter', status: 'scheduled' }, // 17h BRT
+  { id: 'match_98', group: 'Quartas', homeTeam: 'Venc. 91', awayTeam: 'Venc. 92', startTime: new Date('2026-07-10T19:00:00Z'), stage: 'quarter', status: 'scheduled' }, // 16h BRT
+  { id: 'match_99', group: 'Quartas', homeTeam: 'Venc. 93', awayTeam: 'Venc. 94', startTime: new Date('2026-07-11T21:00:00Z'), stage: 'quarter', status: 'scheduled' }, // 18h BRT
+  { id: 'match_100', group: 'Quartas', homeTeam: 'Venc. 95', awayTeam: 'Venc. 96', startTime: new Date('2026-07-12T01:00:00Z'), stage: 'quarter', status: 'scheduled' }, // 22h BRT (01h do dia seguinte)
+
+  // Semifinal (Semi)
+  { id: 'match_101', group: 'Semifinal', homeTeam: 'Venc. 97', awayTeam: 'Venc. 98', startTime: new Date('2026-07-14T19:00:00Z'), stage: 'semi', status: 'scheduled' }, // 16h BRT
+  { id: 'match_102', group: 'Semifinal', homeTeam: 'Venc. 99', awayTeam: 'Venc. 100', startTime: new Date('2026-07-15T19:00:00Z'), stage: 'semi', status: 'scheduled' }, // 16h BRT
+
+  // Disputa do 3º Lugar (Third Place)
+  { id: 'match_103', group: '3º Lugar', homeTeam: 'Perd. 101', awayTeam: 'Perd. 102', startTime: new Date('2026-07-18T21:00:00Z'), stage: 'thirdPlace', status: 'scheduled' }, // 18h BRT
+
+  // Final
+  { id: 'match_104', group: 'Final', homeTeam: 'Venc. 101', awayTeam: 'Venc. 102', startTime: new Date('2026-07-19T19:00:00Z'), stage: 'final', status: 'scheduled' } // 16h BRT
+
 ].sort((a, b) => a.startTime.getTime() - b.startTime.getTime()) as Match[];
