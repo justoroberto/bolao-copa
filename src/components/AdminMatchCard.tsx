@@ -8,9 +8,10 @@ import { useTranslations, useLocale } from 'next-intl';
 interface AdminMatchCardProps {
   match: Match;
   matchResult?: MatchResult;
+  lockedPhase?: boolean;
 }
 
-export default function AdminMatchCard({ match, matchResult }: AdminMatchCardProps) {
+export default function AdminMatchCard({ match, matchResult, lockedPhase }: AdminMatchCardProps) {
   const tTeams = useTranslations('Teams');
   const tCommon = useTranslations('Common');
   const locale = useLocale();
@@ -133,62 +134,43 @@ export default function AdminMatchCard({ match, matchResult }: AdminMatchCardPro
         </div>
       </div>
 
-      <div className="match-footer" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-        <button 
-          onClick={handleSaveResult} 
-          disabled={isSaving || isDeleting || homeScore === '' || awayScore === ''}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: 'var(--color-primary)',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 'not-allowed' : 'pointer',
-            opacity: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 0.5 : 1,
-            fontWeight: 'bold',
-            width: '100%',
-            transition: 'opacity 0.2s'
-          }}
-        >
-          {isSaving ? 'Salvando e Calculando...' : 'Salvar Resultado Oficial (Fim de Jogo)'}
-        </button>
+      <div className="match-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
+        {lockedPhase ? (
+          <div className="locked-badge" style={{ width: '100%', padding: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', color: 'var(--highlight-blue)', border: '1px solid var(--highlight-blue)', borderRadius: '4px' }}>
+            <span style={{ fontSize: '1.2rem' }}>⏳</span>
+            Fase bloqueada aguardando resultados
+          </div>
+        ) : (
+          <>
+            <button 
+              className="save-button" 
+              onClick={handleSaveResult}
+              disabled={isSaving || isDeleting || homeScore === '' || awayScore === ''}
+              style={{ width: '100%', padding: '0.8rem', fontWeight: 'bold', backgroundColor: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: '4px', cursor: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 'not-allowed' : 'pointer', opacity: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 0.5 : 1 }}
+            >
+              {isSaving ? 'Salvando...' : 'Salvar Resultado Oficial (Fim de Jogo) 🏆'}
+            </button>
 
-        <button 
-          onClick={handleSaveLive} 
-          disabled={isSaving || isDeleting || homeScore === '' || awayScore === ''}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: 'transparent',
-            color: 'var(--color-primary)',
-            border: '2px solid var(--color-primary)',
-            borderRadius: '4px',
-            cursor: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 'not-allowed' : 'pointer',
-            opacity: (isSaving || isDeleting || homeScore === '' || awayScore === '') ? 0.5 : 1,
-            fontWeight: 'bold',
-            width: '100%',
-            transition: 'opacity 0.2s'
-          }}
-        >
-          {isSaving ? 'Atualizando...' : 'Atualizar Placar Ao Vivo (Em Andamento)'}
-        </button>
+            <button 
+              className="save-button" 
+              onClick={handleSaveLive}
+              disabled={isSaving || isDeleting || homeScore === '' || awayScore === '' || matchResult?.status === 'finished'}
+              style={{ width: '100%', padding: '0.8rem', fontWeight: 'bold', backgroundColor: 'transparent', color: 'var(--color-primary)', border: '2px solid var(--color-primary)', borderRadius: '4px', cursor: (isSaving || isDeleting || homeScore === '' || awayScore === '' || matchResult?.status === 'finished') ? 'not-allowed' : 'pointer', opacity: (isSaving || isDeleting || homeScore === '' || awayScore === '' || matchResult?.status === 'finished') ? 0.5 : 1 }}
+            >
+              {isSaving ? 'Atualizando...' : 'Atualizar Placar Ao Vivo (Em Andamento) 🔴'}
+            </button>
 
-        {matchResult?.status === 'finished' && (
-          <button 
-            onClick={handleDeleteResult}
-            disabled={isSaving || isDeleting}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: 'transparent',
-              color: 'var(--color-primary)',
-              border: '1px solid var(--color-primary)',
-              borderRadius: '4px',
-              cursor: (isSaving || isDeleting) ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold',
-              width: '100%'
-            }}
-          >
-            {isDeleting ? 'Removendo...' : 'Desfazer e Limpar Resultado'}
-          </button>
+            {matchResult?.status === 'finished' && (
+              <button 
+                className="save-button" 
+                onClick={handleDeleteResult}
+                disabled={isSaving || isDeleting}
+                style={{ width: '100%', padding: '0.5rem', backgroundColor: 'transparent', color: 'var(--highlight-red)', border: '1px solid var(--highlight-red)', borderRadius: '4px', marginTop: '0.5rem', cursor: (isSaving || isDeleting) ? 'not-allowed' : 'pointer' }}
+              >
+                {isDeleting ? 'Excluindo...' : 'Desfazer e Limpar Resultado'}
+              </button>
+            )}
+          </>
         )}
 
         <div className="status-indicator">

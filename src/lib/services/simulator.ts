@@ -115,7 +115,7 @@ export function getQualifiedTeams(standings: Record<string, TeamStats[]>) {
   });
 
   const bestThirds = thirds.slice(0, 8);
-  return { firsts, seconds, bestThirds };
+  return { firsts, seconds, bestThirds, allThirds: thirds };
 }
 
 export function generateKnockoutBracket(

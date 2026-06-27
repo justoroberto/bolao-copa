@@ -905,20 +905,20 @@ nav a:hover {
 
 /* Podium Effects */
 .ranking-item.gold {
-  background: linear-gradient(90deg, rgba(255,215,0,0.1) 0%, rgba(20,20,20,1) 100%);
+  background: linear-gradient(90deg, rgba(255,215,0,0.15) 0%, transparent 100%);
   border-color: #ffd700;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 .ranking-item.gold .rank-position { color: #ffd700; }
 
 .ranking-item.silver {
-  background: linear-gradient(90deg, rgba(192,192,192,0.1) 0%, rgba(20,20,20,1) 100%);
+  background: linear-gradient(90deg, rgba(192,192,192,0.15) 0%, transparent 100%);
   border-color: #c0c0c0;
 }
 .ranking-item.silver .rank-position { color: #c0c0c0; }
 
 .ranking-item.bronze {
-  background: linear-gradient(90deg, rgba(205,127,50,0.1) 0%, rgba(20,20,20,1) 100%);
+  background: linear-gradient(90deg, rgba(205,127,50,0.15) 0%, transparent 100%);
   border-color: #cd7f32;
 }
 .ranking-item.bronze .rank-position { color: #cd7f32; }

@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { WORLD_CUP_MATCHES, TEAMS } from '@/lib/data/worldCup2026';
-import { calculateGroupStandings, generateKnockoutBracket } from '@/lib/services/simulator';
+import { calculateGroupStandings, generateKnockoutBracket, getQualifiedTeams } from '@/lib/services/simulator';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
@@ -115,6 +115,7 @@ export default function SimulatorPage() {
 
   const standings = useMemo(() => calculateGroupStandings(WORLD_CUP_MATCHES, scores), [scores]);
   const knockoutMatches = useMemo(() => generateKnockoutBracket(standings, scores), [standings, scores]);
+  const { allThirds } = useMemo(() => getQualifiedTeams(standings), [standings]);
 
   const GROUPS = Object.keys(TEAMS);
 
@@ -202,6 +203,46 @@ export default function SimulatorPage() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Tabela de Terceiros Colocados */}
+      <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '1rem', borderBottom: '2px solid var(--border-color)', paddingBottom: '0.5rem' }}>Ranking dos 3º Colocados</h2>
+      <div style={{ marginBottom: '4rem', overflowX: 'auto' }}>
+        <table className="standings-table" style={{ width: '100%', maxWidth: '900px', borderCollapse: 'collapse', textAlign: 'center' }}>
+          <thead>
+            <tr style={{ background: 'var(--bg-secondary)', borderBottom: '2px solid var(--border-color)' }}>
+              <th style={{ padding: '0.5rem' }}>{tCommon('pos')}</th>
+              <th style={{ padding: '0.5rem', textAlign: 'left' }}>{tCommon('team')}</th>
+              <th style={{ padding: '0.5rem' }}>{tCommon('group')}</th>
+              <th style={{ padding: '0.5rem' }}>{tCommon('pts')}</th>
+              <th style={{ padding: '0.5rem' }}>{tCommon('played')}</th>
+              <th style={{ padding: '0.5rem' }}>{tCommon('gd')}</th>
+              <th style={{ padding: '0.5rem' }}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allThirds?.map((s, index) => {
+              const parts = s.team.split(' ');
+              const flag = parts.length > 1 && parts[0].length <= 4 ? parts[0] : '';
+              const nameStr = flag ? parts.slice(1).join(' ') : s.team;
+              const translatedTeamName = tTeams.has(nameStr) ? tTeams(nameStr) : nameStr;
+              const isQualified = index < 8;
+              return (
+                <tr key={s.team} style={{ borderBottom: '1px solid var(--border-color)', background: isQualified ? 'rgba(34, 197, 94, 0.1)' : 'transparent' }}>
+                  <td style={{ padding: '0.5rem' }}>{index + 1}º</td>
+                  <td style={{ padding: '0.5rem', textAlign: 'left', fontWeight: 'bold' }}>{flag} {translatedTeamName}</td>
+                  <td style={{ padding: '0.5rem' }}>{s.group}</td>
+                  <td style={{ padding: '0.5rem', fontWeight: 'bold' }}>{s.points}</td>
+                  <td style={{ padding: '0.5rem' }}>{s.played}</td>
+                  <td style={{ padding: '0.5rem' }}>{s.goalDifference}</td>
+                  <td style={{ padding: '0.5rem', fontWeight: 'bold', color: isQualified ? 'var(--highlight-green)' : 'var(--highlight-red)' }}>
+                    {isQualified ? 'Classificado' : 'Eliminado'}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       {/* Fase de Mata-Mata */}

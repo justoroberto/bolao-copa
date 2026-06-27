@@ -16,6 +16,34 @@ export default function PredictionsPage() {
   const [matches] = useState<Match[]>(WORLD_CUP_MATCHES); // já vem ordenado por data
   const [predictions, setPredictions] = useState<Record<string, Prediction>>({});
   const [loadingPreds, setLoadingPreds] = useState(true);
+  const [isGroupStageFinished, setIsGroupStageFinished] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string>('group');
+
+  const groupMatches = matches.filter(m => m.stage === 'group');
+  const round32Matches = matches.filter(m => m.stage === 'round32');
+
+  // Busca o status dos jogos para ver se a fase de grupos já acabou
+  useEffect(() => {
+    async function checkGroupStage() {
+      try {
+        const resultsSnap = await getDocs(collection(db, 'matchResults'));
+        let finishedCount = 0;
+        const totalGroupMatches = WORLD_CUP_MATCHES.filter(m => m.stage === 'group').length;
+
+        resultsSnap.forEach(doc => {
+           const data = doc.data();
+           const match = WORLD_CUP_MATCHES.find(m => m.id === doc.id);
+           if (match?.stage === 'group' && data.status === 'finished') {
+             finishedCount++;
+           }
+        });
+        setIsGroupStageFinished(finishedCount === totalGroupMatches);
+      } catch (e) {
+        console.error("Erro ao checar status da fase de grupos", e);
+      }
+    }
+    checkGroupStage();
+  }, []);
 
   // Busca os palpites que o usuário já fez no Firestore
   useEffect(() => {
@@ -90,15 +118,62 @@ export default function PredictionsPage() {
         {loadingPreds ? (
           <div className="loading-state">{t('loading')}</div>
         ) : (
-          <div className="matches-grid">
-            {matches.map((match) => (
-              <PredictionCard
-                key={match.id}
-                match={match}
-                prediction={predictions[match.id]}
-                onPredictionChange={handlePredictionChange}
-              />
-            ))}
+          <div className="phases-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            
+            <div className="phase-accordion">
+              <button 
+                className={`accordion-header ${openAccordion === 'group' ? 'open' : ''}`}
+                onClick={() => setOpenAccordion(openAccordion === 'group' ? '' : 'group')}
+                style={{ width: '100%', padding: '1rem', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-color)' }}
+              >
+                <span>Fase de Grupos ({groupMatches.length} jogos)</span>
+                <span>{openAccordion === 'group' ? '▲' : '▼'}</span>
+              </button>
+              
+              {openAccordion === 'group' && (
+                <div className="matches-grid" style={{ marginTop: '1rem' }}>
+                  {groupMatches.map((match) => (
+                    <PredictionCard
+                      key={match.id}
+                      match={match}
+                      prediction={predictions[match.id]}
+                      onPredictionChange={handlePredictionChange}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {round32Matches.length > 0 && (
+              <div className="phase-accordion">
+                <button 
+                  className={`accordion-header ${openAccordion === 'round32' ? 'open' : ''}`}
+                  onClick={() => setOpenAccordion(openAccordion === 'round32' ? '' : 'round32')}
+                  style={{ width: '100%', padding: '1rem', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--text-color)' }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span>16-Avos de Final ({round32Matches.length} jogos)</span>
+                    {!isGroupStageFinished && <span style={{ fontSize: '0.9rem', padding: '0.2rem 0.5rem', background: 'var(--highlight-blue)', color: 'white', borderRadius: '4px' }}>Bloqueada 🔒</span>}
+                  </div>
+                  <span>{openAccordion === 'round32' ? '▲' : '▼'}</span>
+                </button>
+                
+                {openAccordion === 'round32' && (
+                  <div className="matches-grid" style={{ marginTop: '1rem' }}>
+                    {round32Matches.map((match) => (
+                      <PredictionCard
+                        key={match.id}
+                        match={match}
+                        prediction={predictions[match.id]}
+                        onPredictionChange={handlePredictionChange}
+                        lockedPhase={!isGroupStageFinished}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         )}
       </div>

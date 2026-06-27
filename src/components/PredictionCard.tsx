@@ -11,9 +11,10 @@ interface PredictionCardProps {
   match: Match;
   prediction?: Prediction;
   onPredictionChange?: (matchId: string, homeScore: string, awayScore: string) => void;
+  lockedPhase?: boolean;
 }
 
-export default function PredictionCard({ match, prediction, onPredictionChange }: PredictionCardProps) {
+export default function PredictionCard({ match, prediction, onPredictionChange, lockedPhase }: PredictionCardProps) {
   const { user } = useAuth();
   const t = useTranslations('Predictions');
   const tTeams = useTranslations('Teams');
@@ -27,8 +28,8 @@ export default function PredictionCard({ match, prediction, onPredictionChange }
   const [saveStatus, setSaveStatus] = useState<'idle'|'success'|'error'>('idle');
   const [hasEdited, setHasEdited] = useState(false);
 
-  // Verifica bloqueio de tempo
-  const isLocked = !canEditPrediction(match.startTime) || match.status !== 'scheduled';
+  // Verifica bloqueio de tempo ou fase
+  const isLocked = !canEditPrediction(match.startTime) || match.status !== 'scheduled' || lockedPhase;
   
   // Converte data para exibição respeitando o locale, com hora e sem dia da semana
   const formattedDate = match.startTime.toLocaleString(locale, { 
@@ -147,7 +148,20 @@ export default function PredictionCard({ match, prediction, onPredictionChange }
 
       <div className="match-footer">
         {isLocked ? (
-          <span className="lock-message">{t('locked')}</span>
+          <>
+            {isLocked && !lockedPhase && (
+              <div className="locked-badge" style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🔒</span>
+                {match.status === 'scheduled' ? t('locked') : tCommon('finished')}
+              </div>
+            )}
+            {lockedPhase && (
+              <div className="locked-badge" style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', color: 'var(--highlight-blue)' }}>
+                <span style={{ fontSize: '1.2rem' }}>⏳</span>
+                Fase bloqueada aguardando resultados
+              </div>
+            )}
+          </>
         ) : (
           <div className="status-indicator">
             {isSaving && <span className="saving text-blue">{t('saving')}</span>}
