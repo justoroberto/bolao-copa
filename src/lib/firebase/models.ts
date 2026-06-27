@@ -12,7 +12,7 @@ export interface Match {
   homeTeam: string;
   awayTeam: string;
   startTime: Date;
-  stage: 'group' | 'round32' | 'round16' | 'quarter' | 'semi' | 'final';
+  stage: 'group' | 'round32' | 'round16' | 'quarter' | 'semi' | 'thirdPlace' | 'final';
   group?: string; // e.g., "A", "B", ..., "L"
   homeScore?: number;
   awayScore?: number;
