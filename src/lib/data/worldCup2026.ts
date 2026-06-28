@@ -120,20 +120,20 @@ export const WORLD_CUP_MATCHES: Match[] = [
   // 16-Avos de Final (Round 32)
   { id: 'match_75', group: '16-Avos', homeTeam: '🇿🇦 África do Sul', awayTeam: '🇨🇦 Canadá', startTime: new Date('2026-06-28T19:00:00Z'), stage: 'round32', status: 'scheduled' }, // 16h BRT = 19h UTC
   { id: 'match_81', group: '16-Avos', homeTeam: '🇧🇷 Brasil', awayTeam: '🇯🇵 Japão', startTime: new Date('2026-06-29T17:00:00Z'), stage: 'round32', status: 'scheduled' }, // 14h BRT = 17h UTC
-  { id: 'match_73', group: '16-Avos', homeTeam: '🇩🇪 Alemanha', awayTeam: '3º Grupo A/B/C/D/F', startTime: new Date('2026-06-29T20:30:00Z'), stage: 'round32', status: 'scheduled' }, // 17h30 BRT = 20h30 UTC
+  { id: 'match_73', group: '16-Avos', homeTeam: '🇩🇪 Alemanha', awayTeam: '🇵🇾 Paraguai', startTime: new Date('2026-06-29T20:30:00Z'), stage: 'round32', status: 'scheduled' }, // 17h30 BRT = 20h30 UTC
   { id: 'match_76', group: '16-Avos', homeTeam: '🇳🇱 Holanda', awayTeam: '🇲🇦 Marrocos', startTime: new Date('2026-06-30T01:00:00Z'), stage: 'round32', status: 'scheduled' }, // 22h BRT = 01h UTC do dia seguinte
   { id: 'match_82', group: '16-Avos', homeTeam: '🇨🇮 Costa do Marfim', awayTeam: '🇳🇴 Noruega', startTime: new Date('2026-06-30T17:00:00Z'), stage: 'round32', status: 'scheduled' }, // 14h BRT = 17h UTC
-  { id: 'match_74', group: '16-Avos', homeTeam: '🇫🇷 França', awayTeam: '3º Grupo C/D/F/G/H', startTime: new Date('2026-06-30T21:00:00Z'), stage: 'round32', status: 'scheduled' }, // 18h BRT = 21h UTC
-  { id: 'match_83', group: '16-Avos', homeTeam: '🇲🇽 México', awayTeam: '3º Grupo C/E/F/H/I', startTime: new Date('2026-07-01T01:00:00Z'), stage: 'round32', status: 'scheduled' }, // 22h BRT = 01h UTC
-  { id: 'match_84', group: '16-Avos', homeTeam: '1º Grupo L', awayTeam: '3º Grupo E/H/I/J/K', startTime: new Date('2026-07-01T16:00:00Z'), stage: 'round32', status: 'scheduled' }, // 13h BRT = 16h UTC
-  { id: 'match_80', group: '16-Avos', homeTeam: '🇧🇪 Bélgica', awayTeam: '3º Grupo A/E/H/I/J', startTime: new Date('2026-07-01T20:00:00Z'), stage: 'round32', status: 'scheduled' }, // 17h BRT = 20h UTC
-  { id: 'match_79', group: '16-Avos', homeTeam: '🇺🇸 Estados Unidos', awayTeam: '3º Grupo B/E/F/I/J', startTime: new Date('2026-07-02T00:00:00Z'), stage: 'round32', status: 'scheduled' }, // 21h BRT = 00h UTC
-  { id: 'match_78', group: '16-Avos', homeTeam: '🇪🇸 Espanha', awayTeam: '2º Grupo J', startTime: new Date('2026-07-02T19:00:00Z'), stage: 'round32', status: 'scheduled' }, // 16h BRT = 19h UTC
-  { id: 'match_77', group: '16-Avos', homeTeam: '2º Grupo K', awayTeam: '2º Grupo L', startTime: new Date('2026-07-02T23:00:00Z'), stage: 'round32', status: 'scheduled' }, // 20h BRT = 23h UTC
-  { id: 'match_87', group: '16-Avos', homeTeam: '🇨🇭 Suíça', awayTeam: '3º Grupo E/F/G/I/J', startTime: new Date('2026-07-03T03:00:00Z'), stage: 'round32', status: 'scheduled' }, // 00h BRT = 03h UTC
+  { id: 'match_74', group: '16-Avos', homeTeam: '🇫🇷 França', awayTeam: '🇸🇪 Suécia', startTime: new Date('2026-06-30T21:00:00Z'), stage: 'round32', status: 'scheduled' }, // 18h BRT = 21h UTC
+  { id: 'match_83', group: '16-Avos', homeTeam: '🇲🇽 México', awayTeam: '🇪🇨 Equador', startTime: new Date('2026-07-01T01:00:00Z'), stage: 'round32', status: 'scheduled' }, // 22h BRT = 01h UTC
+  { id: 'match_84', group: '16-Avos', homeTeam: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra', awayTeam: '🇨🇩 RD Congo', startTime: new Date('2026-07-01T16:00:00Z'), stage: 'round32', status: 'scheduled' }, // 13h BRT = 16h UTC
+  { id: 'match_80', group: '16-Avos', homeTeam: '🇧🇪 Bélgica', awayTeam: '🇸🇳 Senegal', startTime: new Date('2026-07-01T20:00:00Z'), stage: 'round32', status: 'scheduled' }, // 17h BRT = 20h UTC
+  { id: 'match_79', group: '16-Avos', homeTeam: '🇺🇸 Estados Unidos', awayTeam: '🇧🇦 Bósnia', startTime: new Date('2026-07-02T00:00:00Z'), stage: 'round32', status: 'scheduled' }, // 21h BRT = 00h UTC
+  { id: 'match_78', group: '16-Avos', homeTeam: '🇪🇸 Espanha', awayTeam: '🇦🇹 Áustria', startTime: new Date('2026-07-02T19:00:00Z'), stage: 'round32', status: 'scheduled' }, // 16h BRT = 19h UTC
+  { id: 'match_77', group: '16-Avos', homeTeam: '🇵🇹 Portugal', awayTeam: '🇭🇷 Croácia', startTime: new Date('2026-07-02T23:00:00Z'), stage: 'round32', status: 'scheduled' }, // 20h BRT = 23h UTC
+  { id: 'match_87', group: '16-Avos', homeTeam: '🇨🇭 Suíça', awayTeam: '🇩🇿 Argélia', startTime: new Date('2026-07-03T03:00:00Z'), stage: 'round32', status: 'scheduled' }, // 00h BRT = 03h UTC
   { id: 'match_86', group: '16-Avos', homeTeam: '🇦🇺 Austrália', awayTeam: '🇪🇬 Egito', startTime: new Date('2026-07-03T18:00:00Z'), stage: 'round32', status: 'scheduled' }, // 15h BRT = 18h UTC
   { id: 'match_85', group: '16-Avos', homeTeam: '🇦🇷 Argentina', awayTeam: '🇨🇻 Cabo Verde', startTime: new Date('2026-07-03T22:00:00Z'), stage: 'round32', status: 'scheduled' }, // 19h BRT = 22h UTC
-  { id: 'match_88', group: '16-Avos', homeTeam: '1º Grupo K', awayTeam: '3º Grupo D/E/I/J/L', startTime: new Date('2026-07-04T01:30:00Z'), stage: 'round32', status: 'scheduled' }, // 22h30 BRT = 01h30 UTC
+  { id: 'match_88', group: '16-Avos', homeTeam: '🇨🇴 Colômbia', awayTeam: '🇬🇭 Gana', startTime: new Date('2026-07-04T01:30:00Z'), stage: 'round32', status: 'scheduled' }, // 22h30 BRT = 01h30 UTC
 
   // Oitavas de Final (Round 16)
   { id: 'match_90', group: 'Oitavas', homeTeam: 'Venc. 75', awayTeam: 'Venc. 76', startTime: new Date('2026-07-04T17:00:00Z'), stage: 'round16', status: 'scheduled' }, // 14h BRT

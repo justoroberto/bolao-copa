@@ -107,11 +107,25 @@ export function getQualifiedTeams(standings: Record<string, TeamStats[]>) {
     }
   });
 
-  // Ordenar terceiros por Pontos -> SG -> GF
+  // Ordenar terceiros por Pontos -> SG -> GF -> Cartões (manual)
   thirds.sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
     if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
-    return b.goalsFor - a.goalsFor;
+    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+
+    // Desempate manual baseado na tabela real pós fase de grupos (cartões/fair play)
+    const manualTiebreaker: Record<string, number> = {
+      '🇨🇩 RD Congo': 8,
+      '🇸🇪 Suécia': 7,
+      '🇬🇭 Gana': 6,
+      '🇪🇨 Equador': 5,
+      '🇧🇦 Bósnia': 4,
+      '🇩🇿 Argélia': 3,
+      '🇵🇾 Paraguai': 2,
+      '🇸🇳 Senegal': 1
+    };
+    
+    return (manualTiebreaker[b.team] || 0) - (manualTiebreaker[a.team] || 0);
   });
 
   const bestThirds = thirds.slice(0, 8);
