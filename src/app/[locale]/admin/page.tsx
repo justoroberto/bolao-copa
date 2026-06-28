@@ -9,6 +9,7 @@ import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { useAuth } from '@/contexts/AuthContext';
 import { WORLD_CUP_MATCHES } from '@/lib/data/worldCup2026';
 import { useRouter } from 'next/navigation';
+import { calculateGroupStandings, generateKnockoutBracket } from '@/lib/services/simulator';
 
 export default function AdminPage() {
   const { user } = useAuth();
@@ -23,6 +24,7 @@ export default function AdminPage() {
   const [isQuarterFinished, setIsQuarterFinished] = useState(false);
   const [isSemiFinished, setIsSemiFinished] = useState(false);
   const [openAccordion, setOpenAccordion] = useState<string>('group');
+  const [displayMatches, setDisplayMatches] = useState<Match[]>(WORLD_CUP_MATCHES);
 
   useEffect(() => {
     async function checkAdminAndFetchResults() {
@@ -61,12 +63,48 @@ export default function AdminPage() {
           }
         });
         
+        const isGF = groupFinished === totalGroup && totalGroup > 0;
+        const isR32 = round32Finished === totalRound32 && totalRound32 > 0;
+        const isR16 = round16Finished === totalRound16 && totalRound16 > 0;
+        const isQF = quarterFinished === totalQuarter && totalQuarter > 0;
+        const isSF = semiFinished === totalSemi && totalSemi > 0;
+
+        setIsGroupStageFinished(isGF);
+        setIsRound32Finished(isR32);
+        setIsRound16Finished(isR16);
+        setIsQuarterFinished(isQF);
+        setIsSemiFinished(isSF);
+
+        if (!isGF) setOpenAccordion('group');
+        else if (!isR32) setOpenAccordion('round32');
+        else if (!isR16) setOpenAccordion('round16');
+        else if (!isQF) setOpenAccordion('quarter');
+        else if (!isSF) setOpenAccordion('semi');
+        else setOpenAccordion('finals');
+
+        // Resolve os nomes das equipes baseando-se nos resultados oficiais
+        const dbScores: Record<string, { home: number | null, away: number | null }> = {};
+        Object.values(resultsMap).forEach(res => {
+          if (res.homeScore !== undefined && res.awayScore !== undefined) {
+            dbScores[res.matchId] = { home: res.homeScore, away: res.awayScore };
+          }
+        });
+        
+        const standings = calculateGroupStandings(WORLD_CUP_MATCHES, dbScores);
+        const knockouts = generateKnockoutBracket(standings, dbScores);
+        
+        if (knockouts.length > 0) {
+          const updatedMatches = WORLD_CUP_MATCHES.map(m => {
+            const ko = knockouts.find(k => k.id === m.id);
+            if (ko) {
+              return { ...m, homeTeam: ko.homeTeam, awayTeam: ko.awayTeam };
+            }
+            return m;
+          });
+          setDisplayMatches(updatedMatches);
+        }
+
         setResults(resultsMap);
-        setIsGroupStageFinished(groupFinished === totalGroup && totalGroup > 0);
-        setIsRound32Finished(round32Finished === totalRound32 && totalRound32 > 0);
-        setIsRound16Finished(round16Finished === totalRound16 && totalRound16 > 0);
-        setIsQuarterFinished(quarterFinished === totalQuarter && totalQuarter > 0);
-        setIsSemiFinished(semiFinished === totalSemi && totalSemi > 0);
       } catch (error) {
         console.error("Erro ao carregar admin: ", error);
       } finally {
@@ -97,12 +135,12 @@ export default function AdminPage() {
         ) : (
           <div className="phases-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[
-              { id: 'group', title: 'Fase de Grupos', matches: matches.filter(m => m.stage === 'group'), locked: false },
-              { id: 'round32', title: '16-Avos', matches: matches.filter(m => m.stage === 'round32'), locked: !isGroupStageFinished },
-              { id: 'round16', title: 'Oitavas', matches: matches.filter(m => m.stage === 'round16'), locked: !isRound32Finished },
-              { id: 'quarter', title: 'Quartas', matches: matches.filter(m => m.stage === 'quarter'), locked: !isRound16Finished },
-              { id: 'semi', title: 'Semis', matches: matches.filter(m => m.stage === 'semi'), locked: !isQuarterFinished },
-              { id: 'finals', title: 'Finais', matches: matches.filter(m => m.stage === 'thirdPlace' || m.stage === 'final'), locked: !isSemiFinished }
+              { id: 'group', title: 'Fase de Grupos', matches: displayMatches.filter(m => m.stage === 'group'), locked: false },
+              { id: 'round32', title: '16-Avos', matches: displayMatches.filter(m => m.stage === 'round32'), locked: !isGroupStageFinished },
+              { id: 'round16', title: 'Oitavas', matches: displayMatches.filter(m => m.stage === 'round16'), locked: !isRound32Finished },
+              { id: 'quarter', title: 'Quartas', matches: displayMatches.filter(m => m.stage === 'quarter'), locked: !isRound16Finished },
+              { id: 'semi', title: 'Semis', matches: displayMatches.filter(m => m.stage === 'semi'), locked: !isQuarterFinished },
+              { id: 'finals', title: 'Finais', matches: displayMatches.filter(m => m.stage === 'thirdPlace' || m.stage === 'final'), locked: !isSemiFinished }
             ].map(phase => {
               if (phase.matches.length === 0) return null;
               const isOpen = openAccordion === phase.id;
