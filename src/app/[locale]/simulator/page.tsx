@@ -30,7 +30,7 @@ export default function SimulatorPage() {
   const t = useTranslations('Simulator');
   const tCommon = useTranslations('Common');
   const tTeams = useTranslations('Teams');
-  const [scores, setScores] = useState<Record<string, { home: number | null, away: number | null }>>({});
+  const [scores, setScores] = useState<Record<string, { home: number | null, away: number | null, penaltyWinner?: 'home' | 'away' }>>({});
   const [activeGroup, setActiveGroup] = useState<string>('A');
   const [isLoaded, setIsLoaded] = useState(false);
   const [officialResults, setOfficialResults] = useState<Record<string, boolean>>({});
@@ -40,14 +40,14 @@ export default function SimulatorPage() {
       try {
         const snapshot = await getDocs(collection(db, 'matchResults'));
         if (!snapshot.empty) {
-          const results: Record<string, { home: number | null, away: number | null }> = {};
+          const results: Record<string, { home: number | null, away: number | null, penaltyWinner?: 'home' | 'away' }> = {};
           const officials: Record<string, boolean> = {};
           
           snapshot.forEach(doc => {
             const data = doc.data();
             // Assuming data has homeScore and awayScore, and is final
             if (data.homeScore !== undefined && data.awayScore !== undefined) {
-              results[doc.id] = { home: data.homeScore, away: data.awayScore };
+              results[doc.id] = { home: data.homeScore, away: data.awayScore, penaltyWinner: data.penaltyWinner };
               officials[doc.id] = true;
             }
           });

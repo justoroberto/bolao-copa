@@ -101,13 +101,16 @@ export async function calculateAndSaveRankings(): Promise<void> {
 /**
  * Salva o resultado oficial de uma partida e atualiza o ranking de todos os usuários.
  */
-export async function saveMatchResult(matchId: string, homeScore: number, awayScore: number): Promise<void> {
+export async function saveMatchResult(matchId: string, homeScore: number, awayScore: number, penaltyWinner?: 'home' | 'away'): Promise<void> {
   const result: MatchResult = {
     matchId,
     homeScore,
     awayScore,
     status: 'finished'
   };
+  if (penaltyWinner) {
+    result.penaltyWinner = penaltyWinner;
+  }
   const ref = doc(db, 'matchResults', matchId);
   const batch = writeBatch(db);
   batch.set(ref, result);
@@ -121,13 +124,16 @@ export async function saveMatchResult(matchId: string, homeScore: number, awaySc
  * Salva o resultado temporário (ao vivo) de uma partida.
  * Não recalcula o ranking geral definitivo, apenas atualiza o estado para que os componentes ao vivo reajam.
  */
-export async function setLiveMatchScore(matchId: string, homeScore: number, awayScore: number): Promise<void> {
+export async function setLiveMatchScore(matchId: string, homeScore: number, awayScore: number, penaltyWinner?: 'home' | 'away'): Promise<void> {
   const result: MatchResult = {
     matchId,
     homeScore,
     awayScore,
     status: 'live'
   };
+  if (penaltyWinner) {
+    result.penaltyWinner = penaltyWinner;
+  }
   const ref = doc(db, 'matchResults', matchId);
   const batch = writeBatch(db);
   batch.set(ref, result);

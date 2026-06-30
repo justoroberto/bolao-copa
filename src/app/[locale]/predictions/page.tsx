@@ -37,14 +37,14 @@ export default function PredictionsPage() {
         const totalQuarter = WORLD_CUP_MATCHES.filter(m => m.stage === 'quarter').length;
         const totalSemi = WORLD_CUP_MATCHES.filter(m => m.stage === 'semi').length;
 
-        const dbScores: Record<string, { home: number | null, away: number | null }> = {};
+        const dbScores: Record<string, { home: number | null, away: number | null, penaltyWinner?: 'home' | 'away' }> = {};
 
         resultsSnap.forEach(doc => {
            const data = doc.data();
            const match = WORLD_CUP_MATCHES.find(m => m.id === doc.id);
            
            if (data.homeScore !== undefined && data.awayScore !== undefined) {
-             dbScores[doc.id] = { home: data.homeScore, away: data.awayScore };
+             dbScores[doc.id] = { home: data.homeScore, away: data.awayScore, penaltyWinner: data.penaltyWinner };
            }
 
            if (data.status === 'finished') {

@@ -22,6 +22,8 @@ export default function AdminMatchCard({ match, matchResult, lockedPhase }: Admi
   const [isDeleting, setIsDeleting] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle'|'success'|'error'|'live-success'>('idle');
 
+  const [penaltyWinner, setPenaltyWinner] = useState<'home' | 'away' | undefined>(matchResult?.penaltyWinner);
+
   const formattedDate = match.startTime.toLocaleString(locale, { 
     weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
   });
@@ -37,23 +39,34 @@ export default function AdminMatchCard({ match, matchResult, lockedPhase }: Admi
 
   const groupText = match.group ? match.group.replace('Grupo', tCommon('group')) : match.stage.toUpperCase();
 
+  const isKnockoutDraw = match.stage !== 'group' && homeScore !== '' && awayScore !== '' && homeScore === awayScore;
+
   const handleScoreChange = (type: 'home' | 'away', value: string) => {
     if (value === '') {
       type === 'home' ? setHomeScore('') : setAwayScore('');
+      if (penaltyWinner) setPenaltyWinner(undefined);
       return;
     }
     const parsed = parseInt(value, 10);
     if (!isNaN(parsed) && parsed >= 0 && parsed <= 99) {
-      type === 'home' ? setHomeScore(parsed.toString()) : setAwayScore(parsed.toString());
+      if (type === 'home') {
+        setHomeScore(parsed.toString());
+        if (parsed.toString() !== awayScore && penaltyWinner) setPenaltyWinner(undefined);
+      } else {
+        setAwayScore(parsed.toString());
+        if (parsed.toString() !== homeScore && penaltyWinner) setPenaltyWinner(undefined);
+      }
     }
   };
 
   const handleSaveResult = async () => {
     if (homeScore === '' || awayScore === '') return;
+    if (isKnockoutDraw && !penaltyWinner) return;
+    
     setIsSaving(true);
     setSaveStatus('idle');
     try {
-      await saveMatchResult(match.id, parseInt(homeScore), parseInt(awayScore));
+      await saveMatchResult(match.id, parseInt(homeScore), parseInt(awayScore), penaltyWinner);
       setSaveStatus('success');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } catch (err) {
@@ -66,10 +79,12 @@ export default function AdminMatchCard({ match, matchResult, lockedPhase }: Admi
 
   const handleSaveLive = async () => {
     if (homeScore === '' || awayScore === '') return;
+    if (isKnockoutDraw && !penaltyWinner) return;
+    
     setIsSaving(true);
     setSaveStatus('idle');
     try {
-      await setLiveMatchScore(match.id, parseInt(homeScore), parseInt(awayScore));
+      await setLiveMatchScore(match.id, parseInt(homeScore), parseInt(awayScore), penaltyWinner);
       setSaveStatus('live-success');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } catch (err) {
@@ -87,6 +102,7 @@ export default function AdminMatchCard({ match, matchResult, lockedPhase }: Admi
       await deleteMatchResult(match.id);
       setHomeScore('');
       setAwayScore('');
+      setPenaltyWinner(undefined);
       setSaveStatus('success');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } catch (err) {
@@ -133,6 +149,32 @@ export default function AdminMatchCard({ match, matchResult, lockedPhase }: Admi
           />
         </div>
       </div>
+
+      {isKnockoutDraw && (
+        <div className="penalty-winner-section" style={{ marginTop: '1rem', padding: '0.5rem', background: 'var(--bg-color)', borderRadius: '8px', textAlign: 'center' }}>
+          <p style={{ marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Classificado Oficial (Pênaltis):</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+            <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input 
+                type="radio" 
+                name={`admin-penalty-${match.id}`} 
+                checked={penaltyWinner === 'home'} 
+                onChange={() => setPenaltyWinner('home')}
+              />
+              <span style={{ fontSize: '0.9rem' }}>{renderTeamName(match.homeTeam)}</span>
+            </label>
+            <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <input 
+                type="radio" 
+                name={`admin-penalty-${match.id}`} 
+                checked={penaltyWinner === 'away'} 
+                onChange={() => setPenaltyWinner('away')}
+              />
+              <span style={{ fontSize: '0.9rem' }}>{renderTeamName(match.awayTeam)}</span>
+            </label>
+          </div>
+        </div>
+      )}
 
       <div className="match-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
         {lockedPhase ? (

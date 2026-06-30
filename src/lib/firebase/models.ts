@@ -17,6 +17,7 @@ export interface Match {
   homeScore?: number;
   awayScore?: number;
   status: 'scheduled' | 'live' | 'finished';
+  penaltyWinner?: 'home' | 'away';
 }
 
 export interface Prediction {
@@ -41,6 +42,7 @@ export interface MatchResult {
   homeScore: number;
   awayScore: number;
   status: 'live' | 'finished';
+  penaltyWinner?: 'home' | 'away';
 }
 
 export interface League {

@@ -134,7 +134,7 @@ export function getQualifiedTeams(standings: Record<string, TeamStats[]>) {
 
 export function generateKnockoutBracket(
   standings: Record<string, TeamStats[]>,
-  knockoutScores: Record<string, { home: number | null, away: number | null }> = {}
+  knockoutScores: Record<string, { home: number | null, away: number | null, penaltyWinner?: 'home' | 'away' }> = {}
 ): KnockoutMatch[] {
   const { firsts, seconds, bestThirds } = getQualifiedTeams(standings);
   
@@ -181,14 +181,24 @@ export function generateKnockoutBracket(
   const getWinner = (matchId: string, matchesArr: KnockoutMatch[]) => {
     const score = knockoutScores[matchId];
     const match = matchesArr.find(m => m.id === matchId);
-    if (!score || score.home === null || score.away === null || score.home === score.away) return `Venc. ${matchId.replace('match_', '')}`;
+    if (!score || score.home === null || score.away === null) return `Venc. ${matchId.replace('match_', '')}`;
+    if (score.home === score.away) {
+      if (score.penaltyWinner === 'home') return match!.homeTeam;
+      if (score.penaltyWinner === 'away') return match!.awayTeam;
+      return `Venc. ${matchId.replace('match_', '')}`;
+    }
     return score.home > score.away ? match!.homeTeam : match!.awayTeam;
   };
 
   const getLoser = (matchId: string, matchesArr: KnockoutMatch[]) => {
     const score = knockoutScores[matchId];
     const match = matchesArr.find(m => m.id === matchId);
-    if (!score || score.home === null || score.away === null || score.home === score.away) return `Perd. ${matchId.replace('match_', '')}`;
+    if (!score || score.home === null || score.away === null) return `Perd. ${matchId.replace('match_', '')}`;
+    if (score.home === score.away) {
+      if (score.penaltyWinner === 'home') return match!.awayTeam;
+      if (score.penaltyWinner === 'away') return match!.homeTeam;
+      return `Perd. ${matchId.replace('match_', '')}`;
+    }
     return score.home < score.away ? match!.homeTeam : match!.awayTeam;
   };
 

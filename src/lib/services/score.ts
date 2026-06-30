@@ -15,8 +15,10 @@ export function calculatePoints(match: Match, prediction: Prediction | null): nu
     return 0; // Jogo ainda não acabou ou não tem placar final
   }
 
-  const { homeScore: realHome, awayScore: realAway } = match;
-  const { homeScore: predHome, awayScore: predAway } = prediction;
+  const realHome = Number(match.homeScore);
+  const realAway = Number(match.awayScore);
+  const predHome = Number(prediction.homeScore);
+  const predAway = Number(prediction.awayScore);
 
   // Acertou o placar exato
   if (realHome === predHome && realAway === predAway) {
