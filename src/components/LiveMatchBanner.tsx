@@ -37,7 +37,10 @@ export default function LiveMatchBanner({ participants, type }: LiveMatchBannerP
     const q = query(collection(db, 'matchResults'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const matches: MatchResult[] = [];
-      snapshot.forEach(doc => matches.push(doc.data() as MatchResult));
+      snapshot.forEach(doc => {
+        const data = doc.data() as MatchResult;
+        matches.push({ ...data, matchId: data.matchId || doc.id });
+      });
       setDbMatches(matches);
     });
     return () => unsubscribe();
