@@ -76,9 +76,11 @@ export default function LiveMatchBanner({ participants, type }: LiveMatchBannerP
 
   // Busca as predições sempre que houver jogos ao vivo e participantes mudarem
   useEffect(() => {
+    let isCancelled = false;
+
     async function fetchPredictions() {
       if (liveMatches.length === 0 || participants.length === 0) {
-        setMatchPredictions({});
+        if (!isCancelled) setMatchPredictions({});
         return;
       }
 
@@ -88,6 +90,8 @@ export default function LiveMatchBanner({ participants, type }: LiveMatchBannerP
         const q = query(collection(db, 'predictions'), where('matchId', '==', live.matchId));
         const snap = await getDocs(q);
         
+        if (isCancelled) return;
+
         const predsMap = new Map<string, Prediction>();
         snap.forEach(doc => {
           const p = doc.data() as Prediction;
@@ -126,10 +130,16 @@ export default function LiveMatchBanner({ participants, type }: LiveMatchBannerP
         predsByMatch[live.matchId] = userPoints;
       }
 
-      setMatchPredictions(predsByMatch);
+      if (!isCancelled) {
+        setMatchPredictions(predsByMatch);
+      }
     }
 
     fetchPredictions();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [liveMatches, participants]);
 
   if (liveMatches.length === 0) return null;
